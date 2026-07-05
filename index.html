@@ -1,216 +1,278 @@
 <!DOCTYPE html>
 <html lang="th">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tummy.mkt - Queue Status</title>
+    <title>Tummy.mkt - Admin Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@5/minimal.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <style>
-        body { background-color: #FDFBF9; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 40px 20px; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        .brand-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; background: white; padding: 20px 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-        .brand-info { display: flex; align-items: center; gap: 15px; }
-        .brand-logo { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
-        .brand-title-wrap h1 { font-family: 'Poppins', sans-serif; color: #FF7E1F; font-size: 24px; margin: 0; font-weight: 700; }
-        .brand-title-wrap p { margin: 4px 0 0 0; font-size: 13px; color: #888; }
-        .queue-badge-top { background: #FFF2E8; color: #FF7E1F; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 500; animation: softPulse 2s infinite ease-in-out; }
-        .recommend-container { background: #FFFFFF; border: 1px solid #F1ECE8; border-radius: 24px; padding: 24px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.01); position: relative; }
-        .recommend-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-        .recommend-title-wrap h2 { font-size: 18px; font-weight: 600; color: #2D2D2D; margin: 0; }
-        .recommend-title-wrap p { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; color: #A3AED0; letter-spacing: 1px; text-transform: uppercase; margin: 3px 0 0 0; }
-        .btn-contact-top { background: #00E676; color: white; text-decoration: none; padding: 10px 22px; border-radius: 30px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: greenGlow 2s infinite; }
-        .btn-contact-top:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5); }
-        .recommend-grid { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 5px; }
-        .recommend-grid::-webkit-scrollbar { display: none; }
-        .recommend-item { background: #FFFDFC; border: 1px solid #F8F4F0; border-radius: 20px; flex: 1; min-width: 140px; max-width: 170px; padding: 20px 10px; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
-        .recommend-item:hover { transform: translateY(-6px); background: #FFFFFF; box-shadow: 0 12px 24px rgba(255, 126, 31, 0.06); border-color: #FFDCC4; }
-        .icon-box-shape { width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px; transition: transform 0.3s ease; }
-        .icon-fb { background: #EBF3FF; color: #1877F2; }
-        .icon-line { background: #E8F8EF; color: #06C755; }
-        .icon-ig { background: #FFF0F5; color: #E1306C; }
-        .item-title-th { font-size: 14px; font-weight: 600; color: #1A1A1A; margin: 0; }
-        .item-title-en { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 700; color: #A3AED0; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0 0 0; }
-        .news-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 0 10px; }
-        .news-title-block { display: flex; align-items: center; gap: 12px; }
-        .news-icon-bg { background: #FF7E1F; color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(255, 126, 31, 0.2); }
-        .news-main-title { font-size: 22px; font-weight: 600; color: #1A1A1A; display: flex; align-items: center; gap: 8px; }
-        .live-badge { background: #E8F5E9; color: #2ECC71; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; animation: softPulse 1.5s infinite alternate; }
-        .news-subtitle { font-size: 13px; color: #8A8A8A; margin-top: 4px; }
-        .btn-view-all { background: #FF7E1F; color: white; border: none; padding: 10px 20px; border-radius: 25px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2); transition: all 0.3s ease; }
-        .announcements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        @media (max-width: 1024px) { .announcements-grid { grid-template-columns: 1fr; } }
-        .news-card { background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.015); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.05); border-color: #E2E2E2; }
-        .card-top-profile { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-        .profile-info { display: flex; align-items: center; gap: 12px; }
-        .profile-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #FF7E1F; object-fit: cover; }
-        .profile-name { font-weight: 600; color: #222; font-size: 15px; display: flex; align-items: center; gap: 4px; }
-        .verified-tick { color: #1E88E5; font-size: 14px; }
-        .post-time { font-size: 12px; color: #999; }
-        .type-badge { font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
-        .badge-promo { background: #FFF0F0; color: #E53935; }
-        .badge-maintenance { background: #FFFDE7; color: #F57F17; }
-        .badge-general { background: #E3F2FD; color: #1E88E5; }
-        .card-body-text { font-size: 14.5px; color: #444; line-height: 1.6; margin-bottom: 15px; }
-        .card-media-wrap { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #ECEFF1; margin-bottom: 15px; }
-        .card-img { width: 100%; max-height: 240px; object-fit: cover; display: block; }
-        .card-footer-actions { border-top: 1px solid #F0F2F5; padding-top: 12px; display: flex; justify-content: center; }
-        .like-btn { background: none; border: none; color: #65676B; font-family: 'Kanit'; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; }
-        .queue-header-title { font-size: 18px; font-weight: 600; color: #222; margin: 40px 0 15px 0; padding-left: 5px; }
-        .queue-list-container { display: flex; flex-direction: column; gap: 12px; }
-        .queue-card-header { display: flex; justify-content: space-between; padding: 0 15px; color: #8C8C8C; font-size: 13px; font-weight: 500; }
-        .queue-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.25s ease; }
-        .queue-info { display: flex; align-items: center; gap: 16px; }
-        .queue-number { background: #FFF2E8; color: #FF7E1F; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; }
-        .customer-name { font-size: 15px; font-weight: 500; color: #2D2D2D; }
-        .queue-time { font-size: 12px; color: #A0A0A0; margin-top: 2px; }
-        .status-badge { padding: 6px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; }
-        .status-working { background-color: #E3F2FD; color: #1E88E5; }
-        .status-brief { background-color: #EFEBE9; color: #6D4C41; }
-        .status-paid { background-color: #E8F5E9; color: #43A047; }
-        .status-pending { background-color: #FFEBEE; color: #E53935; }
-        .status-done { background-color: #F3E5F5; color: #8E24AA; }
-        @keyframes greenGlow { 0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); } 70% { box-shadow: 0 0 0 12px rgba(0, 230, 118, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); } }
-        @keyframes softPulse { 0% { transform: scale(1); opacity: 0.95; } 50% { transform: scale(1.02); opacity: 1; } 100% { transform: scale(1); opacity: 0.95; } }
-        @media (max-width: 500px) { .recommend-header { flex-direction: column; gap: 15px; } .btn-contact-top { width: 100%; justify-content: center; box-sizing: border-box; } }
+        body { background-color: #F8F9FA; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 20px 12px; }
+        .container { max-width: 950px; margin: 0 auto; background: #FFFFFF; padding: 25px 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        @media (min-width: 768px) { body { padding: 30px 20px; } .container { padding: 35px; } }
+        .brand-header { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 15px; gap: 10px; }
+        .brand-logo { width: 70px; height: 70px; border-radius: 16px; object-fit: cover; }
+        h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
+        .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
+        .social-admin-panel { background: #F4F7FE; border: 1px solid #E2E8F0; padding: 15px; border-radius: 16px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
+        .social-inputs-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        @media (min-width: 768px) { .social-inputs-grid { grid-template-columns: repeat(3, 1fr); } }
+        .social-group { display: flex; flex-direction: column; gap: 4px; }
+        .social-group label { font-size: 12px; font-weight: 600; color: #4A5568; }
+        .social-group input { padding: 10px; border: 1px solid #CBD5E1; border-radius: 8px; font-family: 'Kanit'; font-size: 13px; outline: none; }
+        .btn-save-links { background: #4318FF; color: white; border: none; padding: 12px; border-radius: 10px; font-family: 'Kanit'; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .announce-admin-panel { background: #FFF2E8; border: 1px solid #FFE0CC; padding: 15px; border-radius: 16px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
+        .announce-row { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        @media (min-width: 768px) { .announce-row { flex-direction: row; align-items: center; } }
+        .announce-admin-panel input[type="text"], .announce-admin-panel select { width: 100%; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px; font-family: 'Kanit', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; }
+        .file-upload-wrapper { display: flex; flex-direction: column; gap: 6px; background: white; border: 1px solid #DFE3E6; padding: 10px 12px; border-radius: 10px; flex: 1; box-sizing: border-box; }
+        @media (min-width: 768px) { .file-upload-wrapper { flex-direction: row; align-items: center; gap: 10px; padding: 8px 12px; } .announce-admin-panel input[type="text"] { flex: 2; } .announce-admin-panel select { flex: 1; } }
+        .img-preview { max-height: 45px; border-radius: 6px; display: none; object-fit: cover; }
+        .btn-add-announce { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit'; white-space: nowrap; transition: all 0.2s; }
+        .active-announcements-list { margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; }
+        .active-announce-item { background: #FAFAFA; border: 1px solid #ECEFF1; padding: 12px 15px; border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
+        @media (min-width: 768px) { .active-announce-item { flex-direction: row; align-items: center; padding: 12px 20px; } }
+        .active-announce-item .text-part { font-size: 14px; color: #444; flex: 1; word-break: break-all; }
+        .active-announce-item img { height: 40px; width: 60px; object-fit: cover; border-radius: 4px; }
+        .btn-delete-announce { background-color: #FFEBEE; color: #C62828; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .queue-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 15px; border-radius: 16px; border: 1px solid #ECEFF1; }
+        .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit'; font-size: 14px; width: 100%; box-sizing: border-box; outline: none; }
+        .queue-form button { background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit'; font-size: 14px; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2); }
+        @media (min-width: 768px) { .queue-form { flex-direction: row; padding: 20px; } .queue-form input { flex: 1; } }
+        .admin-grid { display: flex; flex-direction: column; gap: 12px; }
+        .admin-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
+        @media (min-width: 768px) { .admin-card { grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center; display: grid; } }
+        .admin-num { font-weight: 600; background: #FFF2E8; color: #FF7E1F; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; }
+        .customer-name-admin { font-size: 15px; font-weight: 600; color: #222; word-break: break-all; }
+        .contact-link { color: #FF7E1F; text-decoration: none; font-weight: 500; background: #FFF2E8; padding: 8px 12px; border-radius: 8px; display: inline-block; text-align: center; font-size: 13px; width: 100%; box-sizing: border-box; }
+        .status-select { font-family: 'Kanit'; padding: 10px; border-radius: 8px; border: 1px solid #DFE3E6; background-color: #FFF; cursor: pointer; outline: none; font-size: 13px; width: 100%; box-sizing: border-box; }
+        .btn-delete { background-color: #FFEBEE; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #C62828; font-family: 'Kanit'; font-size: 13px; width: 100%; }
+        
+        /* ปรับแต่งฟอนต์ของระบบป๊อปอัพให้เป็นฟอนต์ Kanit สวยๆ */
+        .swal2-popup { font-family: 'Kanit', sans-serif !important; border-radius: 20px !important; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="brand-section">
-            <div class="brand-info">
-                <img class="brand-logo" src="gkibotlrgpwer.jfif" alt="Logo">
-                <div class="brand-title-wrap">
-                    <h1>Tummy.mkt</h1>
-                    <p>ระบบติดตามสถานะคิวงานแบบ Real-time</p>
+        <div class="brand-header">
+            <img class="brand-logo" src="gkibotlrgpwer.jfif">
+            <h1>Tummy.mkt</h1>
+        </div>
+        <div class="admin-tag">ADMIN MANAGEMENT (ONLINE)</div>
+
+        <div class="social-admin-panel">
+            <div style="font-size: 14px; font-weight: 600; color: #4318FF;">🔗 ตั้งค่าลิงก์ช่องทางติดต่อ (หน้าบ้าน)</div>
+            <div class="social-inputs-grid">
+                <div class="social-group"><label>Facebook URL:</label><input type="text" id="link-fb-input"></div>
+                <div class="social-group"><label>Line URL / LINE ID:</label><input type="text" id="link-line-input"></div>
+                <div class="social-group"><label>Instagram URL:</label><input type="text" id="link-ig-input"></div>
+            </div>
+            <button class="btn-save-links" onclick="saveSocialLinks()">บันทึกข้อมูลลิงก์โซเชียล 💾</button>
+        </div>
+        
+        <div class="announce-admin-panel">
+            <div style="font-size: 14px; font-weight: 600; color: #FF7E1F;">✨ สร้างประกาศข่าวสารใหม่</div>
+            <div class="announce-row">
+                <input type="text" id="announce-text-input" placeholder="พิมพ์เนื้อหาข่าวสาร..." required>
+                <select id="announce-type-input">
+                    <option value="general">📌 หมวดหมู่: ทั่วไป</option>
+                    <option value="promo">🔥 หมวดหมู่: โปรโมชัน</option>
+                    <option value="maintenance">🛠️ หมวดหมู่: ปิดปรับปรุง</option>
+                </select>
+            </div>
+            <div class="announce-row">
+                <div class="file-upload-wrapper">
+                    <label>🖼️ รูปแบนเนอร์ด้านล่างการ์ด (ไม่เกิน 2MB): </label>
+                    <input type="file" id="announce-file-input" accept="image/*" onchange="previewAnnounceImg(this)">
                 </div>
-            </div>
-            <div class="queue-badge-top">🎯 ตรวจสอบคิวของคุณได้ที่นี่</div>
-        </div>
-
-        <div class="recommend-container">
-            <div class="recommend-header">
-                <div class="recommend-title-wrap">
-                    <h2>ช่องทางติดต่อ</h2>
-                    <p>Contact Channels</p>
-                </div>
-                <a href="#" id="link-main-line" target="_blank" class="btn-contact-top">
-                    <i class="fab fa-line"></i> ติดต่อแอดมิน
-                </a>
-            </div>
-            
-            <div class="recommend-grid">
-                <a href="#" id="link-card-fb" target="_blank" class="recommend-item">
-                    <div class="icon-box-shape icon-fb"><i class="fab fa-facebook-f"></i></div>
-                    <p class="item-title-th">เฟสบุ๊ค</p>
-                    <p class="item-title-en">Facebook</p>
-                </a>
-                <a href="#" id="link-card-line" target="_blank" class="recommend-item">
-                    <div class="icon-box-shape icon-line"><i class="fab fa-line"></i></div>
-                    <p class="item-title-th">ไลน์หลัก</p>
-                    <p class="item-title-en">Line Official</p>
-                </a>
-                <a href="#" id="link-card-ig" target="_blank" class="recommend-item">
-                    <div class="icon-box-shape icon-ig"><i class="fab fa-instagram"></i></div>
-                    <p class="item-title-th">อินสตาแกรม</p>
-                    <p class="item-title-en">Instagram</p>
-                </a>
+                <img id="panel-preview" class="img-preview" src="">
+                <button class="btn-add-announce" onclick="addAnnouncement()">บันทึกและโพสต์ประกาศ 🚀</button>
             </div>
         </div>
 
-        <div class="news-section-header">
-            <div class="news-title-block">
-                <div class="news-icon-bg">📢</div>
-                <div>
-                    <div class="news-main-title">ประกาศข่าวสาร <span class="live-badge">● Live</span></div>
-                    <div class="news-subtitle">อัปเดตข่าวสาร โปรโมชัน และประกาศสำคัญจากทางร้าน</div>
-                </div>
-            </div>
-            <a href="#" class="btn-view-all">ดูทั้งหมด ➔</a>
-        </div>
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color:#666;">📢 รายการประกาศปัจจุบันบนหน้าเว็บ:</div>
+        <div class="active-announcements-list" id="active-announcements-box"></div>
 
-        <div class="announcements-grid" id="announcements-feed-box"></div>
+        <form class="queue-form" onsubmit="handleFormSubmit(event)">
+            <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
+            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ (ลิงก์/ไลน์ไอดี)" required>
+            <button type="submit">เพิ่มคิว</button>
+        </form>
 
-        <div class="queue-header-title">📋 ลำดับคิวงานปัจจุบัน</div>
-        <div class="queue-card-header">
-            <span>ข้อมูลลูกค้า</span>
-            <span>สถานะปัจจุบัน</span>
-        </div>
-        <div class="queue-list-container" id="customer-queue-box"></div>
+        <div class="admin-grid" id="admin-queue-box"></div>
     </div>
 
     <script>
-        // 🔗 เชื่อมต่อกับคลังข้อมูลออนไลน์ของคุณเรียบร้อยแล้วครับ
         const FIREBASE_BASE_URL = "https://tummy-queue-default-rtdb.firebaseio.com/";
+        let tempImgBase64 = "";
 
-        function startRealtimeSync() {
+        // ตัวช่วยยิง Toast แจ้งเตือนเล็กๆ มุมขวาบน
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        });
+
+        function loadAllData() {
             if(FIREBASE_BASE_URL.includes("ใส่ URL")) return;
-            
-            setInterval(() => {
-                fetch(`${FIREBASE_BASE_URL}/social_links.json`).then(r => r.json()).then(links => {
-                    if(links) {
-                        document.getElementById('link-main-line').href = links.line || '#';
-                        document.getElementById('link-card-fb').href = links.fb || '#';
-                        document.getElementById('link-card-line').href = links.line || '#';
-                        document.getElementById('link-card-ig').href = links.ig || '#';
-                    }
-                });
 
-                fetch(`${FIREBASE_BASE_URL}/announcements.json`).then(r => r.json()).then(data => {
-                    const feedBox = document.getElementById('announcements-feed-box');
-                    feedBox.innerHTML = '';
-                    if (!data) {
-                        feedBox.innerHTML = `<div class="news-card" style="grid-column:1/-1; text-align:center; color:#888; padding:40px 20px;">ยังไม่มีประกาศข่าวสารในขณะนี้ 🧡</div>`;
-                        return;
-                    }
-                    Object.values(data).reverse().forEach(item => {
-                        let imgHTML = item.img ? `<div class="card-media-wrap"><img class="card-img" src="${item.img}"></div>` : '';
-                        let badgeClass = item.type === "promo" ? "badge-promo" : (item.type === "maintenance" ? "badge-maintenance" : "badge-general");
-                        let badgeText = item.type === "promo" ? "🔥 โปรโมชัน" : (item.type === "maintenance" ? "🛠️ ปิดปรับปรุง" : "📌 ทั่วไป");
-                        feedBox.innerHTML += `
-                            <div class="news-card">
-                                <div>
-                                    <div class="card-top-profile">
-                                        <div class="profile-info"><img class="profile-avatar" src="gkibotlrgpwer.jfif"><div><div class="profile-name">Tummy.mkt แอดมิน <span class="verified-tick">✓</span></div><div class="post-time">${item.date || 'เมื่อสักครู่'} • 🌐</div></div></div>
-                                        <span class="type-badge ${badgeClass}">${badgeText}</span>
-                                    </div>
-                                    <div class="card-body-text">${item.text}</div>
-                                    ${imgHTML}
-                                </div>
-                                <div class="card-footer-actions"><button class="like-btn">👍 ถูกใจ</button></div>
-                            </div>`;
-                    });
-                });
+            fetch(`${FIREBASE_BASE_URL}/social_links.json`).then(r => r.json()).then(links => {
+                if(links){
+                    document.getElementById('link-fb-input').value = links.fb === '#' ? '' : links.fb;
+                    document.getElementById('link-line-input').value = links.line === '#' ? '' : links.line;
+                    document.getElementById('link-ig-input').value = links.ig === '#' ? '' : links.ig;
+                }
+            });
 
-                fetch(`${FIREBASE_BASE_URL}/queues.json`).then(r => r.json()).then(data => {
-                    const box = document.getElementById('customer-queue-box');
-                    box.innerHTML = '';
-                    if (!data) {
-                        box.innerHTML = `<div style="text-align:center; color:#A0A0A0; padding:30px; background:white; border:1px dashed #E0E0E0; border-radius:16px; font-size:14px;">ยังไม่มีรายการคิวในขณะนี้</div>`;
-                        return;
-                    }
-                    Object.values(data).forEach((item, index) => {
-                        let conf = { class: 'status-pending', text: 'ยังไม่ได้ทำ 🟥' };
-                        if(item.status === 'working') conf = { class: 'status-working', text: 'กำลังทำ 🟦' };
-                        if(item.status === 'brief') conf = { class: 'status-brief', text: 'รอบรีฟ 🟫' };
-                        if(item.status === 'paid') conf = { class: 'status-paid', text: 'จ่ายเงินแล้ว 🟩' };
-                        if(item.status === 'done') conf = { class: 'status-done', text: 'เสร็จแล้ว 🩷' };
-
-                        box.innerHTML += `
-                            <div class="queue-card">
-                                <div class="queue-info">
-                                    <div class="queue-number">${index + 1}</div>
-                                    <div><div class="customer-name">${item.name}</div><div class="queue-time">🕒 ${item.time}</div></div>
-                                </div>
-                                <div class="status-badge ${conf.class}">${conf.text}</div>
-                            </div>`;
-                    });
+            fetch(`${FIREBASE_BASE_URL}/announcements.json`).then(r => r.json()).then(data => {
+                const box = document.getElementById('active-announcements-box'); box.innerHTML = '';
+                if(!data) return;
+                Object.keys(data).forEach(key => {
+                    let item = data[key];
+                    let imgTag = item.img ? `<img src="${item.img}">` : '<span style="color:#aaa; font-size:12px;">(ไม่มีรูป)</span>';
+                    box.innerHTML += `
+                        <div class="active-announce-item">
+                            <div class="text-part"><strong>[${item.type}]</strong> 💬 ${item.text}</div>
+                            <div style="display:flex; align-items:center; gap:10px; width:100%; justify-content:space-between; margin-top:5px;">
+                                ${imgTag} <button class="btn-delete-announce" onclick="deleteAnnouncement('${key}')">ลบ 🗑️</button>
+                            </div>
+                        </div>`;
                 });
-            }, 3000); // หน้าลูกค้าจะแอบดึงข้อมูลใหม่มาอัปเดตทุกๆ 3 วินาทีอัตโนมัติ
+            });
+
+            fetch(`${FIREBASE_BASE_URL}/queues.json`).then(r => r.json()).then(data => {
+                const box = document.getElementById('admin-queue-box'); box.innerHTML = '';
+                if (!data) return;
+                Object.keys(data).forEach((key, index) => {
+                    let item = data[key];
+                    let cLink = item.contact.startsWith('http') ? item.contact : `https://line.me/R/ti/p/~${item.contact}`;
+                    box.innerHTML += `
+                        <div class="admin-card">
+                            <div style="display:flex; align-items:center; gap:10px;"><div class="admin-num">${index + 1}</div><div class="customer-name-admin">${item.name}</div></div>
+                            <div><a href="${cLink}" target="_blank" class="contact-link">📱 ติดต่อ</a></div>
+                            <div style="font-size:12px; color:#888;">🕒 ${item.time}</div>
+                            <div>
+                                <select class="status-select" onchange="updateStatus('${key}', this.value)">
+                                    <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>ยังไม่ได้ทำ 🟥</option>
+                                    <option value="paid" ${item.status === 'paid' ? 'selected' : ''}>จ่ายเงินแล้ว 🟩</option>
+                                    <option value="brief" ${item.status === 'brief' ? 'selected' : ''}>รอบรีฟ 🟫</option>
+                                    <option value="working" ${item.status === 'working' ? 'selected' : ''}>กำลังทำ 🟦</option>
+                                    <option value="done" ${item.status === 'done' ? 'selected' : ''}>เสร็จแล้ว 🩷</option>
+                                </select>
+                            </div>
+                            <div><button onclick="deleteQueue('${key}', '${item.name}')" class="btn-delete">ลบ</button></div>
+                        </div>`;
+                });
+            });
         }
-        startRealtimeSync();
+
+        function saveSocialLinks() {
+            let lineVal = document.getElementById('link-line-input').value.trim();
+            if(lineVal && !lineVal.startsWith('http')) lineVal = `https://line.me/R/ti/p/~${lineVal}`;
+            const links = { fb: document.getElementById('link-fb-input').value.trim() || '#', line: lineVal || '#', ig: document.getElementById('link-ig-input').value.trim() || '#' };
+            
+            fetch(`${FIREBASE_BASE_URL}/social_links.json`, { method: 'PUT', body: JSON.stringify(links) }).then(() => {
+                Toast.fire({ icon: 'success', title: 'บันทึกลิงก์เรียบร้อยแล้วจ้า! 🎉' }); loadAllData();
+            });
+        }
+
+        function previewAnnounceImg(input) {
+            const file = input.files[0];
+            if (file) {
+                if (file.size > 2097152) { 
+                    Swal.fire({ icon: 'error', title: 'ขนาดไฟล์เกินกำหนด!', text: 'กรุณาเลือกรูปภาพขนาดไม่เกิน 2MB นะครับ' });
+                    input.value = ""; return; 
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) { tempImgBase64 = e.target.result; const preview = document.getElementById('panel-preview'); preview.src = tempImgBase64; preview.style.display = 'block'; }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addAnnouncement() {
+            const textInput = document.getElementById('announce-text-input');
+            const typeInput = document.getElementById('announce-type-input');
+            if (!textInput.value.trim()) { 
+                Swal.fire({ icon: 'warning', title: 'อุ๊ย! ลืมพิมพ์ข้อความ', text: 'กรุณากรอกข้อความประกาศด้วยจ้า' });
+                return; 
+            }
+            const todayStr = new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+            const newAnnounce = { text: textInput.value, type: typeInput.value, img: tempImgBase64, date: todayStr };
+
+            fetch(`${FIREBASE_BASE_URL}/announcements.json`, { method: 'POST', body: JSON.stringify(newAnnounce) }).then(() => {
+                textInput.value = ''; tempImgBase64 = ''; document.getElementById('announce-file-input').value = ''; document.getElementById('panel-preview').style.display = 'none';
+                Toast.fire({ icon: 'success', title: 'โพสต์ประกาศออนไลน์แล้ว! 🚀' }); loadAllData();
+            });
+        }
+
+        // ป๊อปอัพยืนยันแบบมีอนิเมชั่น ตอนลบประกาศ
+        function deleteAnnouncement(key) {
+            Swal.fire({
+                title: 'ยืนยันการลบประกาศ?',
+                text: "ประกาศนี้จะหายไปจากหน้าหลักของลูกค้าทันที",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#E53935',
+                cancelButtonColor: '#90A4AE',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`${FIREBASE_BASE_URL}/announcements/${key}.json`, { method: 'DELETE' }).then(() => {
+                        Toast.fire({ icon: 'success', title: 'ลบประกาศเรียบร้อย' });
+                        loadAllData();
+                    });
+                }
+            });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('customer-name');
+            const contactInput = document.getElementById('customer-contact');
+            const newQueue = { name: nameInput.value, contact: contactInput.value, time: new Date().toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' }), status: 'pending' };
+
+            fetch(`${FIREBASE_BASE_URL}/queues.json`, { method: 'POST', body: JSON.stringify(newQueue) }).then(() => {
+                Toast.fire({ icon: 'success', title: `เพิ่มคิวคุณ ${nameInput.value} สำเร็จ` });
+                nameInput.value = ''; contactInput.value = ''; loadAllData();
+            });
+        }
+
+        function updateStatus(key, newStatus) {
+            fetch(`${FIREBASE_BASE_URL}/queues/${key}/status.json`, { method: 'PUT', body: JSON.stringify(newStatus) }).then(() => {
+                Toast.fire({ icon: 'info', title: 'อัปเดตสถานะคิวแล้ว 🕒' });
+                loadAllData();
+            });
+        }
+
+        // ป๊อปอัพยืนยันแบบมีอนิเมชั่น ตอนลบคิวลูกค้า
+        function deleteQueue(key, name) {
+            Swal.fire({
+                title: 'ต้องการลบคิวนี้ใช่ไหม?',
+                text: `คุณกำลังจะลบคิวของ คุณ ${name}`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#D32F2F',
+                cancelButtonColor: '#B0BEC5',
+                confirmButtonText: 'ใช่, ลบออก',
+                cancelButtonText: 'เก็บคิวไว้ก่อน'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`${FIREBASE_BASE_URL}/queues/${key}.json`, { method: 'DELETE' }).then(() => {
+                        Toast.fire({ icon: 'success', title: 'ลบคิวเรียบร้อยแล้ว' });
+                        loadAllData();
+                    });
+                }
+            });
+        }
+
+        loadAllData();
+        setInterval(loadAllData, 4000); 
     </script>
 </body>
 </html>
