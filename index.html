@@ -4,111 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌸 ตรวจสอบสถานะคิวพาสเทล 🌸</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;700&display=swap">
     <style>
-        /* อนิเมชั่นเด้งนุ่มๆ */
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-            70% { transform: scale(0.9); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes bubbleIn {
+            0% { transform: scale(0.5) translateY(50px); opacity: 0; }
+            60% { transform: scale(1.08) translateY(-10px); }
+            80% { transform: scale(0.95) translateY(5px); }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
-        @keyframes slideLeftIn {
-            0% { transform: translateX(120%); opacity: 0; }
-            70% { transform: translateX(-5%); opacity: 1; }
-            100% { transform: translateX(0); opacity: 1; }
+        @keyframes toastPop {
+            0% { transform: scale(0.7) translateY(-30px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
         body {
-            background-color: #F9F6F0;
+            background-color: #FDFBF7;
+            background-image: radial-gradient(#FFD1DC 1px, transparent 1px), radial-gradient(#B5E2FA 1px, #FDFBF7 1px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
             font-family: 'Mitr', sans-serif;
-            color: #5D5A56;
+            color: #4A4744;
             margin: 0;
-            padding: 20px;
+            padding: 30px 20px;
         }
+
         .container {
-            max-width: 850px;
-            margin: 40px auto;
+            max-width: 750px;
+            margin: 30px auto;
             background: #FFFFFF;
             padding: 40px 30px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(165, 147, 124, 0.06);
-            animation: bounceIn 0.6s ease-out;
+            border-radius: 35px;
+            /* เส้นขอบหนาแบบพาสเทลชิคๆ */
+            border: 4px solid #6D675E; 
+            /* เงา 3D แบบนุ่มนวล */
+            box-shadow: 8px 8px 0px #6D675E, 0px 15px 30px rgba(0,0,0,0.05);
+            animation: bubbleIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
         h1 {
             text-align: center;
-            color: #FFB7B2;
-            margin-bottom: 5px;
-            font-size: 28px;
+            color: #FF9AA2;
+            font-size: 36px;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 0px #FFF, 4px 4px 0px #6D675E;
+            font-weight: 700;
         }
+
         .subtitle {
             text-align: center;
-            color: #B2C9AB;
+            color: #8CB369;
             margin-bottom: 40px;
-            font-size: 15px;
+            font-size: 16px;
+            background: #EDF7E7;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 20px;
+            border: 2px solid #6D675E;
         }
-        .queue-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 12px;
-        }
-        .queue-table th {
-            padding: 12px 15px;
-            text-align: left;
-            color: #A39E98;
-            font-weight: 400;
-            font-size: 15px;
-        }
-        .queue-table td {
-            padding: 18px 15px;
-            background-color: #FAF8F5;
-            vertical-align: middle;
-            border-top: 1px solid rgba(255,255,255,0.7);
-            transition: all 0.3s ease;
-        }
-        .queue-table tr:hover td {
-            background-color: #F3EFE9;
-            transform: translateY(-2px);
-        }
-        .queue-table tr td:first-child { border-top-left-radius: 16px; border-bottom-left-radius: 16px; }
-        .queue-table tr td:last-child { border-top-right-radius: 16px; border-bottom-right-radius: 16px; }
-        
-        /* ป้ายสถานะ 🟦🟫🟩🟥🩷 */
-        .status-badge {
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 500;
-            display: inline-block;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-        .status-working { background-color: #B3CDE3; color: #FFFFFF; }
-        .status-brief { background-color: #E5D3CD; color: #5D4037; }
-        .status-paid { background-color: #CCEBC5; color: #33691E; }
-        .status-pending { background-color: #FBB4AE; color: #FFFFFF; }
-        .status-done { background-color: #DECBE4; color: #4A0E4E; }
 
-        /* Popup แจ้งเตือนสุดน่ารัก */
+        /* ปรับดีไซน์ตารางใหม่ ไม่ให้เป็นตารางจืดๆ */
+        .queue-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .queue-card-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #8C8780;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .queue-card {
+            background: #FAF8F5;
+            border: 3px solid #6D675E;
+            border-radius: 22px;
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 4px 4px 0px #6D675E;
+            transition: all 0.2s ease;
+        }
+
+        .queue-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px #6D675E;
+            background: #FFF;
+        }
+
+        .queue-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .queue-number {
+            background: #FFDAC1;
+            border: 2px solid #6D675E;
+            color: #6D523E;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 2px 2px 0px #6D675E;
+        }
+
+        .customer-name {
+            font-size: 18px;
+            font-weight: 500;
+            color: #4A4744;
+        }
+
+        .queue-time {
+            font-size: 12px;
+            color: #A39E98;
+            margin-top: 4px;
+        }
+
+        /* ปุ่มสเตตัสอวบอิ่มเหมือนเยลลี่ 🟦🟫🟩🟥🩷 */
+        .status-badge {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 2px solid #6D675E;
+            box-shadow: 3px 3px 0px #6D675E;
+            text-align: center;
+        }
+        .status-working { background-color: #B5E2FA; color: #2B5973; }
+        .status-brief { background-color: #E6CCB2; color: #5D4037; }
+        .status-paid { background-color: #C5E1A5; color: #33691E; }
+        .status-pending { background-color: #FFB7B2; color: #7A3E3E; }
+        .status-done { background-color: #FFC6FF; color: #5C235C; }
+
+        /* ระบบกล่องสเตตัสเด้งสุดคิ้วท์ */
         .toast-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             z-index: 9999;
         }
         .toast {
-            background: white;
-            padding: 15px 25px;
+            background: #FFFFFF;
+            padding: 16px 25px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            margin-bottom: 10px;
+            border: 3px solid #6D675E;
+            box-shadow: 5px 5px 0px #6D675E;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 12px;
-            border-left: 5px solid #FFC6FF;
-            animation: slideLeftIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: #6D6A66;
-            font-size: 14px;
+            animation: toastPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 500;
         }
     </style>
 </head>
@@ -117,20 +174,17 @@
     <div class="toast-container" id="toast-box"></div>
 
     <div class="container">
-        <h1>✨ ตรวจสอบสถานะคิว ✨</h1>
-        <p class="subtitle">เช็คคิว วันที่ และเวลาอัปเดตล่าสุดที่นี่เลยน้า~</p>
+        <h1>🌸 ตรวจสอบสถานะคิว 🌸</h1>
+        <p class="subtitle">มาเช็คสถานะงานแบบดึ๋งๆ กันเลยน้า~</p>
 
-        <table class="queue-table">
-            <thead>
-                <tr>
-                    <th>ลำดับ</th>
-                    <th>ชื่อลูกค้า</th>
-                    <th>วันที่ / เวลา</th>
-                    <th>สถานะปัจจุบัน</th>
-                </tr>
-            </thead>
-            <tbody id="customer-queue-tbody"></tbody>
-        </table>
+        <div class="queue-card-header">
+            <span>ข้อมูลลูกค้า</span>
+            <span>สถานะปัจจุบัน</span>
+        </div>
+
+        <div class="queue-list-container" id="customer-queue-box">
+            <!-- ข้อมูลคิวจะแปลงร่างเป็นกล่องขนมปังตรงนี้ -->
+        </div>
     </div>
 
     <script>
@@ -138,9 +192,9 @@
             const container = document.getElementById('toast-box');
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.innerHTML = `🔔 <span>${message}</span>`;
+            toast.innerHTML = `🎈 <span>${message}</span>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3500);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
         function getStatusConfig(status) {
@@ -154,35 +208,39 @@
             }
         }
 
-        function renderCustomerTable() {
+        function renderCustomerCards() {
             const queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
-            const tbody = document.getElementById('customer-queue-tbody');
-            tbody.innerHTML = '';
+            const box = document.getElementById('customer-queue-box');
+            box.innerHTML = '';
 
             if (queueData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#B5B1AA; padding: 40px 0;">ตอนนี้ยังไม่มีรายการคิวเลยน้า~ 🐰</td></tr>`;
+                box.innerHTML = `<div style="text-align:center; color:#A39E98; padding: 40px; background:#FAF8F5; border:3px dashed #6D675E; border-radius:22px;">ยังไม่มีรายการคิวเลยน้า~ ไว้มาดูใหม่นะคิ้วท์เบบี้ 🐰</div>`;
                 return;
             }
 
             queueData.forEach((item, index) => {
                 const statusInfo = getStatusConfig(item.status);
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td><strong>${item.name}</strong></td>
-                        <td><span style="font-size:13px; color:#A39E98;">${item.time}</span></td>
-                        <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
-                    </tr>
+                box.innerHTML += `
+                    <div class="queue-card">
+                        <div class="queue-info">
+                            <div class="queue-number">${index + 1}</div>
+                            <div>
+                                <div class="customer-name">${item.name}</div>
+                                <div class="queue-time">🕒 ${item.time}</div>
+                            </div>
+                        </div>
+                        <div class="status-badge ${statusInfo.class}">${statusInfo.text}</div>
+                    </div>
                 `;
             });
         }
 
-        renderCustomerTable();
+        renderCustomerCards();
         
         window.addEventListener('storage', (e) => {
             if(e.key === 'pastel_queues') {
-                renderCustomerTable();
-                showToast('ข้อมูลคิวมีการอัปเดตจากแอดมินจ้า! ✨');
+                renderCustomerCards();
+                showToast('คิวอัปเดตแล้วจ้าดึ๋งๆ! ✨');
             }
         });
     </script>
