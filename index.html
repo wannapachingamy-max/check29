@@ -63,6 +63,7 @@
 
         .brand-container-wrapper { text-align: center; }
 
+        /* 📢 กล่องประกาศข่าวสาร */
         .announcement-box {
             background: #FFF2E8;
             border: 1px solid #FFE0CC;
@@ -131,9 +132,10 @@
             font-weight: 400;
         }
 
+        /* 🖼️ แสดงรูปภาพที่อัปเดตมาจากระบบแอดมิน */
         .announce-image {
             width: 100%;
-            max-height: 280px;
+            max-height: 320px;
             object-fit: cover;
             border-radius: 12px;
             border: 1px solid #FFE0CC;
@@ -190,6 +192,8 @@
                 <a href="#" class="announce-btn">ดูเพิ่มเติม ➔</a>
             </div>
             <div class="announce-message" id="announcement-text">กำลังโหลดประกาศล่าสุด...</div>
+            
+            <!-- แท็กภาพที่ดึงข้อมูล Base64 มารันในหน้าลูกค้า -->
             <img class="announce-image" id="announcement-img" src="" alt="Announcement Banner">
         </div>
 
@@ -204,10 +208,12 @@
     <script>
         function loadAnnouncement() {
             const currentTxt = localStorage.getItem('tummy_announcement_text') || 'ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡';
-            const currentImg = localStorage.getItem('tummy_announcement_img') || '';
+            const currentImg = localStorage.getItem('tummy_announcement_img_file') || '';
+            
             document.getElementById('announcement-text').innerText = currentTxt;
             const imgElement = document.getElementById('announcement-img');
-            if (currentImg.trim() !== '') {
+            
+            if (currentImg) {
                 imgElement.src = currentImg;
                 imgElement.style.display = 'block';
             } else {
@@ -258,7 +264,7 @@
 
         window.addEventListener('storage', (e) => { 
             if(e.key === 'pastel_queues') renderCustomerCards(); 
-            if(e.key === 'tummy_announcement_text' || e.key === 'tummy_announcement_img') loadAnnouncement();
+            if(e.key === 'tummy_announcement_text' || e.key === 'tummy_announcement_img_file') loadAnnouncement();
         });
     </script>
 </body>
