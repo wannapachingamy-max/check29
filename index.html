@@ -63,17 +63,23 @@
 
         .brand-container-wrapper { text-align: center; }
 
-        /* 📢 กล่องประกาศข่าวสาร */
+        /* 📢 โซน Container สำหรับแสดงกลุ่มข่าวสาร */
+        .announcements-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
         .announcement-box {
             background: #FFF2E8;
             border: 1px solid #FFE0CC;
             border-radius: 16px;
             padding: 20px;
-            margin-bottom: 30px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            box-shadow: 0 4px 12px rgba(255, 126, 31, 0.03);
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(255, 126, 31, 0.02);
         }
 
         .announce-header {
@@ -92,13 +98,13 @@
         .announce-icon {
             background: #FF7E1F;
             color: white;
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .announce-tag {
@@ -127,19 +133,16 @@
         .announce-message {
             font-size: 14px;
             color: #555;
-            margin-top: 4px;
             line-height: 1.5;
             font-weight: 400;
         }
 
-        /* 🖼️ แสดงรูปภาพที่อัปเดตมาจากระบบแอดมิน */
         .announce-image {
             width: 100%;
-            max-height: 320px;
+            max-height: 300px;
             object-fit: cover;
             border-radius: 12px;
             border: 1px solid #FFE0CC;
-            display: none;
         }
 
         .announce-btn {
@@ -148,11 +151,12 @@
             text-decoration: none;
             font-size: 12px;
             font-weight: 500;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 8px;
             white-space: nowrap;
         }
 
+        /* รายการคิว */
         .queue-list-container { display: flex; flex-direction: column; gap: 14px; }
         .queue-card-header { display: flex; justify-content: space-between; padding: 0 10px; color: #8C8C8C; font-size: 13px; font-weight: 500; }
         .queue-card {
@@ -183,19 +187,8 @@
             <div class="subtitle">🎯 ตรวจสอบสถานะคิวงานล่าสุด</div>
         </div>
 
-        <div class="announcement-box" id="announcement-zone">
-            <div class="announce-header">
-                <div class="announce-content">
-                    <div class="announce-icon">📢</div>
-                    <span class="announce-tag">ประกาศข่าวสารคิวยอดฮิต <span class="announce-live-dot"></span></span>
-                </div>
-                <a href="#" class="announce-btn">ดูเพิ่มเติม ➔</a>
+        <div class="announcements-feed" id="announcements-feed-box">
             </div>
-            <div class="announce-message" id="announcement-text">กำลังโหลดประกาศล่าสุด...</div>
-            
-            <!-- แท็กภาพที่ดึงข้อมูล Base64 มารันในหน้าลูกค้า -->
-            <img class="announce-image" id="announcement-img" src="" alt="Announcement Banner">
-        </div>
 
         <div class="queue-card-header">
             <span>ข้อมูลลูกค้า</span>
@@ -206,19 +199,45 @@
     </div>
 
     <script>
-        function loadAnnouncement() {
-            const currentTxt = localStorage.getItem('tummy_announcement_text') || 'ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡';
-            const currentImg = localStorage.getItem('tummy_announcement_img_file') || '';
-            
-            document.getElementById('announcement-text').innerText = currentTxt;
-            const imgElement = document.getElementById('announcement-img');
-            
-            if (currentImg) {
-                imgElement.src = currentImg;
-                imgElement.style.display = 'block';
-            } else {
-                imgElement.style.display = 'none';
+        // ฟังก์ชันโหลดข่าวสารทั้งหมดมาแสดง
+        function loadAnnouncements() {
+            const announceData = JSON.parse(localStorage.getItem('tummy_announcements')) || [];
+            const feedBox = document.getElementById('announcements-feed-box');
+            feedBox.innerHTML = '';
+
+            // ถ้าไม่มีประกาศเลย ให้แสดงประกาศเริ่มต้นแบบเดี่ยวๆ คลีนๆ
+            if (announceData.length === 0) {
+                feedBox.innerHTML = `
+                    <div class="announcement-box">
+                        <div class="announce-header">
+                            <div class="announce-content">
+                                <div class="announce-icon">📢</div>
+                                <span class="announce-tag">ประกาศข่าวสาร <span class="announce-live-dot"></span></span>
+                            </div>
+                        </div>
+                        <div class="announce-message">ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡</div>
+                    </div>
+                `;
+                return;
             }
+
+            // แสดงประกาศทั้งหมด (เอาอันใหม่ขึ้นก่อน)
+            announceData.slice().reverse().forEach(item => {
+                let imgHTML = item.img ? `<img class="announce-image" src="${item.img}" alt="Banner">` : '';
+                feedBox.innerHTML += `
+                    <div class="announcement-box">
+                        <div class="announce-header">
+                            <div class="announce-content">
+                                <div class="announce-icon">📢</div>
+                                <span class="announce-tag">ประกาศข่าวสาร <span class="announce-live-dot"></span></span>
+                            </div>
+                            <a href="#" class="announce-btn">ดูเพิ่มเติม ➔</a>
+                        </div>
+                        <div class="announce-message">${item.text}</div>
+                        ${imgHTML}
+                    </div>
+                `;
+            });
         }
 
         function getStatusConfig(status) {
@@ -259,12 +278,12 @@
             });
         }
 
-        loadAnnouncement();
+        loadAnnouncements();
         renderCustomerCards();
 
         window.addEventListener('storage', (e) => { 
             if(e.key === 'pastel_queues') renderCustomerCards(); 
-            if(e.key === 'tummy_announcement_text' || e.key === 'tummy_announcement_img_file') loadAnnouncement();
+            if(e.key === 'tummy_announcements') loadAnnouncements();
         });
     </script>
 </body>
