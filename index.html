@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="th">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tummy.mkt - Queue Status</title>
-    <!-- ใช้ฟอนต์สไตล์มินิมอลโมเดิร์น อ่านง่ายและดูสะอาดตา -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <style>
         body {
-            background-color: #F8F9FA; /* พื้นหลังเทา-ครีมอ่อนๆ สะอาดตา */
+            background-color: #F8F9FA;
             font-family: 'Kanit', 'Poppins', sans-serif;
             color: #4A4A4A;
             margin: 0;
@@ -20,12 +19,10 @@
             margin: 0 auto;
             background: #FFFFFF;
             padding: 35px 30px;
-            border-radius: 20px; /* ขอบมนกำลังดีแบบเว็บสมัยใหม่ */
-            /* ใช้เงาฟุ้งนุ่มๆ ไร้ขอบดำ */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
 
-        /* ส่วนหัวแบรนด์ */
         .brand-header {
             display: flex;
             flex-direction: column;
@@ -35,7 +32,6 @@
             gap: 12px;
         }
 
-        /* โลโก้ทรงมนมีเงาซอฟต์ๆ */
         .brand-logo {
             width: 80px;
             height: 80px;
@@ -44,27 +40,23 @@
             box-shadow: 0 4px 12px rgba(255, 126, 31, 0.15);
         }
 
-        /* หัวข้อสีส้มสดใส ดูเป็นแบรนด์โปรเฟสชันนอล */
         h1 {
             font-family: 'Poppins', 'Kanit', sans-serif;
             text-align: center;
-            color: #FF7E1F; /* สีส้มหลักแบบในภาพตัวอย่าง */
+            color: #FF7E1F;
             font-size: 32px;
             font-weight: 700;
             margin: 0;
-            letter-spacing: -0.5px;
         }
 
         .subtitle {
             text-align: center;
             color: #FF7E1F;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             font-size: 14px;
             font-weight: 500;
-            background: #FFF2E8; /* พื้นหลังส้มอ่อนละมุน */
+            background: #FFF2E8;
             display: inline-block;
-            margin-left: auto;
-            margin-right: auto;
             padding: 6px 18px;
             border-radius: 30px;
         }
@@ -73,6 +65,91 @@
             text-align: center;
         }
 
+        /* 📢 แทบประกาศข่าวสาร ถอดดีไซน์จาก Screenshot (23).jpg */
+        .announcement-bar {
+            background: #FFF2E8; /* พื้นหลังส้ม-ครีมนวล */
+            border: 1px solid #FFE0CC;
+            border-radius: 14px;
+            padding: 14px 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .announce-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .announce-icon {
+            background: #FF7E1F;
+            color: white;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .announce-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .announce-tag {
+            font-size: 14px;
+            font-weight: 600;
+            color: #FF7E1F;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .announce-live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #2ECC71;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        .announce-message {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        .announce-btn {
+            background: #FF7E1F;
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .announce-btn:hover {
+            background: #E06613;
+        }
+
+        /* ส่วนของรายการคิว */
         .queue-list-container {
             display: flex;
             flex-direction: column;
@@ -86,10 +163,8 @@
             color: #8C8C8C;
             font-size: 13px;
             font-weight: 500;
-            letter-spacing: 0.5px;
         }
 
-        /* การ์ดคิวสีขาว คลีนๆ มีเงาจางๆ */
         .queue-card {
             background: #FFFFFF;
             border: 1px solid #ECEFF1;
@@ -105,7 +180,7 @@
         .queue-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.04);
-            border-color: #FF7E1F; /* เปลี่ยนเป็นขอบสีส้มเมื่อชี้ */
+            border-color: #FF7E1F;
         }
 
         .queue-info {
@@ -114,7 +189,6 @@
             gap: 16px;
         }
 
-        /* วงกลมตัวเลขส้มพาสเทล */
         .queue-number {
             background: #FFF2E8;
             color: #FF7E1F;
@@ -140,13 +214,11 @@
             margin-top: 2px;
         }
 
-        /* ปุ่มสเตตัสแบบเรียบหรู มน ฟุ้งๆ */
         .status-badge {
             padding: 8px 18px;
             border-radius: 12px;
             font-size: 13px;
             font-weight: 500;
-            text-align: center;
         }
         .status-working { background-color: #E3F2FD; color: #1E88E5; }
         .status-brief { background-color: #EFEBE9; color: #6D4C41; }
@@ -160,11 +232,22 @@
     <div class="container">
         <div class="brand-container-wrapper">
             <div class="brand-header">
-                <!-- ใส่รูปโลโก้ Tummy.mkt ของตัวเองได้เลยครับ -->
                 <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
                 <h1>Tummy.mkt</h1>
             </div>
             <div class="subtitle">🎯 ตรวจสอบสถานะคิวงานล่าสุด</div>
+        </div>
+
+        <!-- 📢 แถบประกาศข่าวสาร (ดึงข้อมูลมาจากระบบแอดมินอัตโนมัติ) -->
+        <div class="announcement-bar" id="announcement-zone">
+            <div class="announce-content">
+                <div class="announce-icon">📢</div>
+                <div class="announce-text-wrapper">
+                    <span class="announce-tag">ประกาศข่าวสาร <span class="announce-live-dot"></span></span>
+                    <span class="announce-message" id="announcement-text">กำลังโหลดประกาศล่าสุดจากร้าน...</span>
+                </div>
+            </div>
+            <a href="#" class="announce-btn">ดูเพิ่มเติม ➔</a>
         </div>
 
         <div class="queue-card-header">
@@ -173,11 +256,17 @@
         </div>
 
         <div class="queue-list-container" id="customer-queue-box">
-            <!-- คิวคลีนๆ จะแสดงตรงนี้ -->
+            <!-- คิวจะแสดงตรงนี้ -->
         </div>
     </div>
 
     <script>
+        // ฟังก์ชันโหลดประกาศข่าวสาร
+        function loadAnnouncement() {
+            const currentAnnounce = localStorage.getItem('tummy_announcement') || 'ยินดีต้อนรับสู่ Tummy.mkt! สามารถเช็คคิวงานปัจจุบันของตัวเองได้เลยน้า 🧡';
+            document.getElementById('announcement-text').innerText = currentAnnounce;
+        }
+
         function getStatusConfig(status) {
             switch(status) {
                 case 'working': return { class: 'status-working', text: 'กำลังทำ 🟦' };
@@ -215,8 +304,16 @@
                 `;
             });
         }
+
+        // เริ่มทำงานครั้งแรก
+        loadAnnouncement();
         renderCustomerCards();
-        window.addEventListener('storage', (e) => { if(e.key === 'pastel_queues') renderCustomerCards(); });
+
+        // ตรวจจับการอัปเดตข้ามหน้าต่างเว็บแบบเรียลไทม์
+        window.addEventListener('storage', (e) => { 
+            if(e.key === 'pastel_queues') renderCustomerCards(); 
+            if(e.key === 'tummy_announcement') loadAnnouncement();
+        });
     </script>
 </body>
 </html>
