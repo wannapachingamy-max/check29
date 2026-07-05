@@ -4,39 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌸 Tummy.mkt - Queue Status 🌸</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;700&family=Fredoka+One&display=swap">
+    <!-- เพิ่มฟอนต์สไตล์น่ารักป๊อปๆ ดึงเข้าโปรเจกต์โดยตรง -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Mitr:wght@400;500;700&display=swap">
     <style>
-        @keyframes bubbleIn {
-            0% { transform: scale(0.5) translateY(50px); opacity: 0; }
-            60% { transform: scale(1.08) translateY(-10px); }
-            80% { transform: scale(0.95) translateY(5px); }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-        @keyframes toastPop {
-            0% { transform: scale(0.7) translateY(-30px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
         body {
-            background-color: #FDFBF7;
-            background-image: radial-gradient(#FFD1DC 1px, transparent 1px), radial-gradient(#B5E2FA 1px, #FDFBF7 1px);
-            background-size: 24px 24px;
-            background-position: 0 0, 12px 12px;
-            font-family: 'Mitr', sans-serif;
+            background-color: #FAF6F0;
+            background-image: radial-gradient(#FFC2D1 1.5px, transparent 1.5px), radial-gradient(#BDE0FE 1.5px, #FAF6F0 1.5px);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px;
+            font-family: 'Mitr', 'Fredoka', sans-serif;
             color: #4A4744;
             margin: 0;
-            padding: 30px 20px;
+            padding: 40px 20px;
         }
 
         .container {
-            max-width: 750px;
-            margin: 30px auto;
+            max-width: 700px;
+            margin: 20px auto;
             background: #FFFFFF;
-            padding: 40px 30px;
-            border-radius: 35px;
-            border: 4px solid #6D675E; 
-            box-shadow: 8px 8px 0px #6D675E, 0px 15px 30px rgba(0,0,0,0.05);
-            animation: bubbleIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 45px 35px;
+            border-radius: 40px;
+            /* อัปเกรดขอบให้เข้มและหนา มีเลเยอร์เหมือนการ์ตูน Y2K */
+            border: 5px solid #4A4238; 
+            box-shadow: 12px 12px 0px #4A4238;
         }
 
         /* โซนแบรนด์ด้านบนสุด */
@@ -45,77 +35,92 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             gap: 15px;
         }
 
-        /* โลโก้ทรงกลมน่ารักๆ */
+        /* ตัวกรอบรูปโลโก้แบบหนานุ่มลอยตัว */
+        .brand-logo-container {
+            position: relative;
+            display: inline-block;
+        }
         .brand-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid #6D675E;
-            box-shadow: 4px 4px 0px #6D675E;
+            width: 100px;
+            height: 100px;
+            border-radius: 32px; /* เปลี่ยนเป็นสี่เหลี่ยมขอบมนแบบไอคอนแอป จะดูโมเดิร์นกว่าวงกลม */
+            border: 4px solid #4A4238;
+            box-shadow: 5px 5px 0px #4A4238;
             object-fit: cover;
-            background-color: #FFF0F5;
+            background-color: #FFF;
         }
 
-        /* หัวข้อภาษาอังกฤษ สวย อ่านง่าย ชัดเจน */
+        /* หัวข้อ Tummy.mkt สไตล์เยลลี่อักษรนูน (3D Bubble Text) */
         h1 {
-            font-family: 'Fredoka One', 'Mitr', sans-serif;
+            font-family: 'Fredoka', sans-serif;
             text-align: center;
-            color: #FF9AA2;
-            font-size: 42px;
-            margin: 0;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 0px #FFF, 5px 5px 0px #6D675E;
+            color: #FF85A2;
+            font-size: 52px; /* ปรับขนาดให้ใหญ่ตะโกน */
+            font-weight: 700;
+            margin: 5px 0 0 0;
+            letter-spacing: -1px;
+            /* เทคนิคเงา 3 ชั้นเพื่อความละมุนและอ่านง่าย */
+            text-shadow: 
+                -2px -2px 0 #FFF,  
+                 2px -2px 0 #FFF,
+                -2px  2px 0 #FFF,
+                 2px  2px 0 #FFF,
+                 4px  4px 0px #FFC2D1, 
+                 8px  8px 0px #4A4238;
         }
 
         .subtitle {
             text-align: center;
-            color: #8CB369;
-            margin-bottom: 35px;
+            color: #608048;
+            margin-bottom: 40px;
             font-size: 15px;
-            background: #EDF7E7;
+            font-weight: 500;
+            background: #E8F5E9;
             display: table;
             margin-left: auto;
             margin-right: auto;
-            padding: 6px 25px;
-            border-radius: 20px;
-            border: 2px solid #6D675E;
+            padding: 8px 24px;
+            border-radius: 25px;
+            border: 3px solid #4A4238;
+            box-shadow: 4px 4px 0px #4A4238;
         }
 
         .queue-list-container {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .queue-card-header {
             display: flex;
             justify-content: space-between;
-            padding: 0 20px;
-            color: #8C8780;
+            padding: 0 15px;
+            color: #7A746B;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 700;
         }
 
+        /* ปรับแต่งกล่องคิวให้ดูมีมิติมากขึ้นเด้งสู้มือ */
         .queue-card {
-            background: #FAF8F5;
-            border: 3px solid #6D675E;
-            border-radius: 22px;
-            padding: 18px 25px;
+            background: #FFFDFB;
+            border: 4px solid #4A4238;
+            border-radius: 26px;
+            padding: 20px 25px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 4px 4px 0px #6D675E;
+            box-shadow: 6px 6px 0px #4A4238;
             transition: all 0.2s ease;
         }
 
         .queue-card:hover {
             transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0px #6D675E;
-            background: #FFF;
+            box-shadow: 9px 9px 0px #4A4238;
+            background: #FFFFFF;
         }
 
         .queue-info {
@@ -125,77 +130,59 @@
         }
 
         .queue-number {
-            background: #FFDAC1;
-            border: 2px solid #6D675E;
-            color: #6D523E;
-            width: 40px;
-            height: 40px;
+            background: #FFE5D9;
+            border: 3px solid #4A4238;
+            color: #4A4238;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             font-weight: 700;
-            font-size: 16px;
-            box-shadow: 2px 2px 0px #6D675E;
+            font-size: 18px;
+            box-shadow: 3px 3px 0px #4A4238;
         }
 
         .customer-name {
-            font-size: 18px;
-            font-weight: 500;
-            color: #4A4744;
+            font-size: 20px;
+            font-weight: 700;
+            color: #4A4238;
         }
 
         .queue-time {
-            font-size: 12px;
-            color: #A39E98;
+            font-size: 13px;
+            color: #8A8276;
             margin-top: 4px;
+            font-weight: 500;
         }
 
+        /* ปุ่มสเตตัสพาสเทลขอบหนา */
         .status-badge {
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            border: 2px solid #6D675E;
-            box-shadow: 3px 3px 0px #6D675E;
+            padding: 12px 24px;
+            border-radius: 22px;
+            font-size: 15px;
+            font-weight: 700;
+            border: 3px solid #4A4238;
+            box-shadow: 4px 4px 0px #4A4238;
             text-align: center;
         }
-        .status-working { background-color: #B5E2FA; color: #2B5973; }
+        .status-working { background-color: #A2D2FF; color: #1D3557; }
         .status-brief { background-color: #E6CCB2; color: #5D4037; }
-        .status-paid { background-color: #C5E1A5; color: #33691E; }
-        .status-pending { background-color: #FFB7B2; color: #7A3E3E; }
-        .status-done { background-color: #FFC6FF; color: #5C235C; }
-
-        .toast-container {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            z-index: 9999;
-        }
-        .toast {
-            background: #FFFFFF;
-            padding: 16px 25px;
-            border-radius: 20px;
-            border: 3px solid #6D675E;
-            box-shadow: 5px 5px 0px #6D675E;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: toastPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 500;
-        }
+        .status-paid { background-color: #C1E1C1; color: #2D4A22; }
+        .status-pending { background-color: #FFB7B2; color: #662E2E; }
+        .status-done { background-color: #F3C4FB; color: #4A154B; }
     </style>
 </head>
 <body>
 
-    <div class="toast-container" id="toast-box"></div>
-
     <div class="container">
-        <!-- โซนหัวข้อใหญ่และโลโก้แบรนด์ -->
+        <!-- โซนโลโก้และหัวข้อแบบป๊อป 3D -->
         <div class="brand-header">
-            <!-- ⚠️ สามารถนำลิงก์รูปภาพโลโก้ของคุณมาเปลี่ยนใส่ตรง src ด้านล่างนี้ได้เลยนะครับ -->
-            <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
+            <div class="brand-logo-container">
+                <!-- ⚠️ เปลี่ยนรูปโลโก้ของร้านเตงตรงนี้ได้เลยนะครับ -->
+                <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
+            </div>
             <h1>Tummy.mkt</h1>
         </div>
         
@@ -206,19 +193,12 @@
             <span>สถานะปัจจุบัน</span>
         </div>
 
-        <div class="queue-list-container" id="customer-queue-box"></div>
+        <div class="queue-list-container" id="customer-queue-box">
+            <!-- ข้อมูลคิวจะแสดงตรงนี้ -->
+        </div>
     </div>
 
     <script>
-        function showToast(message) {
-            const container = document.getElementById('toast-box');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `🎈 <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
-        }
-
         function getStatusConfig(status) {
             switch(status) {
                 case 'working': return { class: 'status-working', text: 'กำลังทำ 🟦' };
@@ -236,7 +216,7 @@
             box.innerHTML = '';
 
             if (queueData.length === 0) {
-                box.innerHTML = `<div style="text-align:center; color:#A39E98; padding: 40px; background:#FAF8F5; border:3px dashed #6D675E; border-radius:22px;">ยังไม่มีรายการคิวเลยน้า~ ไว้มาดูใหม่นะคะ 🐰</div>`;
+                box.innerHTML = `<div style="text-align:center; color:#8A8276; padding: 40px; background:#FFFDFB; border:3px dashed #4A4238; border-radius:26px; font-weight:500;">ยังไม่มีรายการคิวเลยน้า~ ไว้มาดูใหม่นะคะ 🐰</div>`;
                 return;
             }
 
@@ -256,15 +236,8 @@
                 `;
             });
         }
-
         renderCustomerCards();
-        
-        window.addEventListener('storage', (e) => {
-            if(e.key === 'pastel_queues') {
-                renderCustomerCards();
-                showToast('คิวอัปเดตแล้วจ้าดึ๋งๆ! ✨');
-            }
-        });
+        window.addEventListener('storage', (e) => { if(e.key === 'pastel_queues') renderCustomerCards(); });
     </script>
 </body>
 </html>
