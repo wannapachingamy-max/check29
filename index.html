@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tummy.mkt - Queue Status</title>
@@ -10,20 +10,46 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        body { background-color: #FDFBF9; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 40px 20px; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        .brand-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; background: white; padding: 20px 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+        /* เปลี่ยนพื้นหลังเป็นโทนค่ำคืนเพื่อให้เห็นดวงดาวและดาวตกชัดเจน */
+        body { 
+            background: linear-gradient(to bottom, #0f172a, #1e1b4b); 
+            font-family: 'Kanit', sans-serif; 
+            color: #f1f5f9; 
+            margin: 0; 
+            padding: 40px 20px;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* สไตล์ของหน้าจอ Canvas พื้นหลังดวงดาว */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+        
+        /* ปรับความโปร่งแสงของกล่องต่าง ๆ ให้เห็นออร่าดวงดาวข้างหลังแบบกระจกฝ้า (Glassmorphism) */
+        .brand-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; background: rgba(255, 255, 255, 0.95); padding: 20px 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); color: #4A4A4A; }
         .brand-info { display: flex; align-items: center; gap: 15px; }
         .brand-logo { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
         .brand-title-wrap h1 { font-family: 'Poppins', sans-serif; color: #FF7E1F; font-size: 24px; margin: 0; font-weight: 700; }
-        .brand-title-wrap p { margin: 4px 0 0 0; font-size: 13px; color: #888; }
+        .brand-title-wrap p { margin: 4px 0 0 0; font-size: 13px; color: #666; }
         .queue-badge-top { background: #FFF2E8; color: #FF7E1F; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 500; animation: softPulse 2s infinite ease-in-out; }
-        .recommend-container { background: #FFFFFF; border: 1px solid #F1ECE8; border-radius: 24px; padding: 24px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.01); position: relative; }
+        
+        .recommend-container { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 24px; margin-bottom: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); position: relative; color: #4A4A4A; }
         .recommend-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
         .recommend-title-wrap h2 { font-size: 18px; font-weight: 600; color: #2D2D2D; margin: 0; }
         .recommend-title-wrap p { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; color: #A3AED0; letter-spacing: 1px; text-transform: uppercase; margin: 3px 0 0 0; }
         .btn-contact-top { background: #00E676; color: white; text-decoration: none; padding: 10px 22px; border-radius: 30px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: greenGlow 2s infinite; }
         .btn-contact-top:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5); }
+        
         .recommend-grid { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 5px; }
         .recommend-grid::-webkit-scrollbar { display: none; }
         .recommend-item { background: #FFFDFC; border: 1px solid #F8F4F0; border-radius: 20px; flex: 1; min-width: 140px; max-width: 170px; padding: 20px 10px; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
@@ -34,41 +60,45 @@
         .icon-ig { background: #FFF0F5; color: #E1306C; }
         .item-title-th { font-size: 14px; font-weight: 600; color: #1A1A1A; margin: 0; }
         .item-title-en { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 700; color: #A3AED0; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0 0 0; }
+        
         .news-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 0 10px; }
         .news-title-block { display: flex; align-items: center; gap: 12px; }
         .news-icon-bg { background: #FF7E1F; color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(255, 126, 31, 0.2); }
-        .news-main-title { font-size: 22px; font-weight: 600; color: #1A1A1A; display: flex; align-items: center; gap: 8px; }
+        .news-main-title { font-size: 22px; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 8px; }
         .live-badge { background: #E8F5E9; color: #2ECC71; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; animation: softPulse 1.5s infinite alternate; }
-        .news-subtitle { font-size: 13px; color: #8A8A8A; margin-top: 4px; }
+        .news-subtitle { font-size: 13px; color: #cbd5e1; margin-top: 4px; }
         .btn-view-all { background: #FF7E1F; color: white; border: none; padding: 10px 20px; border-radius: 25px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2); transition: all 0.3s ease; }
+        
         .announcements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 25px; margin-bottom: 40px; }
         @media (max-width: 1024px) { .announcements-grid { grid-template-columns: 1fr; } }
-        .news-card { background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.015); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.05); border-color: #E2E2E2; }
+        .news-card { background: rgba(255, 255, 255, 0.96); border: 1px solid #EAEAEA; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); color: #4A4A4A; }
+        .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.2); border-color: #E2E2E2; }
         .card-top-profile { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
         .profile-info { display: flex; align-items: center; gap: 12px; }
         .profile-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #FF7E1F; object-fit: cover; }
         .profile-name { font-weight: 600; color: #222; font-size: 15px; display: flex; align-items: center; gap: 4px; }
         .verified-tick { color: #1E88E5; font-size: 14px; }
-        .post-time { font-size: 12px; color: #999; }
+        .post-time { font-size: 12px; color: #777; }
         .type-badge { font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
         .badge-promo { background: #FFF0F0; color: #E53935; }
         .badge-maintenance { background: #FFFDE7; color: #F57F17; }
         .badge-general { background: #E3F2FD; color: #1E88E5; }
-        .card-body-text { font-size: 14.5px; color: #444; line-height: 1.6; margin-bottom: 15px; }
+        .card-body-text { font-size: 14.5px; color: #333; line-height: 1.6; margin-bottom: 15px; }
         .card-media-wrap { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #ECEFF1; margin-bottom: 15px; }
         .card-img { width: 100%; max-height: 240px; object-fit: cover; display: block; }
         .card-footer-actions { border-top: 1px solid #F0F2F5; padding-top: 12px; display: flex; justify-content: center; }
         .like-btn { background: none; border: none; color: #65676B; font-family: 'Kanit'; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; }
-        .queue-header-title { font-size: 18px; font-weight: 600; color: #222; margin: 40px 0 15px 0; padding-left: 5px; }
+        
+        .queue-header-title { font-size: 18px; font-weight: 600; color: #ffffff; margin: 40px 0 15px 0; padding-left: 5px; }
         .queue-list-container { display: flex; flex-direction: column; gap: 12px; }
-        .queue-card-header { display: flex; justify-content: space-between; padding: 0 15px; color: #8C8C8C; font-size: 13px; font-weight: 500; }
-        .queue-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.25s ease; cursor: pointer; }
-        .queue-card:hover { transform: scale(1.01); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-color: #FFDCC4; }
+        .queue-card-header { display: flex; justify-content: space-between; padding: 0 15px; color: #cbd5e1; font-size: 13px; font-weight: 500; }
+        .queue-card { background: rgba(255, 255, 255, 0.96); border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.25s ease; cursor: pointer; color: #4A4A4A; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .queue-card:hover { transform: scale(1.01); box-shadow: 0 8px 20px rgba(255, 126, 31, 0.15); border-color: #FFDCC4; }
         .queue-info { display: flex; align-items: center; gap: 16px; }
         .queue-number { background: #FFF2E8; color: #FF7E1F; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; }
         .customer-name { font-size: 15px; font-weight: 500; color: #2D2D2D; }
-        .queue-time { font-size: 12px; color: #A0A0A0; margin-top: 2px; }
+        .queue-time { font-size: 12px; color: #777; margin-top: 2px; }
+        
         .status-badge { padding: 6px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; }
         .status-working { background-color: #E3F2FD; color: #1E88E5; animation: softPulse 1.5s infinite ease-in-out; }
         .status-brief { background-color: #EFEBE9; color: #6D4C41; }
@@ -83,6 +113,8 @@
     </style>
 </head>
 <body>
+
+    <canvas id="space-canvas"></canvas>
 
     <div class="container">
         <div class="brand-section">
@@ -139,7 +171,7 @@
 
         <div class="announcements-grid" id="announcements-feed-box"></div>
 
-        <div class="queue-header-title">📋 ลำดับคิวงานปัจจุบัน <span style="font-size: 12px; font-weight: normal; color:#999;">(คลิกที่คิวเพื่อดูรายละเอียดได้นะ)</span></div>
+        <div class="queue-header-title">📋 ลำดับคิวงานปัจจุบัน <span style="font-size: 12px; font-weight: normal; color:#cbd5e1;">(คลิกที่คิวเพื่อดูรายละเอียดได้นะ)</span></div>
         <div class="queue-card-header">
             <span>ข้อมูลลูกค้า</span>
             <span>สถานะปัจจุบัน</span>
@@ -147,11 +179,91 @@
         <div class="queue-list-container" id="customer-queue-box"></div>
     </div>
 
-    <!-- 📍 ตัวเชื่อมต่อระบบ Real-time แบบ Firebase SDK หลัก -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        // 🌟 เพิ่มระบบสร้างดวงดาวลอยไปมาและดาวตกพื้นหลัง (ทำงานแยกส่วนอิสระไม่กวนดาต้าเบส)
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let shootingStars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // สร้างดวงดาวพื้นหลังลอยนิ่งระยิบระยับ
+        for (let i = 0; i < 120; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 1.5,
+                alpha: Math.random(),
+                speed: 0.01 + Math.random() * 0.02
+            });
+        }
+
+        // ฟังก์ชันสุ่มปล่อยดาวตก
+        function createShootingStar() {
+            shootingStars.push({
+                x: Math.random() * canvas.width * 0.8,
+                y: 0,
+                length: 40 + Math.random() * 80,
+                speedX: 4 + Math.random() * 6,
+                speedY: 4 + Math.random() * 6,
+                alpha: 1
+            });
+            setTimeout(createShootingStar, 2000 + Math.random() * 4000);
+        }
+        createShootingStar();
+
+        function animateSpace() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // วาดและอัปเดตดวงดาวลอยระยิบระยับ
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // วาดและอัปเดตดาวตกเคลื่อนที่
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                let s = shootingStars[i];
+                s.x += s.speedX;
+                s.y += s.speedY;
+                s.alpha -= 0.015;
+
+                if (s.alpha <= 0 || s.x > canvas.width || s.y > canvas.height) {
+                    shootingStars.splice(i, 1);
+                    continue;
+                }
+
+                // สลัดสีทำหางดาวตกฟืดระยับ
+                let gradient = ctx.createLinearGradient(s.x, s.y, s.x - s.length, s.y - s.length);
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
+                gradient.addColorStop(1, `rgba(255, 126, 31, 0)`);
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(s.x - s.length, s.y - s.length);
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(animateSpace);
+        }
+        animateSpace();
+
+        // ------------------ ระบบ Firebase เดิมล็อกไว้ 100% ------------------
         const firebaseConfig = { databaseURL: "https://tummy-queue-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -214,7 +326,6 @@
             previousQueuesState = JSON.parse(JSON.stringify(currentQueues));
         }
 
-        // ดึงข้อมูลเรียลไทม์แท้ (เมื่อแอดมินแก้ไขข้อมูลจะเด้งทันที)
         database.ref('social_links').on('value', snapshot => {
             const links = snapshot.val();
             if(links) {
