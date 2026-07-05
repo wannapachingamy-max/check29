@@ -13,11 +13,35 @@
         h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
         .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
 
-        .announce-admin-box { background: #FFF2E8; border: 1px solid #FFE0CC; padding: 20px; border-radius: 16px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
-        .announce-row { display: flex; gap: 12px; width: 100%; }
-        .announce-admin-box input { flex: 1; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px; font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white; }
-        .announce-admin-box button { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
-        .announce-admin-box button:hover { background-color: #27AE60; }
+        /* 📢 ส่วนอัปโหลดรูปภาพและจัดการข้อความข่าวสารหลังบ้าน */
+        .announce-admin-box {
+            background: #FFF2E8;
+            border: 1px solid #FFE0CC;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .announce-row { display: flex; gap: 12px; width: 100%; align-items: center; }
+        .announce-admin-box input[type="text"] {
+            flex: 1; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px;
+            font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white;
+        }
+        .file-upload-wrapper {
+            display: flex; align-items: center; gap: 10px; background: white; 
+            border: 1px solid #DFE3E6; padding: 8px 12px; border-radius: 10px; flex: 1;
+        }
+        .file-upload-wrapper label { font-size: 13px; color: #666; font-weight: 500; }
+        .file-upload-wrapper input[type="file"] { font-size: 13px; }
+        
+        .btn-save { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
+        .btn-save:hover { background-color: #27AE60; }
+        .btn-remove-img { background-color: #E53935; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: 'Kanit', sans-serif; }
+
+        /* การ์ดพรีวิวรูปหลังบ้าน */
+        .img-preview { max-height: 90px; border-radius: 8px; border: 1px solid #E0E0E0; display: none; object-fit: cover; }
 
         .queue-form { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 20px; border-radius: 16px; border: 1px solid #ECEFF1; }
         .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit', sans-serif; font-size: 14px; flex: 1; min-width: 200px; outline: none; }
@@ -41,13 +65,19 @@
         </div>
         <div class="admin-tag">ADMIN MANAGEMENT</div>
         
+        <!-- 📢 โซนจัดการแถบประกาศข้อความ + อัปโหลดรูปภาพโดยตรงจากเครื่อง -->
         <div class="announce-admin-box">
             <div class="announce-row">
                 <input type="text" id="announce-text-input" placeholder="พิมพ์ข้อความประกาศข่าวสารของร้านตรงนี้...">
             </div>
             <div class="announce-row">
-                <input type="text" id="announce-img-input" placeholder="🔗 วางลิงก์รูปภาพแบนเนอร์ (เว้นว่างไว้ได้หากไม่ต้องการใส่รูป)">
-                <button onclick="updateAnnouncement()">อัปเดตกระดานข่าวสาร ✨</button>
+                <div class="file-upload-wrapper">
+                    <label>🖼️ อัปโหลดรูปแบนเนอร์ (สูงสุด 2MB): </label>
+                    <input type="file" id="announce-file-input" accept="image/*" onchange="previewImage(this)">
+                </div>
+                <img id="preview-element" class="img-preview" src="" alt="Preview">
+                <button id="btn-remove-preview" class="btn-remove-img" style="display:none;" onclick="clearUploadedImage()">ลบรูปภาพ 🗑️</button>
+                <button class="btn-save" onclick="updateAnnouncement()">อัปเดตกระดานข่าวสาร ✨</button>
             </div>
         </div>
 
@@ -62,16 +92,56 @@
 
     <script>
         let queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
+        let base64ImageString = ""; // ตัวแปรสำหรับเก็บข้อมูลรูปภาพชั่วคราว
 
+        // ดึงข้อมูลเดิมมาใส่เมื่อเปิดหน้าเว็บ
         document.getElementById('announce-text-input').value = localStorage.getItem('tummy_announcement_text') || 'ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡';
-        document.getElementById('announce-img-input').value = localStorage.getItem('tummy_announcement_img') || '';
+        base64ImageString = localStorage.getItem('tummy_announcement_img_file') || '';
+        
+        if (base64ImageString) {
+            const preview = document.getElementById('preview-element');
+            preview.src = base64ImageString;
+            preview.style.display = 'block';
+            document.getElementById('btn-remove-preview').style.display = 'block';
+        }
 
+        // ฟังก์ชันเมื่อมีการเลือกไฟล์ภาพจากเครื่อง
+        function previewImage(input) {
+            const file = input.files[0];
+            if (file) {
+                // ตรวจเช็คขนาดไฟล์ไม่ให้เกิน 2MB (2 * 1024 * 1024 bytes)
+                if (file.size > 2097152) {
+                    alert("⚠️ ไฟล์รูปภาพมีขนาดใหญ่เกินไป! กรุณาเลือกรูปที่มีขนาดไม่เกิน 2MB เพื่อความเสถียรของระบบค่ะ");
+                    input.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    base64ImageString = e.target.result;
+                    const preview = document.getElementById('preview-element');
+                    preview.src = base64ImageString;
+                    preview.style.display = 'block';
+                    document.getElementById('btn-remove-preview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ฟังก์ชันล้างรูปภาพที่เลือกไว้
+        function clearUploadedImage() {
+            base64ImageString = "";
+            document.getElementById('announce-file-input').value = "";
+            document.getElementById('preview-element').style.display = 'none';
+            document.getElementById('btn-remove-preview').style.display = 'none';
+        }
+
+        // บันทึกทั้งข้อความและไฟล์รูปที่แปลงลง LocalStorage
         function updateAnnouncement() {
             const txt = document.getElementById('announce-text-input').value;
-            const img = document.getElementById('announce-img-input').value;
             localStorage.setItem('tummy_announcement_text', txt);
-            localStorage.setItem('tummy_announcement_img', img);
-            alert('อัปเดตข่าวสารและรูปภาพแบนเนอร์เรียบร้อย! 🎉');
+            localStorage.setItem('tummy_announcement_img_file', base64ImageString);
+            alert('อัปเดตข่าวสารและอัปโหลดรูปภาพลงระบบสำเร็จเรียบร้อย! 🎉');
         }
 
         function handleFormSubmit(event) {
