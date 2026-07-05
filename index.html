@@ -13,7 +13,7 @@
             color: #4A4A4A;
             margin: 0;
             padding: 40px 20px;
-        } 
+        }
 
         .container {
             max-width: 1100px;
@@ -35,9 +35,14 @@
         .brand-logo { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
         .brand-title-wrap h1 { font-family: 'Poppins', sans-serif; color: #FF7E1F; font-size: 24px; margin: 0; font-weight: 700; }
         .brand-title-wrap p { margin: 4px 0 0 0; font-size: 13px; color: #888; }
-        .queue-badge-top { background: #FFF2E8; color: #FF7E1F; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 500; }
+        
+        /* ตราสัญลักษณ์มุมขวาบน */
+        .queue-badge-top { 
+            background: #FFF2E8; color: #FF7E1F; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 500; 
+            animation: softPulse 2s infinite ease-in-out;
+        }
 
-        /* 🏷️ ถอดดีไซน์กล่อง "เมนูแนะนำ" ตามภาพ image_1aa48a.png */
+        /* 🏷️ กล่อง "ช่องทางติดต่อ" */
         .recommend-container {
             background: #FFFFFF;
             border: 1px solid #F1ECE8;
@@ -47,29 +52,11 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.01);
             position: relative;
         }
-        .recommend-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        .recommend-title-wrap h2 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2D2D2D;
-            margin: 0;
-        }
-        .recommend-title-wrap p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            color: #A3AED0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin: 4px 0 0 0;
-        }
+        .recommend-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .recommend-title-wrap h2 { font-size: 18px; font-weight: 600; color: #2D2D2D; margin: 0; }
+        .recommend-title-wrap p { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; color: #A3AED0; letter-spacing: 1px; text-transform: uppercase; margin: 4px 0 0 0; }
 
-        /* ปุ่มติดต่อแอดมินขวาบน */
+        /* ✨ ปุ่มติดต่อแอดมินสีเขียว + เอฟเฟกต์ Glow Pulse */
         .btn-contact-top {
             background: #00E676;
             color: white;
@@ -82,21 +69,20 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
-            transition: transform 0.2s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: greenGlow 2s infinite;
         }
-        .btn-contact-top:hover { transform: scale(1.03); }
+        .btn-contact-top:hover { 
+            transform: translateY(-2px) scale(1.05); 
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5);
+        }
+        .btn-contact-top:active { transform: translateY(1px) scale(0.98); }
 
         /* รายการไอคอนโซเชียล */
-        .recommend-grid {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding-bottom: 5px;
-        }
-        /* ซ่อนสกรอลบาร์สำหรับความสะอาดสายตาแต่ยังเลื่อนในมือถือได้ */
+        .recommend-grid { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 5px; }
         .recommend-grid::-webkit-scrollbar { display: none; }
 
+        /* ✨ ตัวเลือกไอคอนดีไซน์มนโค้ง */
         .recommend-item {
             background: #FFFDFC;
             border: 1px solid #F8F4F0;
@@ -107,20 +93,23 @@
             padding: 20px 10px;
             text-align: center;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             box-sizing: border-box;
         }
         .recommend-item:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             background: #FFFFFF;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
-            border-color: #EFEAE4;
+            box-shadow: 0 12px 24px rgba(255, 126, 31, 0.06);
+            border-color: #FFDCC4;
+        }
+        
+        .recommend-item:hover .icon-box-shape {
+            transform: scale(1.1) rotate(4deg);
         }
 
-        /* ดีไซน์รูปทรง Squircle ไล่สีนวลๆ */
         .icon-box-shape {
             width: 55px;
             height: 55px;
@@ -130,8 +119,8 @@
             justify-content: center;
             font-size: 24px;
             margin-bottom: 12px;
+            transition: transform 0.3s ease;
         }
-        /* คู่สีสไตล์โมเดิร์นพาสเทลตามชนิดโซเชียล */
         .icon-fb { background: #EBF3FF; color: #1877F2; }
         .icon-line { background: #E8F8EF; color: #06C755; }
         .icon-ig { background: #FFF0F5; color: #E1306C; }
@@ -140,13 +129,7 @@
         .item-title-en { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 700; color: #A3AED0; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0 0 0; }
 
         /* 📢 ส่วนประกาศข่าวสาร */
-        .news-section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
+        .news-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 0 10px; }
         .news-title-block { display: flex; align-items: center; gap: 12px; }
         .news-icon-bg {
             background: #FF7E1F; color: white; width: 40px; height: 40px; 
@@ -154,29 +137,39 @@
             box-shadow: 0 4px 10px rgba(255, 126, 31, 0.2);
         }
         .news-main-title { font-size: 22px; font-weight: 600; color: #1A1A1A; display: flex; align-items: center; gap: 8px; }
-        .live-badge { background: #E8F5E9; color: #2ECC71; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
+        
+        .live-badge { 
+            background: #E8F5E9; color: #2ECC71; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; 
+            animation: softPulse 1.5s infinite alternate;
+        }
         .news-subtitle { font-size: 13px; color: #8A8A8A; margin-top: 4px; }
         
         .btn-view-all {
             background: #FF7E1F; color: white; border: none; padding: 10px 20px; 
             border-radius: 25px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none;
             display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-view-all:hover {
+            background: #E66A10;
+            box-shadow: 0 6px 16px rgba(255, 126, 31, 0.4);
+            padding-right: 24px;
         }
 
-        .announcements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+        .announcements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 25px; margin-bottom: 40px; }
         @media (max-width: 1024px) { .announcements-grid { grid-template-columns: 1fr; } }
 
         .news-card {
             background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 24px; padding: 24px;
             display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.015); transition: transform 0.2s;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.015); 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .news-card:hover { transform: translateY(-3px); }
+        .news-card:hover { 
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.05);
+            border-color: #E2E2E2;
+        }
         .card-top-profile { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
         .profile-info { display: flex; align-items: center; gap: 12px; }
         .profile-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #FF7E1F; object-fit: cover; }
@@ -193,16 +186,25 @@
         .card-media-wrap { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #ECEFF1; margin-bottom: 15px; }
         .card-img { width: 100%; max-height: 240px; object-fit: cover; display: block; }
         .card-footer-actions { border-top: 1px solid #F0F2F5; padding-top: 12px; display: flex; justify-content: center; }
-        .like-btn { background: none; border: none; color: #65676B; font-family: 'Kanit'; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        
+        .like-btn { 
+            background: none; border: none; color: #65676B; font-family: 'Kanit'; font-size: 13px; cursor: pointer; 
+            display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+        }
+        .like-btn:hover { color: #FF7E1F; transform: scale(1.08); }
+        .like-btn:active { transform: scale(0.92); }
 
         /* ลำดับคิวงาน */
         .queue-header-title { font-size: 18px; font-weight: 600; color: #222; margin: 40px 0 15px 0; padding-left: 5px; }
         .queue-list-container { display: flex; flex-direction: column; gap: 12px; }
         .queue-card-header { display: flex; justify-content: space-between; padding: 0 15px; color: #8C8C8C; font-size: 13px; font-weight: 500; }
+        
         .queue-card {
             background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px;
             display: flex; align-items: center; justify-content: space-between;
+            transition: all 0.25s ease;
         }
+        .queue-card:hover { transform: translateX(4px); border-color: #FFDCC4; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
         .queue-info { display: flex; align-items: center; gap: 16px; }
         .queue-number { background: #FFF2E8; color: #FF7E1F; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; }
         .customer-name { font-size: 15px; font-weight: 500; color: #2D2D2D; }
@@ -214,7 +216,18 @@
         .status-pending { background-color: #FFEBEE; color: #E53935; }
         .status-done { background-color: #F3E5F5; color: #8E24AA; }
 
-        /* ปรับแต่งสำหรับมือถือกรณีปุ่มแอดมินล้นขอบขวา */
+        /* 🎬 ชุดคำสั่งอนิเมชันหลัก */
+        @keyframes greenGlow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 230, 118, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+        }
+        @keyframes softPulse {
+            0% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.95; }
+        }
+
         @media (max-width: 500px) {
             .recommend-header { flex-direction: column; gap: 15px; }
             .btn-contact-top { width: 100%; justify-content: center; box-sizing: border-box; }
@@ -237,12 +250,12 @@
             <div class="queue-badge-top">🎯 ตรวจสอบคิวของคุณได้ที่นี่</div>
         </div>
 
-        <!-- 🏷️ กล่องเมนูแนะนำ (ถอดสไตล์รูปภาพ image_1aa48a.png เปี๊ยบ!) -->
+        <!-- เปลี่ยนเป็น "ช่องทางติดต่อ" เรียบร้อยครับ -->
         <div class="recommend-container">
             <div class="recommend-header">
                 <div class="recommend-title-wrap">
-                    <h2>เมนูแนะนำ</h2>
-                    <p>Recommend Menu</p>
+                    <h2>ช่องทางติดต่อ</h2>
+                    <p>Contact Channels</p>
                 </div>
                 <a href="#" id="link-main-line" target="_blank" class="btn-contact-top">
                     <i class="fab fa-line"></i> ติดต่อแอดมิน
@@ -250,36 +263,25 @@
             </div>
             
             <div class="recommend-grid">
-                <!-- เฟสบุ๊ค -->
                 <a href="#" id="link-card-fb" target="_blank" class="recommend-item">
-                    <div class="icon-box-shape icon-fb">
-                        <i class="fab fa-facebook-f"></i>
-                    </div>
+                    <div class="icon-box-shape icon-fb"><i class="fab fa-facebook-f"></i></div>
                     <p class="item-title-th">เฟสบุ๊ค</p>
                     <p class="item-title-en">Facebook</p>
                 </a>
-
-                <!-- ไลน์ -->
                 <a href="#" id="link-card-line" target="_blank" class="recommend-item">
-                    <div class="icon-box-shape icon-line">
-                        <i class="fab fa-line"></i>
-                    </div>
+                    <div class="icon-box-shape icon-line"><i class="fab fa-line"></i></div>
                     <p class="item-title-th">ไลน์หลัก</p>
                     <p class="item-title-en">Line Official</p>
                 </a>
-
-                <!-- ไอจี -->
                 <a href="#" id="link-card-ig" target="_blank" class="recommend-item">
-                    <div class="icon-box-shape icon-ig">
-                        <i class="fab fa-instagram"></i>
-                    </div>
+                    <div class="icon-box-shape icon-ig"><i class="fab fa-instagram"></i></div>
                     <p class="item-title-th">อินสตาแกรม</p>
                     <p class="item-title-en">Instagram</p>
                 </a>
             </div>
         </div>
 
-        <!-- ส่วนกลาง: หัวข้อประกาศข่าวสาร -->
+        <!-- หัวข้อประกาศข่าวสาร -->
         <div class="news-section-header">
             <div class="news-title-block">
                 <div class="news-icon-bg">📢</div>
@@ -293,7 +295,7 @@
 
         <div class="announcements-grid" id="announcements-feed-box"></div>
 
-        <!-- ส่วนล่าง: ตารางคิวงาน -->
+        <!-- รายการลำดับคิวงาน -->
         <div class="queue-header-title">📋 ลำดับคิวงานปัจจุบัน</div>
         <div class="queue-card-header">
             <span>ข้อมูลลูกค้า</span>
@@ -303,7 +305,6 @@
     </div>
 
     <script>
-        // โหลดและอัปเดตลิงก์แนะนำจาก LocalStorage ที่แอดมินตั้งค่าไว้
         function loadSocialLinks() {
             const links = JSON.parse(localStorage.getItem('tummy_social_links')) || { fb: '#', line: '#', ig: '#' };
             document.getElementById('link-main-line').href = links.line;
