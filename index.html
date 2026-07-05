@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌸 ตรวจสอบสถานะคิวพาสเทล 🌸</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;700&display=swap">
+    <title>🌸 Tummy.mkt - Queue Status 🌸</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;700&family=Fredoka+One&display=swap">
     <style>
         @keyframes bubbleIn {
             0% { transform: scale(0.5) translateY(50px); opacity: 0; }
@@ -34,37 +34,57 @@
             background: #FFFFFF;
             padding: 40px 30px;
             border-radius: 35px;
-            /* เส้นขอบหนาแบบพาสเทลชิคๆ */
             border: 4px solid #6D675E; 
-            /* เงา 3D แบบนุ่มนวล */
             box-shadow: 8px 8px 0px #6D675E, 0px 15px 30px rgba(0,0,0,0.05);
             animation: bubbleIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        /* โซนแบรนด์ด้านบนสุด */
+        .brand-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        /* โลโก้ทรงกลมน่ารักๆ */
+        .brand-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #6D675E;
+            box-shadow: 4px 4px 0px #6D675E;
+            object-fit: cover;
+            background-color: #FFF0F5;
+        }
+
+        /* หัวข้อภาษาอังกฤษ สวย อ่านง่าย ชัดเจน */
         h1 {
+            font-family: 'Fredoka One', 'Mitr', sans-serif;
             text-align: center;
             color: #FF9AA2;
-            font-size: 36px;
-            margin: 0 0 10px 0;
-            text-shadow: 2px 2px 0px #FFF, 4px 4px 0px #6D675E;
-            font-weight: 700;
+            font-size: 42px;
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0px #FFF, 5px 5px 0px #6D675E;
         }
 
         .subtitle {
             text-align: center;
             color: #8CB369;
-            margin-bottom: 40px;
-            font-size: 16px;
+            margin-bottom: 35px;
+            font-size: 15px;
             background: #EDF7E7;
             display: table;
             margin-left: auto;
             margin-right: auto;
-            padding: 6px 20px;
+            padding: 6px 25px;
             border-radius: 20px;
             border: 2px solid #6D675E;
         }
 
-        /* ปรับดีไซน์ตารางใหม่ ไม่ให้เป็นตารางจืดๆ */
         .queue-list-container {
             display: flex;
             flex-direction: column;
@@ -131,7 +151,6 @@
             margin-top: 4px;
         }
 
-        /* ปุ่มสเตตัสอวบอิ่มเหมือนเยลลี่ 🟦🟫🟩🟥🩷 */
         .status-badge {
             padding: 10px 20px;
             border-radius: 20px;
@@ -147,7 +166,6 @@
         .status-pending { background-color: #FFB7B2; color: #7A3E3E; }
         .status-done { background-color: #FFC6FF; color: #5C235C; }
 
-        /* ระบบกล่องสเตตัสเด้งสุดคิ้วท์ */
         .toast-container {
             position: fixed;
             top: 25px;
@@ -174,17 +192,21 @@
     <div class="toast-container" id="toast-box"></div>
 
     <div class="container">
-        <h1>🌸 ตรวจสอบสถานะคิว 🌸</h1>
-        <p class="subtitle">มาเช็คสถานะงานแบบดึ๋งๆ กันเลยน้า~</p>
+        <!-- โซนหัวข้อใหญ่และโลโก้แบรนด์ -->
+        <div class="brand-header">
+            <!-- ⚠️ สามารถนำลิงก์รูปภาพโลโก้ของคุณมาเปลี่ยนใส่ตรง src ด้านล่างนี้ได้เลยนะครับ -->
+            <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
+            <h1>Tummy.mkt</h1>
+        </div>
+        
+        <p class="subtitle">✨ ตรวจสอบสถานะคิวงานล่าสุด ✨</p>
 
         <div class="queue-card-header">
             <span>ข้อมูลลูกค้า</span>
             <span>สถานะปัจจุบัน</span>
         </div>
 
-        <div class="queue-list-container" id="customer-queue-box">
-            <!-- ข้อมูลคิวจะแปลงร่างเป็นกล่องขนมปังตรงนี้ -->
-        </div>
+        <div class="queue-list-container" id="customer-queue-box"></div>
     </div>
 
     <script>
@@ -214,7 +236,7 @@
             box.innerHTML = '';
 
             if (queueData.length === 0) {
-                box.innerHTML = `<div style="text-align:center; color:#A39E98; padding: 40px; background:#FAF8F5; border:3px dashed #6D675E; border-radius:22px;">ยังไม่มีรายการคิวเลยน้า~ ไว้มาดูใหม่นะคิ้วท์เบบี้ 🐰</div>`;
+                box.innerHTML = `<div style="text-align:center; color:#A39E98; padding: 40px; background:#FAF8F5; border:3px dashed #6D675E; border-radius:22px;">ยังไม่มีรายการคิวเลยน้า~ ไว้มาดูใหม่นะคะ 🐰</div>`;
                 return;
             }
 
