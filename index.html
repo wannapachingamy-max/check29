@@ -6,7 +6,6 @@
     <title>Tummy.mkt - Queue Status</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@5/minimal.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -80,8 +79,6 @@
         @keyframes greenGlow { 0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); } 70% { box-shadow: 0 0 0 12px rgba(0, 230, 118, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); } }
         @keyframes softPulse { 0% { transform: scale(1); opacity: 0.95; } 50% { transform: scale(1.02); opacity: 1; } 100% { transform: scale(1); opacity: 0.95; } }
         @media (max-width: 500px) { .recommend-header { flex-direction: column; gap: 15px; } .btn-contact-top { width: 100%; justify-content: center; box-sizing: border-box; } }
-        
-        /* ปรับฟอนต์ป๊อปอัพ SweetAlert2 บนหน้าจอฝั่งลูกค้า */
         .swal2-popup { font-family: 'Kanit', sans-serif !important; border-radius: 24px !important; }
     </style>
 </head>
@@ -150,14 +147,18 @@
         <div class="queue-list-container" id="customer-queue-box"></div>
     </div>
 
+    <!-- 📍 ตัวเชื่อมต่อระบบ Real-time แบบ Firebase SDK หลัก -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <script>
-        const FIREBASE_BASE_URL = "https://tummy-queue-default-rtdb.firebaseio.com/";
-        
-        // ตัวแปรสำหรับจำสถานะเก่า เพื่อเช็กว่าแอดมินเพิ่งกดอัปเดตสถานะคิวหรือไม่
+        const firebaseConfig = { databaseURL: "https://tummy-queue-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         let previousQueuesState = {};
         let isFirstLoad = true;
 
-        // ฟังก์ชันส่งเสียงแจ้งเตือนแบบเบาๆ นุ่มๆ
         function playNotifySound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -166,14 +167,13 @@
                 oscillator.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
                 oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // โน้ต D5
+                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
                 gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
                 oscillator.start();
                 oscillator.stop(audioCtx.currentTime + 0.15);
-            } catch(e) { console.log("Audio not allowed yet"); }
+            } catch(e) { }
         }
 
-        // ฟังก์ชันแปลงข้อความสถานะให้เปิดอ่านง่ายในป๊อปอัพ
         function getStatusDetails(status) {
             if(status === 'working') return { text: 'กำลังทำคิวของคุณอยู่ 🟦', icon: 'info', color: '#1E88E5' };
             if(status === 'brief') return { text: 'อยู่ในขั้นตอนสรุปบรีฟงาน 🟫', icon: 'question', color: '#6D4C41' };
@@ -182,52 +182,31 @@
             return { text: 'รอดำเนินการตามลำดับคิว 🟥', icon: 'warning', color: '#E53935' };
         }
 
-        // ฟังก์ชันเมื่อลูกค้ากดคลิกที่แถบคิวตัวเอง
         function showQueueDetailPopup(name, time, status, index) {
             let detail = getStatusDetails(status);
             Swal.fire({
                 title: `คิวลำดับที่ ${index}`,
-                html: `
-                    <div style="text-align: left; background: #F8F9FA; padding: 15px; border-radius: 12px; margin-top: 10px;">
-                        <p style="margin: 5px 0;"><strong>👤 ชื่อลูกค้า:</strong> คุณ ${name}</p>
-                        <p style="margin: 5px 0;"><strong>🕒 เวลาลงคิว:</strong> ${time}</p>
-                        <p style="margin: 15px 0 5px 0; text-align:center; font-weight: 600; font-size:16px; color: ${detail.color};">
-                            สถานะ: ${detail.text}
-                        </p>
-                    </div>`,
-                icon: detail.icon,
-                confirmButtonText: 'รับทราบ',
-                confirmButtonColor: '#FF7E1F'
+                html: `<div style="text-align: left; background: #F8F9FA; padding: 15px; border-radius: 12px; margin-top: 10px;"><p style="margin: 5px 0;"><strong>👤 ชื่อลูกค้า:</strong> คุณ ${name}</p><p style="margin: 5px 0;"><strong>🕒 เวลาลงคิว:</strong> ${time}</p><p style="margin: 15px 0 5px 0; text-align:center; font-weight: 600; font-size:16px; color: ${detail.color};">สถานะ: ${detail.text}</p></div>`,
+                icon: detail.icon, confirmButtonText: 'รับทราบ', confirmButtonColor: '#FF7E1F'
             });
         }
 
-        // เช็กสถานะเพื่อเด้งป๊อปอัพแจ้งเตือนอัตโนมัติหากมีการอัปเดตสำคัญ
         function checkStatusChanges(currentQueues) {
             if (isFirstLoad) {
                 previousQueuesState = JSON.parse(JSON.stringify(currentQueues));
                 isFirstLoad = false;
                 return;
             }
-
             Object.keys(currentQueues).forEach(key => {
                 if (previousQueuesState[key]) {
                     const oldStatus = previousQueuesState[key].status;
                     const newStatus = currentQueues[key].status;
-                    const customerName = currentQueues[key].name;
-
-                    // ถ้าสถานะเปลี่ยนเป็น "กำลังทำ" หรือ "เสร็จแล้ว" ให้ส่งเสียงและเด้งป๊อปอัพบอกทันที
                     if (oldStatus !== newStatus && (newStatus === 'working' || newStatus === 'done')) {
                         playNotifySound();
-                        let alertTitle = newStatus === 'working' ? '🚀 เริ่มดำเนินงานแล้ว!' : '🎉 งานของคุณเสร็จแล้ว!';
-                        let alertText = newStatus === 'working' ? `คิวของคุณ ${customerName} กำลังเริ่มทำแล้วน้าา` : `คิวของคุณ ${customerName} เสร็จเรียบร้อยแล้วจ้า ติดต่อรับงานได้เลย!`;
-                        
                         Swal.fire({
-                            title: alertTitle,
-                            text: alertText,
-                            icon: 'success',
-                            timer: 5000,
-                            timerProgressBar: true,
-                            confirmButtonColor: '#FF7E1F'
+                            title: newStatus === 'working' ? '🚀 เริ่มดำเนินงานแล้ว!' : '🎉 งานของคุณเสร็จแล้ว!',
+                            text: newStatus === 'working' ? `คิวของคุณ ${currentQueues[key].name} กำลังเริ่มทำแล้วน้าา` : `คิวของคุณ ${currentQueues[key].name} เสร็จเรียบร้อยแล้วจ้า ติดต่อรับงานได้เลย!`,
+                            icon: 'success', timer: 5000, timerProgressBar: true, confirmButtonColor: '#FF7E1F'
                         });
                     }
                 }
@@ -235,9 +214,54 @@
             previousQueuesState = JSON.parse(JSON.stringify(currentQueues));
         }
 
-        function startRealtimeSync() {
-            if(FIREBASE_BASE_URL.includes("ใส่ URL")) return;
-            
-            setInterval(() => {
-                // 1. ดึงลิงก์โซเชียล
-                fetch(`${FIREBASE_BASE_URL}/social_links.json`).then(r => r.json()).then(links => {
+        // ดึงข้อมูลเรียลไทม์แท้ (เมื่อแอดมินแก้ไขข้อมูลจะเด้งทันที)
+        database.ref('social_links').on('value', snapshot => {
+            const links = snapshot.val();
+            if(links) {
+                document.getElementById('link-main-line').href = links.line || '#';
+                document.getElementById('link-card-fb').href = links.fb || '#';
+                document.getElementById('link-card-line').href = links.line || '#';
+                document.getElementById('link-card-ig').href = links.ig || '#';
+            }
+        });
+
+        database.ref('announcements').on('value', snapshot => {
+            const data = snapshot.val();
+            const feedBox = document.getElementById('announcements-feed-box');
+            feedBox.innerHTML = '';
+            if (!data) {
+                feedBox.innerHTML = `<div class="news-card" style="grid-column:1/-1; text-align:center; color:#888; padding:40px 20px;">ยังไม่มีประกาศข่าวสารในขณะนี้ 🧡</div>`;
+                return;
+            }
+            Object.values(data).reverse().forEach(item => {
+                let imgHTML = item.img ? `<div class="card-media-wrap"><img class="card-img" src="${item.img}"></div>` : '';
+                let badgeClass = item.type === "promo" ? "badge-promo" : (item.type === "maintenance" ? "badge-maintenance" : "badge-general");
+                let badgeText = item.type === "promo" ? "🔥 โปรโมชัน" : (item.type === "maintenance" ? "🛠️ ปิดปรับปรุง" : "📌 ทั่วไป");
+                feedBox.innerHTML += `<div class="news-card"><div><div class="card-top-profile"><div class="profile-info"><img class="profile-avatar" src="gkibotlrgpwer.jfif"><div><div class="profile-name">Tummy.mkt แอดมิน <span class="verified-tick">✓</span></div><div class="post-time">${item.date || 'เมื่อสักครู่'} • 🌐</div></div></div><span class="type-badge ${badgeClass}">${badgeText}</span></div><div class="card-body-text">${item.text}</div>${imgHTML}</div><div class="card-footer-actions"><button class="like-btn" onclick="Swal.fire({icon:'success', title:'ขอบคุณที่ถูกใจจ้า 🧡', timer:1500, showConfirmButton:false})">👍 ถูกใจ</button></div></div>`;
+            });
+        });
+
+        database.ref('queues').on('value', snapshot => {
+            const data = snapshot.val();
+            const box = document.getElementById('customer-queue-box');
+            box.innerHTML = '';
+            if (!data) {
+                box.innerHTML = `<div style="text-align:center; color:#A0A0A0; padding:30px; background:white; border:1px dashed #E0E0E0; border-radius:16px; font-size:14px;">ยังไม่มีรายการคิวในขณะนี้</div>`;
+                previousQueuesState = {};
+                return;
+            }
+            checkStatusChanges(data);
+            Object.keys(data).forEach((key, index) => {
+                let item = data[key];
+                let conf = { class: 'status-pending', text: 'ยังไม่ได้ทำ 🟥' };
+                if(item.status === 'working') conf = { class: 'status-working', text: 'กำลังทำ 🟦' };
+                if(item.status === 'brief') conf = { class: 'status-brief', text: 'รอบรีฟ 🟫' };
+                if(item.status === 'paid') conf = { class: 'status-paid', text: 'จ่ายเงินแล้ว 🟩' };
+                if(item.status === 'done') conf = { class: 'status-done', text: 'เสร็จแล้ว 🩷' };
+
+                box.innerHTML += `<div class="queue-card" onclick="showQueueDetailPopup('${item.name}', '${item.time}', '${item.status}', ${index + 1})"><div class="queue-info"><div class="queue-number">${index + 1}</div><div><div class="customer-name">${item.name}</div><div class="queue-time">🕒 ${item.time}</div></div></div><div class="status-badge ${conf.class}">${conf.text}</div></div>`;
+            });
+        });
+    </script>
+</body>
+</html>
