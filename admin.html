@@ -15,54 +15,78 @@
         h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
         .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
 
-        /* 🔗 ใหม่: แผงควบคุมตั้งค่าลิงก์แนะนำ */
-        .social-admin-panel {
-            background: #F4F7FE; border: 1px solid #E2E8F0; padding: 15px; border-radius: 16px; margin-bottom: 25px;
-            display: flex; flex-direction: column; gap: 12px;
-        }
+        /* แผงตั้งค่าลิงก์ช่องทางติดต่อ */
+        .social-admin-panel { background: #F4F7FE; border: 1px solid #E2E8F0; padding: 15px; border-radius: 16px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
         .social-inputs-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         @media (min-width: 768px) { .social-inputs-grid { grid-template-columns: repeat(3, 1fr); } }
         .social-group { display: flex; flex-direction: column; gap: 4px; }
         .social-group label { font-size: 12px; font-weight: 600; color: #4A5568; }
-        .social-group input { padding: 10px; border: 1px solid #CBD5E1; border-radius: 8px; font-family: 'Kanit'; font-size: 13px; outline: none; }
-        .btn-save-links { background: #4318FF; color: white; border: none; padding: 12px; border-radius: 10px; font-family: 'Kanit'; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
-        .btn-save-links:hover { background: #3311CC; }
+        .social-group input { padding: 10px; border: 1px solid #CBD5E1; border-radius: 8px; font-family: 'Kanit'; font-size: 13px; outline: none; transition: border-color 0.2s; }
+        .social-group input:focus { border-color: #4318FF; }
+        
+        .btn-save-links { 
+            background: #4318FF; color: white; border: none; padding: 12px; border-radius: 10px; font-family: 'Kanit'; font-size: 14px; font-weight: 500; cursor: pointer; 
+            transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(67, 24, 255, 0.15);
+        }
+        .btn-save-links:hover { background: #3311CC; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(67, 24, 255, 0.3); }
+        .btn-save-links:active { transform: translateY(1px); }
 
-        /* 📢 แผงควบคุมประกาศข่าวสาร */
+        /* แผงควบคุมประกาศข่าวสาร */
         .announce-admin-panel { background: #FFF2E8; border: 1px solid #FFE0CC; padding: 15px; border-radius: 16px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
         .announce-row { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         @media (min-width: 768px) { .announce-row { flex-direction: row; align-items: center; } }
         .announce-admin-panel input[type="text"], .announce-admin-panel select { width: 100%; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px; font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; box-sizing: border-box; }
-        @media (min-width: 768px) { .announce-admin-panel input[type="text"] { flex: 2; } .announce-admin-panel select { flex: 1; } }
         .file-upload-wrapper { display: flex; flex-direction: column; gap: 6px; background: white; border: 1px solid #DFE3E6; padding: 10px 12px; border-radius: 10px; flex: 1; box-sizing: border-box; }
-        @media (min-width: 768px) { .file-upload-wrapper { flex-direction: row; align-items: center; gap: 10px; padding: 8px 12px; } }
+        @media (min-width: 768px) { .file-upload-wrapper { flex-direction: row; align-items: center; gap: 10px; padding: 8px 12px; } .announce-admin-panel input[type="text"] { flex: 2; } .announce-admin-panel select { flex: 1; } }
         .img-preview { max-height: 45px; border-radius: 6px; display: none; object-fit: cover; }
-        .btn-add-announce { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit'; white-space: nowrap; }
+        
+        .btn-add-announce { 
+            background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit'; white-space: nowrap;
+            transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+        }
+        .btn-add-announce:hover { background-color: #27AE60; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(46, 204, 113, 0.35); }
 
         .active-announcements-list { margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; }
         .active-announce-item { background: #FAFAFA; border: 1px solid #ECEFF1; padding: 12px 15px; border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
         @media (min-width: 768px) { .active-announce-item { flex-direction: row; align-items: center; padding: 12px 20px; } }
         .active-announce-item .text-part { font-size: 14px; color: #444; flex: 1; word-break: break-all; }
         .active-announce-item img { height: 40px; width: 60px; object-fit: cover; border-radius: 4px; }
-        .btn-delete-announce { background-color: #FFEBEE; color: #C62828; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .btn-delete-announce { background-color: #FFEBEE; color: #C62828; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: background 0.2s; }
+        .btn-delete-announce:hover { background-color: #FFCDD2; }
 
         /* ฟอร์มเพิ่มคิว */
         .queue-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 15px; border-radius: 16px; border: 1px solid #ECEFF1; }
-        .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit'; font-size: 14px; width: 100%; box-sizing: border-box; outline: none; }
-        .queue-form button { background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit'; font-size: 14px; }
+        .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit'; font-size: 14px; width: 100%; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
+        .queue-form input:focus { border-color: #FF7E1F; }
+        
+        .queue-form button { 
+            background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit'; font-size: 14px; 
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2);
+        }
+        .queue-form button:hover { background-color: #E66A10; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(255, 126, 31, 0.35); }
         @media (min-width: 768px) { .queue-form { flex-direction: row; padding: 20px; } .queue-form input { flex: 1; } .queue-form button { width: auto; } }
 
         /* รายการจัดการคิว */
         .admin-grid { display: flex; flex-direction: column; gap: 12px; }
-        .admin-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
-        @media (min-width: 768px) { .admin-card { display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center; } }
+        .admin-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; transition: border-color 0.2s; }
+        .admin-card:hover { border-color: #CBD5E1; }
+        @media (min-width: 768px) { .admin-card { grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center; display: grid; } }
         .admin-num { font-weight: 600; background: #FFF2E8; color: #FF7E1F; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; }
         .customer-name-admin { font-size: 15px; font-weight: 600; color: #222; word-break: break-all; }
-        .contact-link { color: #FF7E1F; text-decoration: none; font-weight: 500; background: #FFF2E8; padding: 8px 12px; border-radius: 8px; display: inline-block; text-align: center; font-size: 13px; width: 100%; box-sizing: border-box; }
+        
+        .contact-link { 
+            color: #FF7E1F; text-decoration: none; font-weight: 500; background: #FFF2E8; padding: 8px 12px; border-radius: 8px; display: inline-block; text-align: center; font-size: 13px; width: 100%; box-sizing: border-box; 
+            transition: all 0.2s;
+        }
+        .contact-link:hover { background: #FF7E1F; color: white; }
         @media (min-width: 768px) { .contact-link { width: auto; padding: 6px 12px; } }
-        .status-select { font-family: 'Kanit'; padding: 10px; border-radius: 8px; border: 1px solid #DFE3E6; background-color: #FFF; cursor: pointer; outline: none; font-size: 13px; width: 100%; box-sizing: border-box; }
+        
+        .status-select { font-family: 'Kanit'; padding: 10px; border-radius: 8px; border: 1px solid #DFE3E6; background-color: #FFF; cursor: pointer; outline: none; font-size: 13px; width: 100%; box-sizing: border-box; transition: background 0.2s; }
+        .status-select:hover { background-color: #F8FAFC; }
         @media (min-width: 768px) { .status-select { padding: 8px; width: auto; } }
-        .btn-delete { background-color: #FFEBEE; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #C62828; font-family: 'Kanit'; font-size: 13px; width: 100%; }
+        
+        .btn-delete { background-color: #FFEBEE; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #C62828; font-family: 'Kanit'; font-size: 13px; width: 100%; transition: background 0.2s; }
+        .btn-delete:hover { background-color: #FFCDD2; }
         @media (min-width: 768px) { .btn-delete { width: auto; padding: 6px 12px; } }
     </style>
 </head>
@@ -75,27 +99,27 @@
         </div>
         <div class="admin-tag">ADMIN MANAGEMENT</div>
 
-        <!-- 🔗 1. แผงควบคุมสำหรับกรอกลิงก์โซเชียลแนะนำ -->
+        <!-- ปรับข้อความเป็น "ตั้งค่าลิงก์ช่องทางติดต่อ" ให้ล้อตามกันครับ -->
         <div class="social-admin-panel">
-            <div style="font-size: 14px; font-weight: 600; color: #4318FF;">🔗 ตั้งค่าลิงก์แนะนำร้านค้า (หน้าบ้าน)</div>
+            <div style="font-size: 14px; font-weight: 600; color: #4318FF;">🔗 ตั้งค่าลิงก์ช่องทางติดต่อ (หน้าบ้าน)</div>
             <div class="social-inputs-grid">
                 <div class="social-group">
                     <label>Facebook URL:</label>
-                    <input type="text" id="link-fb-input" placeholder="https://facebook.com/..." value="">
+                    <input type="text" id="link-fb-input" placeholder="https://facebook.com/...">
                 </div>
                 <div class="social-group">
                     <label>Line URL / LINE ID:</label>
-                    <input type="text" id="link-line-input" placeholder="https://lin.ee/... หรือไอดีไลน์" value="">
+                    <input type="text" id="link-line-input" placeholder="https://lin.ee/... หรือไอดีไลน์">
                 </div>
                 <div class="social-group">
                     <label>Instagram URL:</label>
-                    <input type="text" id="link-ig-input" placeholder="https://instagram.com/..." value="">
+                    <input type="text" id="link-ig-input" placeholder="https://instagram.com/...">
                 </div>
             </div>
             <button class="btn-save-links" onclick="saveSocialLinks()">บันทึกข้อมูลลิงก์โซเชียล 💾</button>
         </div>
         
-        <!-- 📢 2. แผงควบคุมประกาศข่าวสาร -->
+        <!-- แผงควบคุมประกาศข่าวสาร -->
         <div class="announce-admin-panel">
             <div style="font-size: 14px; font-weight: 600; color: #FF7E1F;">✨ สร้างประกาศข่าวสารใหม่</div>
             <div class="announce-row">
@@ -119,7 +143,7 @@
         <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color:#666;">📢 รายการประกาศปัจจุบันบนหน้าเว็บ:</div>
         <div class="active-announcements-list" id="active-announcements-box"></div>
 
-        <!-- 3. ฟอร์มเพิ่มคิว -->
+        <!-- ฟอร์มเพิ่มคิว -->
         <form class="queue-form" onsubmit="handleFormSubmit(event)">
             <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
             <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ (ลิงก์/ไลน์ไอดี)" required>
@@ -134,17 +158,15 @@
         let announceData = JSON.parse(localStorage.getItem('tummy_announcements')) || [];
         let tempImgBase64 = "";
 
-        // ฟังก์ชันระบบตั้งค่าลิงก์โซเชียล
         function initSocialFields() {
             const links = JSON.parse(localStorage.getItem('tummy_social_links')) || { fb: '', line: '', ig: '' };
-            document.getElementById('link-fb-input').value = links.fb;
-            document.getElementById('link-line-input').value = links.line;
-            document.getElementById('link-ig-input').value = links.ig;
+            document.getElementById('link-fb-input').value = links.fb === '#' ? '' : links.fb;
+            document.getElementById('link-line-input').value = links.line === '#' ? '' : links.line;
+            document.getElementById('link-ig-input').value = links.ig === '#' ? '' : links.ig;
         }
 
         function saveSocialLinks() {
             let lineVal = document.getElementById('link-line-input').value.trim();
-            // ถ้ากรอกแค่ ID ไลน์ธรรมดา ให้แปลงเป็น URL แอดไลน์อัตโนมัติ
             if(lineVal && !lineVal.startsWith('http://') && !lineVal.startsWith('https://')) {
                 lineVal = `https://line.me/R/ti/p/~${lineVal}`;
             }
