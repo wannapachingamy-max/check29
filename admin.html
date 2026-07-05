@@ -1,1 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ ระบบหลังบ้านแอดมิน 🛠️</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap">
+    <style>
+        body {
+            background-color: #F4F7F6;
+            font-family: 'Mitr', sans-serif;
+            color: #5D5A56;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        }
+        h1 {
+            color: #FF9AA2;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #FFB7B2;
+            padding-bottom: 10px;
+        }
+        .queue-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: #FFF9F9;
+            padding: 20px;
+            border-radius: 16px;
+        }
+        .queue-form input, .queue-form button {
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #E8E5E0;
+            font-family: 'Mitr', sans-serif;
+            font-size: 14px;
+        }
+        .queue-form input { flex: 1; min-width: 200px; }
+        .queue-form button {
+            background-color: #FFDAC1;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6D523E;
+            transition: 0.2s;
+        }
+        .queue-form button:hover { background-color: #FFB7B2; color: white; }
+        
+        .queue-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        .queue-table th {
+            padding: 12px;
+            text-align: left;
+            color: #8E8A85;
+        }
+        .queue-table td {
+            padding: 12px;
+            background-color: #FAF8F5;
+            vertical-align: middle;
+        }
+        .queue-table tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+        .queue-table tr td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
 
+        .contact-link {
+            color: #5AA9E6;
+            text-decoration: none;
+            font-weight: 500;
+            background: #EAF4F4;
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .contact-link:hover { background: #5AA9E6; color: white; }
+
+        .status-select {
+            font-family: 'Mitr', sans-serif;
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid #E8E5E0;
+            background-color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-delete {
+            background-color: #FFB7B2;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-family: 'Mitr', sans-serif;
+        }
+        .btn-delete:hover { background-color: #FF9AA2; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛠️ จัดการระบบหลังบ้าน (Admin Only)</h1>
+        
+        <form class="queue-form" onsubmit="handleFormSubmit(event)">
+            <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
+            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ (ใส่ลิงก์ หรือ ID Line)" required>
+            <button type="submit">➕ เพิ่มคิวลูกค้า</button>
+        </form>
+
+        <table class="queue-table">
+            <thead>
+                <tr>
+                    <th>ลำดับ</th>
+                    <th>ชื่อลูกค้า</th>
+                    <th>ช่องทางติดต่อ (คลิกได้)</th>
+                    <th>วันที่ / เวลาที่จอง</th>
+                    <th>เลือกสถานะ ✅</th>
+                    <th>การจัดการ</th>
+                </tr>
+            </thead>
+            <tbody id="admin-queue-tbody">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+        let queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('customer-name');
+            const contactInput = document.getElementById('customer-contact');
+
+            const newQueue = {
+                id: Date.now(),
+                name: nameInput.value,
+                contact: contactInput.value,
+                time: new Date().toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' }),
+                status: 'pending' // เริ่มต้นที่ยังไม่ได้ทำ 🟥
+            };
+
+            queueData.push(newQueue);
+            saveAndRender();
+            
+            nameInput.value = '';
+            contactInput.value = '';
+        }
+
+        function updateStatus(id, newStatus) {
+            queueData = queueData.map(item => {
+                if (item.id === id) item.status = newStatus;
+                return item;
+            });
+            saveAndRender();
+        }
+
+        function deleteQueue(id) {
+            if(confirm('คุณต้องการลบคิวนี้ใช่หรือไม่?')) {
+                queueData = queueData.filter(item => item.id !== id);
+                saveAndRender();
+            }
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('pastel_queues', JSON.stringify(queueData));
+            renderAdminTable();
+        }
+
+        function formatContactLink(contact) {
+            if (contact.startsWith('http://') || contact.startsWith('https://')) {
+                return `<a href="${contact}" target="_blank" class="contact-link">📱 ลิงก์ติดต่อ</a>`;
+            } else {
+                return `<a href="https://line.me/R/ti/p/~${contact}" target="_blank" class="contact-link">📱 Line: ${contact}</a>`;
+            }
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-queue-tbody');
+            tbody.innerHTML = '';
+
+            if (queueData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#999;">ยังไม่มีรายการคิวให้จัดการเลยค่ะ</td></tr>`;
+                return;
+            }
+
+            queueData.forEach((item, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${formatContactLink(item.contact)}</td>
+                        <td><span style="font-size:13px; color:#888;">${item.time}</span></td>
+                        <td>
+                            <select class="status-select" onchange="updateStatus(${item.id}, this.value)">
+                                <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>ยังไม่ได้ทำ 🟥</option>
+                                <option value="paid" ${item.status === 'paid' ? 'selected' : ''}>จ่ายเงินแล้ว 🟩</option>
+                                <option value="brief" ${item.status === 'brief' ? 'selected' : ''}>รอบรีฟ 🟫</option>
+                                <option value="working" ${item.status === 'working' ? 'selected' : ''}>กำลังทำ 🟦</option>
+                                <option value="done" ${item.status === 'done' ? 'selected' : ''}>เสร็จแล้ว 🩷</option>
+                            </select>
+                        </td>
+                        <td><button onclick="deleteQueue(${item.id})" class="btn-delete">❌ ลบ</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        renderAdminTable();
+    </script>
+</body>
+</html>
