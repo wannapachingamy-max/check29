@@ -61,28 +61,31 @@
             border-radius: 30px;
         }
 
-        .brand-container-wrapper {
-            text-align: center;
+        .brand-container-wrapper { text-align: center; }
+
+        .announcement-box {
+            background: #FFF2E8;
+            border: 1px solid #FFE0CC;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(255, 126, 31, 0.03);
         }
 
-        /* 📢 แทบประกาศข่าวสาร ถอดดีไซน์จาก Screenshot (23).jpg */
-        .announcement-bar {
-            background: #FFF2E8; /* พื้นหลังส้ม-ครีมนวล */
-            border: 1px solid #FFE0CC;
-            border-radius: 14px;
-            padding: 14px 20px;
-            margin-bottom: 30px;
+        .announce-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
+            width: 100%;
         }
 
         .announce-content {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex: 1;
         }
 
         .announce-icon {
@@ -95,12 +98,6 @@
             justify-content: center;
             border-radius: 10px;
             font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .announce-text-wrapper {
-            display: flex;
-            flex-direction: column;
         }
 
         .announce-tag {
@@ -117,7 +114,6 @@
             height: 8px;
             background-color: #2ECC71;
             border-radius: 50%;
-            display: inline-block;
             animation: pulse 1.5s infinite;
         }
 
@@ -128,10 +124,20 @@
         }
 
         .announce-message {
-            font-size: 13px;
-            color: #666;
-            margin-top: 2px;
-            line-height: 1.4;
+            font-size: 14px;
+            color: #555;
+            margin-top: 4px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .announce-image {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #FFE0CC;
+            display: none;
         }
 
         .announce-btn {
@@ -143,83 +149,20 @@
             padding: 8px 16px;
             border-radius: 8px;
             white-space: nowrap;
-            transition: background 0.2s;
-        }
-        .announce-btn:hover {
-            background: #E06613;
         }
 
-        /* ส่วนของรายการคิว */
-        .queue-list-container {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .queue-card-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 10px;
-            color: #8C8C8C;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
+        .queue-list-container { display: flex; flex-direction: column; gap: 14px; }
+        .queue-card-header { display: flex; justify-content: space-between; padding: 0 10px; color: #8C8C8C; font-size: 13px; font-weight: 500; }
         .queue-card {
-            background: #FFFFFF;
-            border: 1px solid #ECEFF1;
-            border-radius: 16px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.015);
-            transition: all 0.2s ease-in-out;
+            background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px;
+            display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.015); transition: all 0.2s;
         }
-
-        .queue-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.04);
-            border-color: #FF7E1F;
-        }
-
-        .queue-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .queue-number {
-            background: #FFF2E8;
-            color: #FF7E1F;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .customer-name {
-            font-size: 16px;
-            font-weight: 500;
-            color: #2D2D2D;
-        }
-
-        .queue-time {
-            font-size: 12px;
-            color: #A0A0A0;
-            margin-top: 2px;
-        }
-
-        .status-badge {
-            padding: 8px 18px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 500;
-        }
+        .queue-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.04); border-color: #FF7E1F; }
+        .queue-info { display: flex; align-items: center; gap: 16px; }
+        .queue-number { background: #FFF2E8; color: #FF7E1F; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; font-size: 15px; }
+        .customer-name { font-size: 16px; font-weight: 500; color: #2D2D2D; }
+        .queue-time { font-size: 12px; color: #A0A0A0; margin-top: 2px; }
+        .status-badge { padding: 8px 18px; border-radius: 12px; font-size: 13px; font-weight: 500; }
         .status-working { background-color: #E3F2FD; color: #1E88E5; }
         .status-brief { background-color: #EFEBE9; color: #6D4C41; }
         .status-paid { background-color: #E8F5E9; color: #43A047; }
@@ -232,22 +175,22 @@
     <div class="container">
         <div class="brand-container-wrapper">
             <div class="brand-header">
-                <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
+                <img class="brand-logo" src="gkibotlrgpwer.jfif" alt="Tummy.mkt Logo">
                 <h1>Tummy.mkt</h1>
             </div>
             <div class="subtitle">🎯 ตรวจสอบสถานะคิวงานล่าสุด</div>
         </div>
 
-        <!-- 📢 แถบประกาศข่าวสาร (ดึงข้อมูลมาจากระบบแอดมินอัตโนมัติ) -->
-        <div class="announcement-bar" id="announcement-zone">
-            <div class="announce-content">
-                <div class="announce-icon">📢</div>
-                <div class="announce-text-wrapper">
-                    <span class="announce-tag">ประกาศข่าวสาร <span class="announce-live-dot"></span></span>
-                    <span class="announce-message" id="announcement-text">กำลังโหลดประกาศล่าสุดจากร้าน...</span>
+        <div class="announcement-box" id="announcement-zone">
+            <div class="announce-header">
+                <div class="announce-content">
+                    <div class="announce-icon">📢</div>
+                    <span class="announce-tag">ประกาศข่าวสารคิวยอดฮิต <span class="announce-live-dot"></span></span>
                 </div>
+                <a href="#" class="announce-btn">ดูเพิ่มเติม ➔</a>
             </div>
-            <a href="#" class="announce-btn">ดูเพิ่มเติม ➔</a>
+            <div class="announce-message" id="announcement-text">กำลังโหลดประกาศล่าสุด...</div>
+            <img class="announce-image" id="announcement-img" src="" alt="Announcement Banner">
         </div>
 
         <div class="queue-card-header">
@@ -255,16 +198,21 @@
             <span>สถานะปัจจุบัน</span>
         </div>
 
-        <div class="queue-list-container" id="customer-queue-box">
-            <!-- คิวจะแสดงตรงนี้ -->
-        </div>
+        <div class="queue-list-container" id="customer-queue-box"></div>
     </div>
 
     <script>
-        // ฟังก์ชันโหลดประกาศข่าวสาร
         function loadAnnouncement() {
-            const currentAnnounce = localStorage.getItem('tummy_announcement') || 'ยินดีต้อนรับสู่ Tummy.mkt! สามารถเช็คคิวงานปัจจุบันของตัวเองได้เลยน้า 🧡';
-            document.getElementById('announcement-text').innerText = currentAnnounce;
+            const currentTxt = localStorage.getItem('tummy_announcement_text') || 'ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡';
+            const currentImg = localStorage.getItem('tummy_announcement_img') || '';
+            document.getElementById('announcement-text').innerText = currentTxt;
+            const imgElement = document.getElementById('announcement-img');
+            if (currentImg.trim() !== '') {
+                imgElement.src = currentImg;
+                imgElement.style.display = 'block';
+            } else {
+                imgElement.style.display = 'none';
+            }
         }
 
         function getStatusConfig(status) {
@@ -305,14 +253,12 @@
             });
         }
 
-        // เริ่มทำงานครั้งแรก
         loadAnnouncement();
         renderCustomerCards();
 
-        // ตรวจจับการอัปเดตข้ามหน้าต่างเว็บแบบเรียลไทม์
         window.addEventListener('storage', (e) => { 
             if(e.key === 'pastel_queues') renderCustomerCards(); 
-            if(e.key === 'tummy_announcement') loadAnnouncement();
+            if(e.key === 'tummy_announcement_text' || e.key === 'tummy_announcement_img') loadAnnouncement();
         });
     </script>
 </body>
