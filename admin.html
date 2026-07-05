@@ -6,52 +6,106 @@
     <title>Tummy.mkt - Admin Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <style>
-        body { background-color: #F8F9FA; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 30px 20px; }
-        .container { max-width: 950px; margin: 0 auto; background: #FFFFFF; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        body { background-color: #F8F9FA; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 20px 12px; }
+        .container { max-width: 950px; margin: 0 auto; background: #FFFFFF; padding: 25px 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        
+        @media (min-width: 768px) {
+            body { padding: 30px 20px; }
+            .container { padding: 35px; }
+        }
+
         .brand-header { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 15px; gap: 10px; }
         .brand-logo { width: 70px; height: 70px; border-radius: 16px; object-fit: cover; }
         h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
         .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
 
+        /* 📢 แผงควบคุมจัดการเพิ่มข่าวสาร */
         .announce-admin-panel {
-            background: #FFF2E8; border: 1px solid #FFE0CC; padding: 20px; border-radius: 16px; margin-bottom: 25px;
+            background: #FFF2E8; border: 1px solid #FFE0CC; padding: 15px; border-radius: 16px; margin-bottom: 25px;
             display: flex; flex-direction: column; gap: 12px;
         }
-        .announce-row { display: flex; gap: 12px; width: 100%; align-items: center; }
-        .announce-admin-panel input[type="text"], .announce-admin-panel select {
-            padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px;
-            font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white;
+        .announce-row { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        
+        @media (min-width: 768px) {
+            .announce-admin-panel { padding: 20px; }
+            .announce-row { flex-direction: row; align-items: center; }
         }
-        .announce-admin-panel input[type="text"] { flex: 2; }
-        .announce-admin-panel select { flex: 1; cursor: pointer; }
+
+        .announce-admin-panel input[type="text"], .announce-admin-panel select {
+            width: 100%; box-sizing: border-radius; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px;
+            font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white; box-sizing: border-box;
+        }
+        
+        @media (min-width: 768px) {
+            .announce-admin-panel input[type="text"] { flex: 2; width: auto; }
+            .announce-admin-panel select { flex: 1; width: auto; }
+        }
         
         .file-upload-wrapper {
-            display: flex; align-items: center; gap: 10px; background: white; 
-            border: 1px solid #DFE3E6; padding: 8px 12px; border-radius: 10px; flex: 1;
+            display: flex; flex-direction: column; gap: 6px; background: white; 
+            border: 1px solid #DFE3E6; padding: 10px 12px; border-radius: 10px; flex: 1; width: 100%; box-sizing: border-box;
         }
-        .img-preview { max-height: 45px; border-radius: 6px; display: none; object-fit: cover; }
-        
-        .btn-add-announce { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
+        .file-upload-wrapper label { font-size: 13px; color: #666; font-weight: 500; }
+        .file-upload-wrapper input[type="file"] { width: 100%; }
 
+        @media (min-width: 768px) {
+            .file-upload-wrapper { flex-direction: row; align-items: center; gap: 10px; padding: 8px 12px; }
+        }
+
+        .img-preview { max-height: 45px; border-radius: 6px; display: none; object-fit: cover; margin: 5px 0; }
+        
+        .btn-add-announce { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; width: 100%; }
+        @media (min-width: 768px) { .btn-add-announce { width: auto; } }
+
+        /* รายการประกาศปัจจุบัน */
         .active-announcements-list { margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; }
         .active-announce-item {
-            background: #FAFAFA; border: 1px solid #ECEFF1; padding: 12px 20px; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center; gap: 15px;
+            background: #FAFAFA; border: 1px solid #ECEFF1; padding: 12px 15px; border-radius: 12px;
+            display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
         }
-        .active-announce-item .text-part { font-size: 14px; color: #444; flex: 1; }
+        @media (min-width: 768px) {
+            .active-announce-item { flex-direction: row; align-items: center; padding: 12px 20px; gap: 15px; }
+        }
+        .active-announce-item .text-part { font-size: 14px; color: #444; flex: 1; word-break: break-all; }
         .active-announce-item img { height: 40px; width: 60px; object-fit: cover; border-radius: 4px; }
-        .btn-delete-announce { background-color: #FFEBEE; color: #C62828; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .btn-delete-announce { background-color: #FFEBEE; color: #C62828; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; width: 100%; }
+        @media (min-width: 768px) { .btn-delete-announce { width: auto; padding: 6px 12px; } }
 
-        .queue-form { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 20px; border-radius: 16px; border: 1px solid #ECEFF1; }
-        .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit', sans-serif; font-size: 14px; flex: 1; min-width: 200px; outline: none; }
-        .queue-form button { background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit', sans-serif; font-size: 14px; }
+        /* ฟอร์มเพิ่มคิว */
+        .queue-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 15px; border-radius: 16px; border: 1px solid #ECEFF1; }
+        .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit', sans-serif; font-size: 14px; width: 100%; box-sizing: border-box; outline: none; }
+        .queue-form button { background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit', sans-serif; font-size: 14px; width: 100%; }
+        
+        @media (min-width: 768px) {
+            .queue-form { flex-direction: row; padding: 20px; }
+            .queue-form input { flex: 1; width: auto; }
+            .queue-form button { width: auto; }
+        }
 
+        /* 📱 แก้ไขจุดนี้: Grid จัดการคิวงานแก้ปัญหามือถือล้น */
         .admin-grid { display: flex; flex-direction: column; gap: 12px; }
-        .admin-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 16px 20px; display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center; gap: 10px; }
+        .admin-card { 
+            background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 15px; 
+            display: flex; flex-direction: column; gap: 10px; box-sizing: border-box;
+        }
+        
+        /* เมื่อเปิดบนคอมพิวเตอร์ (หน้าจอ 768px ขึ้นไป) คืนรูปกลับไปเป็นตารางแถวตรงยาวกว้างๆ */
+        @media (min-width: 768px) {
+            .admin-card {
+                display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center;
+            }
+        }
+
         .admin-num { font-weight: 600; background: #FFF2E8; color: #FF7E1F; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; }
-        .contact-link { color: #FF7E1F; text-decoration: none; font-weight: 500; background: #FFF2E8; padding: 6px 12px; border-radius: 8px; display: inline-block; text-align: center; font-size: 13px; }
-        .status-select { font-family: 'Kanit', sans-serif; padding: 8px; border-radius: 8px; border: 1px solid #DFE3E6; background-color: #FFF; cursor: pointer; outline: none; font-size: 13px; }
-        .btn-delete { background-color: #FFEBEE; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; color: #C62828; font-family: 'Kanit', sans-serif; font-size: 13px; }
+        .customer-name-admin { font-size: 15px; font-weight: 600; color: #222; word-break: break-all; }
+        .contact-link { color: #FF7E1F; text-decoration: none; font-weight: 500; background: #FFF2E8; padding: 8px 12px; border-radius: 8px; display: inline-block; text-align: center; font-size: 13px; width: 100%; box-sizing: border-box; }
+        @media (min-width: 768px) { .contact-link { width: auto; padding: 6px 12px; } }
+        
+        .status-select { font-family: 'Kanit', sans-serif; padding: 10px; border-radius: 8px; border: 1px solid #DFE3E6; background-color: #FFF; cursor: pointer; outline: none; font-size: 13px; width: 100%; box-sizing: border-box; }
+        @media (min-width: 768px) { .status-select { padding: 8px; width: auto; } }
+        
+        .btn-delete { background-color: #FFEBEE; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #C62828; font-family: 'Kanit', sans-serif; font-size: 13px; width: 100%; }
+        @media (min-width: 768px) { .btn-delete { width: auto; padding: 6px 12px; } }
     </style>
 </head>
 <body>
@@ -63,7 +117,7 @@
         </div>
         <div class="admin-tag">ADMIN MANAGEMENT</div>
         
-        <!-- 📢 ฟอร์มสร้างประกาศข่าวสารสไตล์ Facebook Card -->
+        <!-- 📢 แผงควบคุมจัดการเพิ่มข่าวสาร -->
         <div class="announce-admin-panel">
             <div style="font-size: 14px; font-weight: 600; color: #FF7E1F;">✨ สร้างประกาศข่าวสารใหม่ (Layout คู่ขนาน)</div>
             <div class="announce-row">
@@ -87,12 +141,14 @@
         <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color:#666;">📢 รายการประกาศปัจจุบันบนหน้าเว็บ:</div>
         <div class="active-announcements-list" id="active-announcements-box"></div>
 
+        <!-- ฟอร์มเพิ่มคิว -->
         <form class="queue-form" onsubmit="handleFormSubmit(event)">
             <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
-            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ" required>
+            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ (ลิงก์/ไลน์ไอดี)" required>
             <button type="submit">เพิ่มคิว</button>
         </form>
 
+        <!-- รายการคิวหลังบ้าน -->
         <div class="admin-grid" id="admin-queue-box"></div>
     </div>
 
@@ -125,7 +181,6 @@
             const typeInput = document.getElementById('announce-type-input');
             if (!textInput.value.trim()) { alert("กรุณากรอกข้อความประกาศด้วยจ้า"); return; }
 
-            // ดึงวันที่ปัจจุบัน
             const options = { day: 'numeric', month: 'short', year: 'numeric' };
             const todayStr = new Date().toLocaleDateString('th-TH', options);
 
@@ -169,8 +224,10 @@
                 box.innerHTML += `
                     <div class="active-announce-item">
                         <div class="text-part"><strong>[${item.type}]</strong> 💬 ${item.text} <span style="font-size:11px; color:#999;">(${item.date})</span></div>
-                        <div>${imgTag}</div>
-                        <button class="btn-delete-announce" onclick="deleteAnnouncement(${item.id})">ลบ 🗑️</button>
+                        <div style="display:flex; align-items:center; gap:10px; width:100%; justify-content:space-between; margin-top:5px;">
+                            ${imgTag}
+                            <button class="btn-delete-announce" onclick="deleteAnnouncement(${item.id})">ลบ 🗑️</button>
+                        </div>
                     </div>
                 `;
             });
@@ -228,8 +285,10 @@
             queueData.forEach((item, index) => {
                 box.innerHTML += `
                     <div class="admin-card">
-                        <div class="admin-num">${index + 1}</div>
-                        <div><strong>${item.name}</strong></div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div class="admin-num">${index + 1}</div>
+                            <div class="customer-name-admin">${item.name}</div>
+                        </div>
                         <div>${formatContactLink(item.contact)}</div>
                         <div style="font-size:12px; color:#888;">🕒 ${item.time}</div>
                         <div>
@@ -240,7 +299,7 @@
                                 <option value="working" ${item.status === 'working' ? 'selected' : ''}>กำลังทำ 🟦</option>
                                 <option value="done" ${item.status === 'done' ? 'selected' : ''}>เสร็จแล้ว 🩷</option>
                             </select>
-                        </td>
+                        </div>
                         <div><button onclick="deleteQueue(${item.id})" class="btn-delete">ลบ</button></div>
                     </div>
                 `;
