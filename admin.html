@@ -3,222 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛠️ ระบบหลังบ้านแอดมิน 🛠️</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;700&display=swap">
+    <title>Tummy.mkt - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <style>
-        @keyframes popUp {
-            0% { transform: scale(0.9) rotate(-1deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-        @keyframes toastIn {
-            0% { transform: translateY(-50px) scale(0.8); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
-        }
-
         body {
-            background-color: #EDF6F9;
-            background-image: radial-gradient(#FFCBF2 1px, transparent 1px), radial-gradient(#F3C68F 1px, #EDF6F9 1px);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
-            font-family: 'Mitr', sans-serif;
-            color: #4A4744;
+            background-color: #F8F9FA;
+            font-family: 'Kanit', sans-serif;
+            color: #4A4A4A;
             margin: 0;
-            padding: 20px;
+            padding: 30px 20px;
         }
 
         .container {
-            max-width: 950px;
-            margin: 20px auto;
+            max-width: 900px;
+            margin: 0 auto;
             background: #FFFFFF;
             padding: 35px;
-            border-radius: 35px;
-            border: 4px solid #4A4744;
-            box-shadow: 10px 10px 0px #4A4744;
-            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
 
-        h1 {
-            color: #FF9AA2;
-            font-size: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 3px 3px 0px #4A4744;
-            -webkit-text-stroke: 1px #4A4744;
-        }
-
-        /* ฟอร์มกรอกข้อมูลแบบตะโกนความน่ารัก */
-        .queue-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 40px;
-            background: #FFF0F5;
-            padding: 25px;
-            border-radius: 25px;
-            border: 3px solid #4A4744;
-            box-shadow: 5px 5px 0px #4A4744;
-        }
-
-        .queue-form input {
-            padding: 15px;
-            border-radius: 18px;
-            border: 3px solid #4A4744;
-            font-family: 'Mitr', sans-serif;
-            font-size: 15px;
-            flex: 1;
-            min-width: 220px;
-            outline: none;
-            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.05);
-        }
-
-        .queue-form button {
-            background-color: #FFDAC1;
-            border: 3px solid #4A4744;
-            padding: 15px 30px;
-            border-radius: 18px;
-            cursor: pointer;
-            font-weight: 700;
-            color: #4A4744;
-            font-family: 'Mitr', sans-serif;
-            box-shadow: 4px 4px 0px #4A4744;
-            transition: all 0.1s ease;
-        }
-
-        .queue-form button:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px #4A4744;
-            background-color: #FFB7B2;
-            color: white;
-        }
-
-        /* ปรับการ์ดการจัดการของแอดมิน */
-        .admin-grid {
+        .brand-header {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-        }
-
-        .admin-card {
-            background: #FAF8F5;
-            border: 3px solid #4A4744;
-            border-radius: 22px;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 50px 1.5fr 1fr 1.2fr 1fr 80px;
             align-items: center;
-            box-shadow: 5px 5px 0px #4A4744;
+            justify-content: center;
+            margin-bottom: 15px;
             gap: 10px;
         }
 
-        .admin-card:hover {
-            background: #FFF;
+        .brand-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-family: 'Poppins', 'Kanit', sans-serif;
+            color: #FF7E1F;
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .admin-tag {
+            background: #FF7E1F;
+            color: #FFF;
+            padding: 3px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 📢 กล่องจัดการข้อความประกาศของแอดมิน */
+        .announce-admin-box {
+            background: #FFF2E8;
+            border: 1px solid #FFE0CC;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .announce-admin-box input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #DFE3E6;
+            border-radius: 10px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+        .announce-admin-box button {
+            background-color: #2ECC71;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Kanit', sans-serif;
+        }
+        .announce-admin-box button:hover { background-color: #27AE60; }
+
+        .queue-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 35px;
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #ECEFF1;
+        }
+
+        .queue-form input {
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #DFE3E6;
+            font-family: 'Kanit', sans-serif;
+            font-size: 14px;
+            flex: 1;
+            min-width: 200px;
+            outline: none;
+        }
+
+        .queue-form button {
+            background-color: #FF7E1F;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            color: white;
+            font-family: 'Kanit', sans-serif;
+            font-size: 14px;
+        }
+        .queue-form button:hover { background-color: #E06613; }
+
+        .admin-grid { display: flex; flex-direction: column; gap: 12px; }
+
+        .admin-card {
+            background: #FFFFFF;
+            border: 1px solid #ECEFF1;
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: grid;
+            grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px;
+            align-items: center;
+            gap: 10px;
         }
 
         .admin-num {
-            font-weight: 700;
-            background: #E8AEB7;
-            color: white;
-            width: 35px;
-            height: 35px;
+            font-weight: 600;
+            background: #FFF2E8;
+            color: #FF7E1F;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            border: 2px solid #4A4744;
+            border-radius: 8px;
+            font-size: 14px;
         }
 
-        /* ลิงก์ช่องทางติดต่อเยลลี่ดึ๋ง */
         .contact-link {
-            color: #2B5973;
+            color: #FF7E1F;
             text-decoration: none;
             font-weight: 500;
-            background: #B5E2FA;
-            padding: 8px 14px;
-            border-radius: 14px;
-            border: 2px solid #4A4744;
-            box-shadow: 3px 3px 0px #4A4744;
+            background: #FFF2E8;
+            padding: 6px 12px;
+            border-radius: 8px;
             display: inline-block;
             text-align: center;
             font-size: 13px;
         }
-        .contact-link:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0px #4A4744; }
 
-        /* ตัวเลือกสถานะแอดมินหนาๆ */
         .status-select {
-            font-family: 'Mitr', sans-serif;
-            padding: 10px;
-            border-radius: 16px;
-            border: 3px solid #4A4744;
+            font-family: 'Kanit', sans-serif;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #DFE3E6;
             background-color: #FFF;
             cursor: pointer;
-            font-weight: 500;
             outline: none;
-            box-shadow: 3px 3px 0px #4A4744;
+            font-size: 13px;
         }
 
         .btn-delete {
-            background-color: #FFB7B2;
-            border: 2px solid #4A4744;
-            padding: 8px 14px;
-            border-radius: 14px;
+            background-color: #FFEBEE;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
             cursor: pointer;
-            color: #4A4744;
-            font-family: 'Mitr', sans-serif;
-            font-weight: 500;
-            box-shadow: 2px 2px 0px #4A4744;
-        }
-        .btn-delete:hover { background-color: #FF9AA2; transform: translate(1px, 1px); box-shadow: 1px 1px 0px #4A4744; }
-
-        /* Toast ข้อความ */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
-        .toast {
-            background: #FFFFFF;
-            padding: 15px 25px;
-            border-radius: 20px;
-            border: 3px solid #4A4744;
-            box-shadow: 5px 5px 0px #4A4744;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 500;
+            color: #C62828;
+            font-family: 'Kanit', sans-serif;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
 
-    <div class="toast-container" id="toast-box"></div>
-
     <div class="container">
-        <h1>🛠️ หลังบ้านแอดมิน Y2K Style</h1>
+        <div class="brand-header">
+            <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
+            <h1>Tummy.mkt</h1>
+        </div>
+        <div class="admin-tag">ADMIN MANAGEMENT</div>
         
+        <!-- 📢 โซนจัดการแถบประกาศข้อความ -->
+        <div class="announce-admin-box">
+            <span style="font-size: 20px;">📢</span>
+            <input type="text" id="announce-input" placeholder="พิมพ์ข้อความประกาศข่าวสารของร้านตรงนี้...">
+            <button onclick="updateAnnouncement()">อัปเดตประกาศ ✨</button>
+        </div>
+
         <form class="queue-form" onsubmit="handleFormSubmit(event)">
-            <input type="text" id="customer-name" placeholder="🧁 ใส่ชื่อลูกค้าพาสเทล" required>
-            <input type="text" id="customer-contact" placeholder="🔗 ช่องทางติดต่อ (ใส่ลิ้งก์/ไลน์ไอดี)" required>
-            <button type="submit">เพิ่มคิวดึ๋งๆ ✨</button>
+            <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
+            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ (ลิงก์/ไลน์ไอดี)" required>
+            <button type="submit">เพิ่มคิว</button>
         </form>
 
-        <div class="admin-grid" id="admin-queue-box">
-            <!-- ข้อมูลจะอัปเดตตรงนี้ -->
-        </div>
+        <div class="admin-grid" id="admin-queue-box"></div>
     </div>
 
     <script>
         let queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
 
-        function triggerToast(message) {
-            const container = document.getElementById('toast-box');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `🌟 <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2500);
+        // โหลดประกาศมาแสดงในกล่อง Input ตอนเปิดหน้าแรก
+        document.getElementById('announce-input').value = localStorage.getItem('tummy_announcement') || 'ยินดีต้อนรับสู่ Tummy.mkt! สามารถเช็คคิวงานปัจจุบันของตัวเองได้เลยน้า 🧡';
+
+        // ฟังก์ชันบันทึกประกาศข่าวสาร
+        function updateAnnouncement() {
+            const txt = document.getElementById('announce-input').value;
+            localStorage.setItem('tummy_announcement', txt);
+            alert('อัปเดตประกาศข่าวสารเรียบร้อยแล้วค่ะ! 🎉');
         }
 
         function handleFormSubmit(event) {
@@ -235,31 +240,24 @@
             };
 
             queueData.push(newQueue);
-            saveAndRender();
-            triggerToast(`เพิ่มคิวคุณ ${newQueue.name} เรียบร้อยป๊อปๆ!`);
-            
+            saveAndRefresh();
             nameInput.value = '';
             contactInput.value = '';
         }
 
         function updateStatus(id, newStatus) {
-            queueData = queueData.map(item => {
-                if (item.id === id) item.status = newStatus;
-                return item;
-            });
-            saveAndRender();
-            triggerToast(`เปลี่ยนสถานะสำเร็จแล้วจ้า!`);
+            queueData = queueData.map(item => { if (item.id === id) item.status = newStatus; return item; });
+            saveAndRefresh();
         }
 
         function deleteQueue(id) {
-            if(confirm('จะลบคิวนี้จริงๆ หรอตะเอง? 🥺')) {
+            if(confirm('ต้องการลบคิวนี้ใช่ไหม?')) {
                 queueData = queueData.filter(item => item.id !== id);
-                saveAndRender();
-                triggerToast('ลบคิวออกแล้วน้า!');
+                saveAndRefresh();
             }
         }
 
-        function saveAndRender() {
+        function saveAndRefresh() {
             localStorage.setItem('pastel_queues', JSON.stringify(queueData));
             renderAdminTable();
         }
@@ -275,11 +273,7 @@
         function renderAdminTable() {
             const box = document.getElementById('admin-queue-box');
             box.innerHTML = '';
-
-            if (queueData.length === 0) {
-                box.innerHTML = `<div style="text-align:center; color:#A39E98; padding: 30px 0;">ยังไม่มีรายการคิวให้จัดการเลยค่ะแอดมิน นั่งพักก่อนน้า ☕</div>`;
-                return;
-            }
+            if (queueData.length === 0) { box.innerHTML = `<div style="text-align:center; padding: 20px; color:#A0A0A0; font-size:14px;">ไม่มีรายการคิว</div>`; return; }
 
             queueData.forEach((item, index) => {
                 box.innerHTML += `
@@ -297,12 +291,11 @@
                                 <option value="done" ${item.status === 'done' ? 'selected' : ''}>เสร็จแล้ว 🩷</option>
                             </select>
                         </td>
-                        <div><button onclick="deleteQueue(${item.id})" class="btn-delete">❌ ลบ</button></div>
+                        <div><button onclick="deleteQueue(${item.id})" class="btn-delete">ลบ</button></div>
                     </div>
                 `;
             });
         }
-
         renderAdminTable();
     </script>
 </body>
