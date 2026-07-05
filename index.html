@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* กลับมาใช้โทนสีอุ่น/ครีมส้มเดิม แต่ปรับไล่เฉดให้มีมิติรับกับดวงดาว */
         body { 
             background: linear-gradient(to bottom, #FDFBF9, #FFEFE2); 
             font-family: 'Kanit', sans-serif; 
@@ -22,7 +21,6 @@
             overflow-x: hidden;
         }
         
-        /* สไตล์ของหน้าจอ Canvas พื้นหลังหมู่ดาวโทนส้มทอง */
         #space-canvas {
             position: fixed;
             top: 0;
@@ -35,7 +33,6 @@
 
         .container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
         
-        /* ปรับแต่งกล่องให้มีความโปร่งแสงเล็กน้อยเพื่อให้เห็นดวงดาวด้านหลังวิ่งผ่านเบา ๆ */
         .brand-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; background: rgba(255, 255, 255, 0.92); padding: 20px 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); backdrop-filter: blur(5px); }
         .brand-info { display: flex; align-items: center; gap: 15px; }
         .brand-logo { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
@@ -183,7 +180,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // 🌟 ระบบสร้างกลุ่มดวงดาวและดาวตกสีส้มทองละมุนตา
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -196,7 +192,6 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // สร้างดวงดาวโทนสีเหลืองนวลและส้มทองละมุน
         for (let i = 0; i < 80; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
@@ -204,11 +199,10 @@
                 size: Math.random() * 1.8,
                 alpha: Math.random(),
                 speed: 0.008 + Math.random() * 0.015,
-                color: Math.random() > 0.4 ? 'rgba(255, 183, 77, ' : 'rgba(255, 224, 178, ' // สลับส้มทองกับเหลืองนวล
+                color: Math.random() > 0.4 ? 'rgba(255, 183, 77, ' : 'rgba(255, 224, 178, '
             });
         }
 
-        // ปล่อยดาวตกสีส้มประกายทองวิ่งผ่านเบา ๆ
         function createShootingStar() {
             shootingStars.push({
                 x: Math.random() * canvas.width * 0.7,
@@ -225,7 +219,6 @@
         function animateSpace() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // วาดกลุ่มดวงดาวกะพริบ
             stars.forEach(star => {
                 star.alpha += star.speed;
                 if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
@@ -235,7 +228,6 @@
                 ctx.fill();
             });
 
-            // วาดหางดาวตกสีส้มทองสไลด์ผ่านหน้าจอ
             for (let i = shootingStars.length - 1; i >= 0; i--) {
                 let s = shootingStars[i];
                 s.x += s.speedX;
@@ -248,8 +240,8 @@
                 }
 
                 let gradient = ctx.createLinearGradient(s.x, s.y, s.x - s.length, s.y - s.length);
-                gradient.addColorStop(0, `rgba(255, 145, 0, ${s.alpha})`); // หัวดาวตกสีส้มเข้มประกาย
-                gradient.addColorStop(1, `rgba(255, 234, 167, 0)`);       // หางดาวเจือจางหายไป
+                gradient.addColorStop(0, `rgba(255, 145, 0, ${s.alpha})`);
+                gradient.addColorStop(1, `rgba(255, 234, 167, 0)`);
 
                 ctx.strokeStyle = gradient;
                 ctx.lineWidth = 2.5;
@@ -303,6 +295,7 @@
             });
         }
 
+        // 🎯 ปรับปรุงจุดนี้เรียบร้อย: แจ้งเตือนเฉพาะตอนสถานะเปลี่ยนเป็น "เสร็จแล้ว (done)" เท่านั้น
         function checkStatusChanges(currentQueues) {
             if (isFirstLoad) {
                 previousQueuesState = JSON.parse(JSON.stringify(currentQueues));
@@ -313,11 +306,11 @@
                 if (previousQueuesState[key]) {
                     const oldStatus = previousQueuesState[key].status;
                     const newStatus = currentQueues[key].status;
-                    if (oldStatus !== newStatus && (newStatus === 'working' || newStatus === 'done')) {
+                    if (oldStatus !== newStatus && newStatus === 'done') {
                         playNotifySound();
                         Swal.fire({
-                            title: newStatus === 'working' ? '🚀 เริ่มดำเนินงานแล้ว!' : '🎉 งานของคุณเสร็จแล้ว!',
-                            text: newStatus === 'working' ? `คิวของคุณ ${currentQueues[key].name} กำลังเริ่มทำแล้วน้าา` : `คิวของคุณ ${currentQueues[key].name} เสร็จเรียบร้อยแล้วจ้า ติดต่อรับงานได้เลย!`,
+                            title: '🎉 งานของคุณเสร็จแล้ว!',
+                            text: `คิวของคุณ ${currentQueues[key].name} เสร็จเรียบร้อยแล้วจ้า ติดต่อรับงานได้เลย!`,
                             icon: 'success', timer: 5000, timerProgressBar: true, confirmButtonColor: '#FF7E1F'
                         });
                     }
