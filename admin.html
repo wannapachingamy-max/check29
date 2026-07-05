@@ -6,8 +6,19 @@
     <title>🛠️ ระบบหลังบ้านแอดมิน 🛠️</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap">
     <style>
+        /* แอนิเมชั่นเด้งนุ่มนิ่มสไตล์ลูกกวาด */
+        @keyframes popUp {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes toastIn {
+            0% { transform: translateX(120%) scale(0.9); opacity: 0; }
+            70% { transform: translateX(-8%) scale(1.02); }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
         body {
-            background-color: #F4F7F6;
+            background-color: #F2F5F4;
             font-family: 'Mitr', sans-serif;
             color: #5D5A56;
             margin: 0;
@@ -17,43 +28,60 @@
             max-width: 1000px;
             margin: 20px auto;
             background: #FFFFFF;
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            animation: popUp 0.5s ease-out;
         }
         h1 {
             color: #FF9AA2;
-            font-size: 24px;
-            margin-bottom: 20px;
-            border-bottom: 2px dashed #FFB7B2;
-            padding-bottom: 10px;
+            font-size: 26px;
+            margin-bottom: 25px;
+            border-bottom: 2px dashed #FFE5E5;
+            padding-bottom: 15px;
+            text-align: center;
         }
         .queue-form {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 35px;
             background: #FFF9F9;
-            padding: 20px;
-            border-radius: 16px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: inset 0 2px 8px rgba(255,183,178,0.15);
         }
-        .queue-form input, .queue-form button {
-            padding: 12px;
-            border-radius: 12px;
-            border: 2px solid #E8E5E0;
+        .queue-form input {
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid #EFECE8;
             font-family: 'Mitr', sans-serif;
             font-size: 14px;
+            flex: 1;
+            min-width: 200px;
+            outline: none;
+            transition: 0.2s;
         }
-        .queue-form input { flex: 1; min-width: 200px; }
+        .queue-form input:focus {
+            border-color: #FFB7B2;
+            background-color: #FFFDFB;
+        }
         .queue-form button {
             background-color: #FFDAC1;
             border: none;
+            padding: 14px 24px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: 500;
             color: #6D523E;
-            transition: 0.2s;
+            font-family: 'Mitr', sans-serif;
+            transition: all 0.2s ease;
         }
-        .queue-form button:hover { background-color: #FFB7B2; color: white; }
+        .queue-form button:hover {
+            background-color: #FFB7B2;
+            color: white;
+            transform: scale(1.03);
+        }
         
         .queue-table {
             width: 100%;
@@ -63,49 +91,85 @@
         .queue-table th {
             padding: 12px;
             text-align: left;
-            color: #8E8A85;
+            color: #A39E98;
+            font-weight: 400;
         }
         .queue-table td {
-            padding: 12px;
+            padding: 14px 12px;
             background-color: #FAF8F5;
             vertical-align: middle;
+            transition: transform 0.2s;
         }
-        .queue-table tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
-        .queue-table tr td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+        .queue-table tr td:first-child { border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
+        .queue-table tr td:last-child { border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
 
         .contact-link {
             color: #5AA9E6;
             text-decoration: none;
             font-weight: 500;
             background: #EAF4F4;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 6px 14px;
+            border-radius: 10px;
             display: inline-block;
+            transition: 0.2s;
         }
-        .contact-link:hover { background: #5AA9E6; color: white; }
+        .contact-link:hover { background: #5AA9E6; color: white; transform: scale(1.05); }
 
         .status-select {
             font-family: 'Mitr', sans-serif;
-            padding: 8px;
-            border-radius: 8px;
-            border: 2px solid #E8E5E0;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 2px solid #EFECE8;
             background-color: white;
             cursor: pointer;
             font-weight: 500;
+            outline: none;
+            transition: 0.2s;
         }
+        .status-select:focus { border-color: #B5E2FA; }
+
         .btn-delete {
             background-color: #FFB7B2;
             border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 7px 14px;
+            border-radius: 10px;
             cursor: pointer;
             color: white;
             font-family: 'Mitr', sans-serif;
+            transition: 0.2s;
         }
-        .btn-delete:hover { background-color: #FF9AA2; }
+        .btn-delete:hover { background-color: #FF9AA2; transform: scale(1.05); }
+
+        /* ระบบกล่องข้อความเตือนเด้งดึ๋ง */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .toast {
+            background: #FFFFFF;
+            padding: 16px 28px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 6px solid #FFB7B2;
+            animation: toastIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 14px;
+            color: #5D5A56;
+            font-weight: 500;
+        }
+        .toast.success { border-left-color: #C5E1A5; }
+        .toast.info { border-left-color: #B5E2FA; }
+        .toast.danger { border-left-color: #FFB7B2; }
     </style>
 </head>
 <body>
+
+    <div class="toast-container" id="toast-box"></div>
 
     <div class="container">
         <h1>🛠️ จัดการระบบหลังบ้าน (Admin Only)</h1>
@@ -127,13 +191,35 @@
                     <th>การจัดการ</th>
                 </tr>
             </thead>
-            <tbody id="admin-queue-tbody">
-                </tbody>
+            <tbody id="admin-queue-tbody"></tbody>
         </table>
     </div>
 
     <script>
         let queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
+
+        // ฟังก์ชันสร้าง Popup ข้อความเด้งแบบดึ๋งๆ
+        function triggerToast(message, type = 'success') {
+            const container = document.getElementById('toast-box');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = '✨';
+            if(type === 'success') icon = '✅';
+            if(type === 'info') icon = 'ℹ️';
+            if(type === 'danger') icon = '❌';
+
+            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            // เซ็ตเวลาให้หายไปเองนุ่มๆ
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'scale(0.9) translateX(20px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
         function handleFormSubmit(event) {
             event.preventDefault();
@@ -145,28 +231,35 @@
                 name: nameInput.value,
                 contact: contactInput.value,
                 time: new Date().toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' }),
-                status: 'pending' // เริ่มต้นที่ยังไม่ได้ทำ 🟥
+                status: 'pending'
             };
 
             queueData.push(newQueue);
             saveAndRender();
+            triggerToast(`เพิ่มคิวของคุุณ ${newQueue.name} สำเร็จแล้วน้า~`, 'success');
             
             nameInput.value = '';
             contactInput.value = '';
         }
 
         function updateStatus(id, newStatus) {
+            let customerName = '';
             queueData = queueData.map(item => {
-                if (item.id === id) item.status = newStatus;
+                if (item.id === id) {
+                    item.status = newStatus;
+                    customerName = item.name;
+                }
                 return item;
             });
             saveAndRender();
+            triggerToast(`อัปเดตสเตตัสคุณ ${customerName} เรียบร้อย!`, 'info');
         }
 
         function deleteQueue(id) {
-            if(confirm('คุณต้องการลบคิวนี้ใช่หรือไม่?')) {
+            if(confirm('คุณต้องการลบคิวนี้ใช่หรือไม่? 🥺')) {
                 queueData = queueData.filter(item => item.id !== id);
                 saveAndRender();
+                triggerToast('ลบรายการคิวเรียบร้อยแล้วค่ะ', 'danger');
             }
         }
 
@@ -188,7 +281,7 @@
             tbody.innerHTML = '';
 
             if (queueData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#999;">ยังไม่มีรายการคิวให้จัดการเลยค่ะ</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#A39E98; padding: 30px 0;">ยังไม่มีรายการคิวให้จัดการเลยค่ะ</td></tr>`;
                 return;
             }
 
@@ -198,7 +291,7 @@
                         <td>${index + 1}</td>
                         <td><strong>${item.name}</strong></td>
                         <td>${formatContactLink(item.contact)}</td>
-                        <td><span style="font-size:13px; color:#888;">${item.time}</span></td>
+                        <td><span style="font-size:13px; color:#A39E98;">${item.time}</span></td>
                         <td>
                             <select class="status-select" onchange="updateStatus(${item.id}, this.value)">
                                 <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>ยังไม่ได้ทำ 🟥</option>
