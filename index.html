@@ -7,204 +7,60 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #FDFBF9;
-            font-family: 'Kanit', sans-serif;
-            color: #4A4A4A;
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* 👑 Brand Header */
-        .brand-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            background: white;
-            padding: 20px 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-        }
+        body { background-color: #FDFBF9; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 40px 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .brand-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; background: white; padding: 20px 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
         .brand-info { display: flex; align-items: center; gap: 15px; }
         .brand-logo { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
         .brand-title-wrap h1 { font-family: 'Poppins', sans-serif; color: #FF7E1F; font-size: 24px; margin: 0; font-weight: 700; }
         .brand-title-wrap p { margin: 4px 0 0 0; font-size: 13px; color: #888; }
-        
-        /* ตราสัญลักษณ์มุมขวาบน */
-        .queue-badge-top { 
-            background: #FFF2E8; color: #FF7E1F; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 500; 
-            animation: softPulse 2s infinite ease-in-out;
-        }
-
-        /* 🏷️ กล่อง "ช่องทางติดต่อ" */
-        .recommend-container {
-            background: #FFFFFF;
-            border: 1px solid #F1ECE8;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.01);
-            position: relative;
-        }
+        .queue-badge-top { background: #FFF2E8; color: #FF7E1F; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 500; animation: softPulse 2s infinite ease-in-out; }
+        .recommend-container { background: #FFFFFF; border: 1px solid #F1ECE8; border-radius: 24px; padding: 24px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.01); position: relative; }
         .recommend-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
         .recommend-title-wrap h2 { font-size: 18px; font-weight: 600; color: #2D2D2D; margin: 0; }
-        .recommend-title-wrap p { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; color: #A3AED0; letter-spacing: 1px; text-transform: uppercase; margin: 4px 0 0 0; }
-
-        /* ✨ ปุ่มติดต่อแอดมินสีเขียว + เอฟเฟกต์ Glow Pulse */
-        .btn-contact-top {
-            background: #00E676;
-            color: white;
-            text-decoration: none;
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: greenGlow 2s infinite;
-        }
-        .btn-contact-top:hover { 
-            transform: translateY(-2px) scale(1.05); 
-            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5);
-        }
-        .btn-contact-top:active { transform: translateY(1px) scale(0.98); }
-
-        /* รายการไอคอนโซเชียล */
+        .recommend-title-wrap p { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; color: #A3AED0; letter-spacing: 1px; text-transform: uppercase; margin: 3px 0 0 0; }
+        .btn-contact-top { background: #00E676; color: white; text-decoration: none; padding: 10px 22px; border-radius: 30px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: greenGlow 2s infinite; }
+        .btn-contact-top:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5); }
         .recommend-grid { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 5px; }
         .recommend-grid::-webkit-scrollbar { display: none; }
-
-        /* ✨ ตัวเลือกไอคอนดีไซน์มนโค้ง */
-        .recommend-item {
-            background: #FFFDFC;
-            border: 1px solid #F8F4F0;
-            border-radius: 20px;
-            flex: 1;
-            min-width: 140px;
-            max-width: 170px;
-            padding: 20px 10px;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-sizing: border-box;
-        }
-        .recommend-item:hover {
-            transform: translateY(-6px);
-            background: #FFFFFF;
-            box-shadow: 0 12px 24px rgba(255, 126, 31, 0.06);
-            border-color: #FFDCC4;
-        }
-        
-        .recommend-item:hover .icon-box-shape {
-            transform: scale(1.1) rotate(4deg);
-        }
-
-        .icon-box-shape {
-            width: 55px;
-            height: 55px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 12px;
-            transition: transform 0.3s ease;
-        }
+        .recommend-item { background: #FFFDFC; border: 1px solid #F8F4F0; border-radius: 20px; flex: 1; min-width: 140px; max-width: 170px; padding: 20px 10px; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
+        .recommend-item:hover { transform: translateY(-6px); background: #FFFFFF; box-shadow: 0 12px 24px rgba(255, 126, 31, 0.06); border-color: #FFDCC4; }
+        .icon-box-shape { width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px; transition: transform 0.3s ease; }
         .icon-fb { background: #EBF3FF; color: #1877F2; }
         .icon-line { background: #E8F8EF; color: #06C755; }
         .icon-ig { background: #FFF0F5; color: #E1306C; }
-
         .item-title-th { font-size: 14px; font-weight: 600; color: #1A1A1A; margin: 0; }
         .item-title-en { font-family: 'Poppins', sans-serif; font-size: 10px; font-weight: 700; color: #A3AED0; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0 0 0; }
-
-        /* 📢 ส่วนประกาศข่าวสาร */
         .news-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding: 0 10px; }
         .news-title-block { display: flex; align-items: center; gap: 12px; }
-        .news-icon-bg {
-            background: #FF7E1F; color: white; width: 40px; height: 40px; 
-            display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(255, 126, 31, 0.2);
-        }
+        .news-icon-bg { background: #FF7E1F; color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(255, 126, 31, 0.2); }
         .news-main-title { font-size: 22px; font-weight: 600; color: #1A1A1A; display: flex; align-items: center; gap: 8px; }
-        
-        .live-badge { 
-            background: #E8F5E9; color: #2ECC71; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; 
-            animation: softPulse 1.5s infinite alternate;
-        }
+        .live-badge { background: #E8F5E9; color: #2ECC71; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; animation: softPulse 1.5s infinite alternate; }
         .news-subtitle { font-size: 13px; color: #8A8A8A; margin-top: 4px; }
-        
-        .btn-view-all {
-            background: #FF7E1F; color: white; border: none; padding: 10px 20px; 
-            border-radius: 25px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none;
-            display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2);
-            transition: all 0.3s ease;
-        }
-        .btn-view-all:hover {
-            background: #E66A10;
-            box-shadow: 0 6px 16px rgba(255, 126, 31, 0.4);
-            padding-right: 24px;
-        }
-
+        .btn-view-all { background: #FF7E1F; color: white; border: none; padding: 10px 20px; border-radius: 25px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(255, 126, 31, 0.2); transition: all 0.3s ease; }
         .announcements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 25px; margin-bottom: 40px; }
         @media (max-width: 1024px) { .announcements-grid { grid-template-columns: 1fr; } }
-
-        .news-card {
-            background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 24px; padding: 24px;
-            display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.015); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .news-card:hover { 
-            transform: translateY(-4px);
-            box-shadow: 0 16px 32px rgba(0,0,0,0.05);
-            border-color: #E2E2E2;
-        }
+        .news-card { background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.015); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.05); border-color: #E2E2E2; }
         .card-top-profile { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
         .profile-info { display: flex; align-items: center; gap: 12px; }
         .profile-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #FF7E1F; object-fit: cover; }
         .profile-name { font-weight: 600; color: #222; font-size: 15px; display: flex; align-items: center; gap: 4px; }
         .verified-tick { color: #1E88E5; font-size: 14px; }
         .post-time { font-size: 12px; color: #999; }
-        
         .type-badge { font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
         .badge-promo { background: #FFF0F0; color: #E53935; }
         .badge-maintenance { background: #FFFDE7; color: #F57F17; }
         .badge-general { background: #E3F2FD; color: #1E88E5; }
-
         .card-body-text { font-size: 14.5px; color: #444; line-height: 1.6; margin-bottom: 15px; }
         .card-media-wrap { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #ECEFF1; margin-bottom: 15px; }
         .card-img { width: 100%; max-height: 240px; object-fit: cover; display: block; }
         .card-footer-actions { border-top: 1px solid #F0F2F5; padding-top: 12px; display: flex; justify-content: center; }
-        
-        .like-btn { 
-            background: none; border: none; color: #65676B; font-family: 'Kanit'; font-size: 13px; cursor: pointer; 
-            display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;
-        }
-        .like-btn:hover { color: #FF7E1F; transform: scale(1.08); }
-        .like-btn:active { transform: scale(0.92); }
-
-        /* ลำดับคิวงาน */
+        .like-btn { background: none; border: none; color: #65676B; font-family: 'Kanit'; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; }
         .queue-header-title { font-size: 18px; font-weight: 600; color: #222; margin: 40px 0 15px 0; padding-left: 5px; }
         .queue-list-container { display: flex; flex-direction: column; gap: 12px; }
         .queue-card-header { display: flex; justify-content: space-between; padding: 0 15px; color: #8C8C8C; font-size: 13px; font-weight: 500; }
-        
-        .queue-card {
-            background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            transition: all 0.25s ease;
-        }
-        .queue-card:hover { transform: translateX(4px); border-color: #FFDCC4; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .queue-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.25s ease; }
         .queue-info { display: flex; align-items: center; gap: 16px; }
         .queue-number { background: #FFF2E8; color: #FF7E1F; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; }
         .customer-name { font-size: 15px; font-weight: 500; color: #2D2D2D; }
@@ -215,30 +71,14 @@
         .status-paid { background-color: #E8F5E9; color: #43A047; }
         .status-pending { background-color: #FFEBEE; color: #E53935; }
         .status-done { background-color: #F3E5F5; color: #8E24AA; }
-
-        /* 🎬 ชุดคำสั่งอนิเมชันหลัก */
-        @keyframes greenGlow {
-            0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(0, 230, 118, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
-        }
-        @keyframes softPulse {
-            0% { transform: scale(1); opacity: 0.95; }
-            50% { transform: scale(1.02); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.95; }
-        }
-
-        @media (max-width: 500px) {
-            .recommend-header { flex-direction: column; gap: 15px; }
-            .btn-contact-top { width: 100%; justify-content: center; box-sizing: border-box; }
-            .recommend-grid { justify-content: flex-start; }
-        }
+        @keyframes greenGlow { 0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); } 70% { box-shadow: 0 0 0 12px rgba(0, 230, 118, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); } }
+        @keyframes softPulse { 0% { transform: scale(1); opacity: 0.95; } 50% { transform: scale(1.02); opacity: 1; } 100% { transform: scale(1); opacity: 0.95; } }
+        @media (max-width: 500px) { .recommend-header { flex-direction: column; gap: 15px; } .btn-contact-top { width: 100%; justify-content: center; box-sizing: border-box; } }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- ส่วนบน: หัวข้อร้าน -->
         <div class="brand-section">
             <div class="brand-info">
                 <img class="brand-logo" src="gkibotlrgpwer.jfif" alt="Logo">
@@ -250,7 +90,6 @@
             <div class="queue-badge-top">🎯 ตรวจสอบคิวของคุณได้ที่นี่</div>
         </div>
 
-        <!-- เปลี่ยนเป็น "ช่องทางติดต่อ" เรียบร้อยครับ -->
         <div class="recommend-container">
             <div class="recommend-header">
                 <div class="recommend-title-wrap">
@@ -281,7 +120,6 @@
             </div>
         </div>
 
-        <!-- หัวข้อประกาศข่าวสาร -->
         <div class="news-section-header">
             <div class="news-title-block">
                 <div class="news-icon-bg">📢</div>
@@ -295,7 +133,6 @@
 
         <div class="announcements-grid" id="announcements-feed-box"></div>
 
-        <!-- รายการลำดับคิวงาน -->
         <div class="queue-header-title">📋 ลำดับคิวงานปัจจุบัน</div>
         <div class="queue-card-header">
             <span>ข้อมูลลูกค้า</span>
@@ -305,97 +142,75 @@
     </div>
 
     <script>
-        function loadSocialLinks() {
-            const links = JSON.parse(localStorage.getItem('tummy_social_links')) || { fb: '#', line: '#', ig: '#' };
-            document.getElementById('link-main-line').href = links.line;
-            document.getElementById('link-card-fb').href = links.fb;
-            document.getElementById('link-card-line').href = links.line;
-            document.getElementById('link-card-ig').href = links.ig;
-        }
+        // 🔗 เชื่อมต่อกับคลังข้อมูลออนไลน์ของคุณเรียบร้อยแล้วครับ
+        const FIREBASE_BASE_URL = "https://tummy-queue-default-rtdb.firebaseio.com/";
 
-        function loadAnnouncements() {
-            const announceData = JSON.parse(localStorage.getItem('tummy_announcements')) || [];
-            const feedBox = document.getElementById('announcements-feed-box');
-            feedBox.innerHTML = '';
+        function startRealtimeSync() {
+            if(FIREBASE_BASE_URL.includes("ใส่ URL")) return;
+            
+            setInterval(() => {
+                fetch(`${FIREBASE_BASE_URL}/social_links.json`).then(r => r.json()).then(links => {
+                    if(links) {
+                        document.getElementById('link-main-line').href = links.line || '#';
+                        document.getElementById('link-card-fb').href = links.fb || '#';
+                        document.getElementById('link-card-line').href = links.line || '#';
+                        document.getElementById('link-card-ig').href = links.ig || '#';
+                    }
+                });
 
-            if (announceData.length === 0) {
-                feedBox.innerHTML = `<div class="news-card" style="grid-column:1/-1; text-align:center; color:#888; padding:40px 20px;">ยังไม่มีประกาศข่าวสารในขณะนี้ 🧡</div>`;
-                return;
-            }
-
-            announceData.slice().reverse().forEach(item => {
-                let imgHTML = item.img ? `<div class="card-media-wrap"><img class="card-img" src="${item.img}"></div>` : '';
-                let badgeClass = "badge-general", badgeText = "📌 ทั่วไป";
-                if(item.type === "promo") { badgeClass = "badge-promo"; badgeText = "🔥 โปรโมชัน"; }
-                if(item.type === "maintenance") { badgeClass = "badge-maintenance"; badgeText = "🛠️ ปิดปรับปรุง"; }
-
-                feedBox.innerHTML += `
-                    <div class="news-card">
-                        <div>
-                            <div class="card-top-profile">
-                                <div class="profile-info">
-                                    <img class="profile-avatar" src="gkibotlrgpwer.jfif">
-                                    <div>
-                                        <div class="profile-name">Tummy.mkt แอดมิน <span class="verified-tick">✓</span></div>
-                                        <div class="post-time">${item.date || 'เมื่อสักครู่'} • 🌐</div>
+                fetch(`${FIREBASE_BASE_URL}/announcements.json`).then(r => r.json()).then(data => {
+                    const feedBox = document.getElementById('announcements-feed-box');
+                    feedBox.innerHTML = '';
+                    if (!data) {
+                        feedBox.innerHTML = `<div class="news-card" style="grid-column:1/-1; text-align:center; color:#888; padding:40px 20px;">ยังไม่มีประกาศข่าวสารในขณะนี้ 🧡</div>`;
+                        return;
+                    }
+                    Object.values(data).reverse().forEach(item => {
+                        let imgHTML = item.img ? `<div class="card-media-wrap"><img class="card-img" src="${item.img}"></div>` : '';
+                        let badgeClass = item.type === "promo" ? "badge-promo" : (item.type === "maintenance" ? "badge-maintenance" : "badge-general");
+                        let badgeText = item.type === "promo" ? "🔥 โปรโมชัน" : (item.type === "maintenance" ? "🛠️ ปิดปรับปรุง" : "📌 ทั่วไป");
+                        feedBox.innerHTML += `
+                            <div class="news-card">
+                                <div>
+                                    <div class="card-top-profile">
+                                        <div class="profile-info"><img class="profile-avatar" src="gkibotlrgpwer.jfif"><div><div class="profile-name">Tummy.mkt แอดมิน <span class="verified-tick">✓</span></div><div class="post-time">${item.date || 'เมื่อสักครู่'} • 🌐</div></div></div>
+                                        <span class="type-badge ${badgeClass}">${badgeText}</span>
                                     </div>
+                                    <div class="card-body-text">${item.text}</div>
+                                    ${imgHTML}
                                 </div>
-                                <span class="type-badge ${badgeClass}">${badgeText}</span>
-                            </div>
-                            <div class="card-body-text">${item.text}</div>
-                            ${imgHTML}
-                        </div>
-                        <div class="card-footer-actions"><button class="like-btn">👍 ถูกใจ</button></div>
-                    </div>
-                `;
-            });
+                                <div class="card-footer-actions"><button class="like-btn">👍 ถูกใจ</button></div>
+                            </div>`;
+                    });
+                });
+
+                fetch(`${FIREBASE_BASE_URL}/queues.json`).then(r => r.json()).then(data => {
+                    const box = document.getElementById('customer-queue-box');
+                    box.innerHTML = '';
+                    if (!data) {
+                        box.innerHTML = `<div style="text-align:center; color:#A0A0A0; padding:30px; background:white; border:1px dashed #E0E0E0; border-radius:16px; font-size:14px;">ยังไม่มีรายการคิวในขณะนี้</div>`;
+                        return;
+                    }
+                    Object.values(data).forEach((item, index) => {
+                        let conf = { class: 'status-pending', text: 'ยังไม่ได้ทำ 🟥' };
+                        if(item.status === 'working') conf = { class: 'status-working', text: 'กำลังทำ 🟦' };
+                        if(item.status === 'brief') conf = { class: 'status-brief', text: 'รอบรีฟ 🟫' };
+                        if(item.status === 'paid') conf = { class: 'status-paid', text: 'จ่ายเงินแล้ว 🟩' };
+                        if(item.status === 'done') conf = { class: 'status-done', text: 'เสร็จแล้ว 🩷' };
+
+                        box.innerHTML += `
+                            <div class="queue-card">
+                                <div class="queue-info">
+                                    <div class="queue-number">${index + 1}</div>
+                                    <div><div class="customer-name">${item.name}</div><div class="queue-time">🕒 ${item.time}</div></div>
+                                </div>
+                                <div class="status-badge ${conf.class}">${conf.text}</div>
+                            </div>`;
+                    });
+                });
+            }, 3000); // หน้าลูกค้าจะแอบดึงข้อมูลใหม่มาอัปเดตทุกๆ 3 วินาทีอัตโนมัติ
         }
-
-        function getStatusConfig(status) {
-            switch(status) {
-                case 'working': return { class: 'status-working', text: 'กำลังทำ 🟦' };
-                case 'brief': return { class: 'status-brief', text: 'รอบรีฟ 🟫' };
-                case 'paid': return { class: 'status-paid', text: 'จ่ายเงินแล้ว 🟩' };
-                case 'pending': return { class: 'status-pending', text: 'ยังไม่ได้ทำ 🟥' };
-                case 'done': return { class: 'status-done', text: 'เสร็จแล้ว 🩷' };
-                default: return { class: 'status-pending', text: 'ยังไม่ได้ทำ 🟥' };
-            }
-        }
-
-        function renderCustomerCards() {
-            const queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
-            const box = document.getElementById('customer-queue-box');
-            box.innerHTML = '';
-            if (queueData.length === 0) {
-                box.innerHTML = `<div style="text-align:center; color:#A0A0A0; padding:30px; background:white; border:1px dashed #E0E0E0; border-radius:16px; font-size:14px;">ยังไม่มีรายการคิวในขณะนี้</div>`;
-                return;
-            }
-            queueData.forEach((item, index) => {
-                const statusInfo = getStatusConfig(item.status);
-                box.innerHTML += `
-                    <div class="queue-card">
-                        <div class="queue-info">
-                            <div class="queue-number">${index + 1}</div>
-                            <div>
-                                <div class="customer-name">${item.name}</div>
-                                <div class="queue-time">🕒 ${item.time}</div>
-                            </div>
-                        </div>
-                        <div class="status-badge ${statusInfo.class}">${statusInfo.text}</div>
-                    </div>
-                `;
-            });
-        }
-
-        loadSocialLinks();
-        loadAnnouncements();
-        renderCustomerCards();
-
-        window.addEventListener('storage', (e) => { 
-            if(e.key === 'pastel_queues') renderCustomerCards(); 
-            if(e.key === 'tummy_announcements') loadAnnouncements();
-            if(e.key === 'tummy_social_links') loadSocialLinks();
-        });
+        startRealtimeSync();
     </script>
 </body>
 </html>
