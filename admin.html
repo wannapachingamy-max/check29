@@ -7,33 +7,32 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <style>
         body { background-color: #F8F9FA; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 30px 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: #FFFFFF; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        .container { max-width: 950px; margin: 0 auto; background: #FFFFFF; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
         .brand-header { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 15px; gap: 10px; }
         .brand-logo { width: 70px; height: 70px; border-radius: 16px; object-fit: cover; }
         h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
         .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
 
-        /* 📢 กล่องแผงควบคุมการเพิ่มข่าวสาร */
         .announce-admin-panel {
             background: #FFF2E8; border: 1px solid #FFE0CC; padding: 20px; border-radius: 16px; margin-bottom: 25px;
             display: flex; flex-direction: column; gap: 12px;
         }
         .announce-row { display: flex; gap: 12px; width: 100%; align-items: center; }
-        .announce-admin-panel input[type="text"] {
-            flex: 1; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px;
+        .announce-admin-panel input[type="text"], .announce-admin-panel select {
+            padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px;
             font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white;
         }
+        .announce-admin-panel input[type="text"] { flex: 2; }
+        .announce-admin-panel select { flex: 1; cursor: pointer; }
+        
         .file-upload-wrapper {
             display: flex; align-items: center; gap: 10px; background: white; 
             border: 1px solid #DFE3E6; padding: 8px 12px; border-radius: 10px; flex: 1;
         }
-        .file-upload-wrapper label { font-size: 13px; color: #666; font-weight: 500; }
         .img-preview { max-height: 45px; border-radius: 6px; display: none; object-fit: cover; }
         
         .btn-add-announce { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
-        .btn-add-announce:hover { background-color: #27AE60; }
 
-        /* รายการข่าวสารที่เปิดใช้งานอยู่ */
         .active-announcements-list { margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; }
         .active-announce-item {
             background: #FAFAFA; border: 1px solid #ECEFF1; padding: 12px 20px; border-radius: 12px;
@@ -46,7 +45,6 @@
         .queue-form { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 20px; border-radius: 16px; border: 1px solid #ECEFF1; }
         .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit', sans-serif; font-size: 14px; flex: 1; min-width: 200px; outline: none; }
         .queue-form button { background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit', sans-serif; font-size: 14px; }
-        .queue-form button:hover { background-color: #E06613; }
 
         .admin-grid { display: flex; flex-direction: column; gap: 12px; }
         .admin-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 16px 20px; display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center; gap: 10px; }
@@ -60,19 +58,25 @@
 
     <div class="container">
         <div class="brand-header">
-            <img class="brand-logo" src="gkibotlrgpwer.jfif" alt="Tummy.mkt Logo">
+            <img class="brand-logo" src="gkibotlrgpwer.jfif" alt="Logo">
             <h1>Tummy.mkt</h1>
         </div>
         <div class="admin-tag">ADMIN MANAGEMENT</div>
         
+        <!-- 📢 ฟอร์มสร้างประกาศข่าวสารสไตล์ Facebook Card -->
         <div class="announce-admin-panel">
-            <div style="font-size: 14px; font-weight: 600; color: #FF7E1F;">✨ สร้างประกาศข่าวสารใหม่</div>
+            <div style="font-size: 14px; font-weight: 600; color: #FF7E1F;">✨ สร้างประกาศข่าวสารใหม่ (Layout คู่ขนาน)</div>
             <div class="announce-row">
-                <input type="text" id="announce-text-input" placeholder="พิมพ์ข้อความรายละเอียดประกาศตรงนี้..." required>
+                <input type="text" id="announce-text-input" placeholder="พิมพ์เนื้อหาข่าวสาร..." required>
+                <select id="announce-type-input">
+                    <option value="general">📌 หมวดหมู่: ทั่วไป</option>
+                    <option value="promo">🔥 หมวดหมู่: โปรโมชัน</option>
+                    <option value="maintenance">🛠️ หมวดหมู่: ปิดปรับปรุง</option>
+                </select>
             </div>
             <div class="announce-row">
                 <div class="file-upload-wrapper">
-                    <label>🖼️ รูปแบนเนอร์ (ไม่เกิน 2MB): </label>
+                    <label>🖼️ รูปแบนเนอร์ด้านล่างการ์ด (ไม่เกิน 2MB): </label>
                     <input type="file" id="announce-file-input" accept="image/*" onchange="previewAnnounceImg(this)">
                 </div>
                 <img id="panel-preview" class="img-preview" src="" alt="Preview">
@@ -85,7 +89,7 @@
 
         <form class="queue-form" onsubmit="handleFormSubmit(event)">
             <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
-            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ (ลิงก์/ไลน์ไอดี)" required>
+            <input type="text" id="customer-contact" placeholder="ช่องทางติดต่อ" required>
             <button type="submit">เพิ่มคิว</button>
         </form>
 
@@ -97,12 +101,11 @@
         let announceData = JSON.parse(localStorage.getItem('tummy_announcements')) || [];
         let tempImgBase64 = "";
 
-        // ฟังก์ชันจัดการอัปโหลดภาพพรีวิว
         function previewAnnounceImg(input) {
             const file = input.files[0];
             if (file) {
                 if (file.size > 2097152) {
-                    alert("⚠️ ขนาดไฟล์รูปใหญ่เกิน 2MB! รบกวนลดขนาดภาพลงหน่อยน้า");
+                    alert("⚠️ ขนาดไฟล์รูปใหญ่เกิน 2MB!");
                     input.value = "";
                     return;
                 }
@@ -117,21 +120,26 @@
             }
         }
 
-        // ฟังก์ชันเพิ่มประกาศใหม่ลงอาเรย์
         function addAnnouncement() {
             const textInput = document.getElementById('announce-text-input');
+            const typeInput = document.getElementById('announce-type-input');
             if (!textInput.value.trim()) { alert("กรุณากรอกข้อความประกาศด้วยจ้า"); return; }
+
+            // ดึงวันที่ปัจจุบัน
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            const todayStr = new Date().toLocaleDateString('th-TH', options);
 
             const newAnnounce = {
                 id: Date.now(),
                 text: textInput.value,
-                img: tempImgBase64
+                type: typeInput.value,
+                img: tempImgBase64,
+                date: todayStr
             };
 
             announceData.push(newAnnounce);
             localStorage.setItem('tummy_announcements', JSON.stringify(announceData));
             
-            // ล้างค่าหลังจากเพิ่มเสร็จ
             textInput.value = '';
             tempImgBase64 = '';
             document.getElementById('announce-file-input').value = '';
@@ -141,7 +149,6 @@
             alert("โพสต์ประกาศข่าวสารเรียบร้อย! 🎉");
         }
 
-        // ฟังก์ชันลบประกาศรายอัน
         function deleteAnnouncement(id) {
             if(confirm('ต้องการลบประกาศนี้ใช่ไหม?')) {
                 announceData = announceData.filter(item => item.id !== id);
@@ -150,21 +157,20 @@
             }
         }
 
-        // เรนเดอร์รายการจัดการประกาศของแอดมิน
         function renderAnnounceManager() {
             const box = document.getElementById('active-announcements-box');
             box.innerHTML = '';
             if(announceData.length === 0) {
-                box.innerHTML = `<div style="font-size:13px; color:#A0A0A0; padding:10px; background:#FAFAFA; border-radius:8px; text-align:center;">ยังไม่มีการตั้งประกาศข่าวสารเพิ่มเติม (หน้าเว็บลูกค้าจะขึ้นเป็นข้อความต้อนรับปกติ)</div>`;
+                box.innerHTML = `<div style="font-size:13px; color:#A0A0A0; padding:10px; background:#FAFAFA; border-radius:8px; text-align:center;">ยังไม่มีประกาศข่าวสาร</div>`;
                 return;
             }
             announceData.forEach(item => {
                 let imgTag = item.img ? `<img src="${item.img}">` : '<span style="color:#aaa; font-size:12px;">(ไม่มีรูป)</span>';
                 box.innerHTML += `
                     <div class="active-announce-item">
-                        <div class="text-part">💬 ${item.text}</div>
+                        <div class="text-part"><strong>[${item.type}]</strong> 💬 ${item.text} <span style="font-size:11px; color:#999;">(${item.date})</span></div>
                         <div>${imgTag}</div>
-                        <button class="btn-delete-announce" onclick="deleteAnnouncement(${item.id})">ลบประกาศ 🗑️</button>
+                        <button class="btn-delete-announce" onclick="deleteAnnouncement(${item.id})">ลบ 🗑️</button>
                     </div>
                 `;
             });
