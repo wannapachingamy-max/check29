@@ -6,202 +6,49 @@
     <title>Tummy.mkt - Admin Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap">
     <style>
-        body {
-            background-color: #F8F9FA;
-            font-family: 'Kanit', sans-serif;
-            color: #4A4A4A;
-            margin: 0;
-            padding: 30px 20px;
-        }
+        body { background-color: #F8F9FA; font-family: 'Kanit', sans-serif; color: #4A4A4A; margin: 0; padding: 30px 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #FFFFFF; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        .brand-header { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 15px; gap: 10px; }
+        .brand-logo { width: 70px; height: 70px; border-radius: 16px; object-fit: cover; }
+        h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
+        .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #FFFFFF;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-        }
-
-        .brand-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            gap: 10px;
-        }
-
-        .brand-logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 16px;
-            object-fit: cover;
-        }
-
-        h1 {
-            font-family: 'Poppins', 'Kanit', sans-serif;
-            color: #FF7E1F;
-            font-size: 30px;
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .admin-tag {
-            background: #FF7E1F;
-            color: #FFF;
-            padding: 3px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            display: table;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* 📢 กล่องจัดการข้อความประกาศของแอดมิน */
-        .announce-admin-box {
-            background: #FFF2E8;
-            border: 1px solid #FFE0CC;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        .announce-admin-box input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #DFE3E6;
-            border-radius: 10px;
-            font-family: 'Kanit', sans-serif;
-            font-size: 14px;
-            outline: none;
-        }
-        .announce-admin-box button {
-            background-color: #2ECC71;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            font-family: 'Kanit', sans-serif;
-        }
+        .announce-admin-box { background: #FFF2E8; border: 1px solid #FFE0CC; padding: 20px; border-radius: 16px; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
+        .announce-row { display: flex; gap: 12px; width: 100%; }
+        .announce-admin-box input { flex: 1; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px; font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white; }
+        .announce-admin-box button { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
         .announce-admin-box button:hover { background-color: #27AE60; }
 
-        .queue-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 35px;
-            background: #FAFAFA;
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid #ECEFF1;
-        }
-
-        .queue-form input {
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid #DFE3E6;
-            font-family: 'Kanit', sans-serif;
-            font-size: 14px;
-            flex: 1;
-            min-width: 200px;
-            outline: none;
-        }
-
-        .queue-form button {
-            background-color: #FF7E1F;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            color: white;
-            font-family: 'Kanit', sans-serif;
-            font-size: 14px;
-        }
+        .queue-form { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 20px; border-radius: 16px; border: 1px solid #ECEFF1; }
+        .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit', sans-serif; font-size: 14px; flex: 1; min-width: 200px; outline: none; }
+        .queue-form button { background-color: #FF7E1F; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; color: white; font-family: 'Kanit', sans-serif; font-size: 14px; }
         .queue-form button:hover { background-color: #E06613; }
 
         .admin-grid { display: flex; flex-direction: column; gap: 12px; }
-
-        .admin-card {
-            background: #FFFFFF;
-            border: 1px solid #ECEFF1;
-            border-radius: 14px;
-            padding: 16px 20px;
-            display: grid;
-            grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-num {
-            font-weight: 600;
-            background: #FFF2E8;
-            color: #FF7E1F;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .contact-link {
-            color: #FF7E1F;
-            text-decoration: none;
-            font-weight: 500;
-            background: #FFF2E8;
-            padding: 6px 12px;
-            border-radius: 8px;
-            display: inline-block;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .status-select {
-            font-family: 'Kanit', sans-serif;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #DFE3E6;
-            background-color: #FFF;
-            cursor: pointer;
-            outline: none;
-            font-size: 13px;
-        }
-
-        .btn-delete {
-            background-color: #FFEBEE;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: #C62828;
-            font-family: 'Kanit', sans-serif;
-            font-size: 13px;
-        }
+        .admin-card { background: #FFFFFF; border: 1px solid #ECEFF1; border-radius: 14px; padding: 16px 20px; display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 70px; align-items: center; gap: 10px; }
+        .admin-num { font-weight: 600; background: #FFF2E8; color: #FF7E1F; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; }
+        .contact-link { color: #FF7E1F; text-decoration: none; font-weight: 500; background: #FFF2E8; padding: 6px 12px; border-radius: 8px; display: inline-block; text-align: center; font-size: 13px; }
+        .status-select { font-family: 'Kanit', sans-serif; padding: 8px; border-radius: 8px; border: 1px solid #DFE3E6; background-color: #FFF; cursor: pointer; outline: none; font-size: 13px; }
+        .btn-delete { background-color: #FFEBEE; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; color: #C62828; font-family: 'Kanit', sans-serif; font-size: 13px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="brand-header">
-            <img class="brand-logo" src="https://api.dicebear.com/7.x/kaisei/svg?seed=Tummy" alt="Tummy.mkt Logo">
+            <img class="brand-logo" src="gkibotlrgpwer.jfif" alt="Tummy.mkt Logo">
             <h1>Tummy.mkt</h1>
         </div>
         <div class="admin-tag">ADMIN MANAGEMENT</div>
         
-        <!-- 📢 โซนจัดการแถบประกาศข้อความ -->
         <div class="announce-admin-box">
-            <span style="font-size: 20px;">📢</span>
-            <input type="text" id="announce-input" placeholder="พิมพ์ข้อความประกาศข่าวสารของร้านตรงนี้...">
-            <button onclick="updateAnnouncement()">อัปเดตประกาศ ✨</button>
+            <div class="announce-row">
+                <input type="text" id="announce-text-input" placeholder="พิมพ์ข้อความประกาศข่าวสารของร้านตรงนี้...">
+            </div>
+            <div class="announce-row">
+                <input type="text" id="announce-img-input" placeholder="🔗 วางลิงก์รูปภาพแบนเนอร์ (เว้นว่างไว้ได้หากไม่ต้องการใส่รูป)">
+                <button onclick="updateAnnouncement()">อัปเดตกระดานข่าวสาร ✨</button>
+            </div>
         </div>
 
         <form class="queue-form" onsubmit="handleFormSubmit(event)">
@@ -216,14 +63,15 @@
     <script>
         let queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
 
-        // โหลดประกาศมาแสดงในกล่อง Input ตอนเปิดหน้าแรก
-        document.getElementById('announce-input').value = localStorage.getItem('tummy_announcement') || 'ยินดีต้อนรับสู่ Tummy.mkt! สามารถเช็คคิวงานปัจจุบันของตัวเองได้เลยน้า 🧡';
+        document.getElementById('announce-text-input').value = localStorage.getItem('tummy_announcement_text') || 'ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡';
+        document.getElementById('announce-img-input').value = localStorage.getItem('tummy_announcement_img') || '';
 
-        // ฟังก์ชันบันทึกประกาศข่าวสาร
         function updateAnnouncement() {
-            const txt = document.getElementById('announce-input').value;
-            localStorage.setItem('tummy_announcement', txt);
-            alert('อัปเดตประกาศข่าวสารเรียบร้อยแล้วค่ะ! 🎉');
+            const txt = document.getElementById('announce-text-input').value;
+            const img = document.getElementById('announce-img-input').value;
+            localStorage.setItem('tummy_announcement_text', txt);
+            localStorage.setItem('tummy_announcement_img', img);
+            alert('อัปเดตข่าวสารและรูปภาพแบนเนอร์เรียบร้อย! 🎉');
         }
 
         function handleFormSubmit(event) {
