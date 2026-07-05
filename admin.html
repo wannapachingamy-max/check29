@@ -13,19 +13,13 @@
         h1 { font-family: 'Poppins', 'Kanit', sans-serif; color: #FF7E1F; font-size: 30px; font-weight: 700; margin: 0; }
         .admin-tag { background: #FF7E1F; color: #FFF; padding: 3px 12px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-bottom: 30px; display: table; margin-left: auto; margin-right: auto; }
 
-        /* 📢 ส่วนอัปโหลดรูปภาพและจัดการข้อความข่าวสารหลังบ้าน */
-        .announce-admin-box {
-            background: #FFF2E8;
-            border: 1px solid #FFE0CC;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* 📢 กล่องแผงควบคุมการเพิ่มข่าวสาร */
+        .announce-admin-panel {
+            background: #FFF2E8; border: 1px solid #FFE0CC; padding: 20px; border-radius: 16px; margin-bottom: 25px;
+            display: flex; flex-direction: column; gap: 12px;
         }
         .announce-row { display: flex; gap: 12px; width: 100%; align-items: center; }
-        .announce-admin-box input[type="text"] {
+        .announce-admin-panel input[type="text"] {
             flex: 1; padding: 12px 16px; border: 1px solid #DFE3E6; border-radius: 10px;
             font-family: 'Kanit', sans-serif; font-size: 14px; outline: none; background: white;
         }
@@ -34,14 +28,20 @@
             border: 1px solid #DFE3E6; padding: 8px 12px; border-radius: 10px; flex: 1;
         }
         .file-upload-wrapper label { font-size: 13px; color: #666; font-weight: 500; }
-        .file-upload-wrapper input[type="file"] { font-size: 13px; }
+        .img-preview { max-height: 45px; border-radius: 6px; display: none; object-fit: cover; }
         
-        .btn-save { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
-        .btn-save:hover { background-color: #27AE60; }
-        .btn-remove-img { background-color: #E53935; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: 'Kanit', sans-serif; }
+        .btn-add-announce { background-color: #2ECC71; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 500; font-family: 'Kanit', sans-serif; white-space: nowrap; }
+        .btn-add-announce:hover { background-color: #27AE60; }
 
-        /* การ์ดพรีวิวรูปหลังบ้าน */
-        .img-preview { max-height: 90px; border-radius: 8px; border: 1px solid #E0E0E0; display: none; object-fit: cover; }
+        /* รายการข่าวสารที่เปิดใช้งานอยู่ */
+        .active-announcements-list { margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; }
+        .active-announce-item {
+            background: #FAFAFA; border: 1px solid #ECEFF1; padding: 12px 20px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center; gap: 15px;
+        }
+        .active-announce-item .text-part { font-size: 14px; color: #444; flex: 1; }
+        .active-announce-item img { height: 40px; width: 60px; object-fit: cover; border-radius: 4px; }
+        .btn-delete-announce { background-color: #FFEBEE; color: #C62828; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; }
 
         .queue-form { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 35px; background: #FAFAFA; padding: 20px; border-radius: 16px; border: 1px solid #ECEFF1; }
         .queue-form input { padding: 12px 16px; border-radius: 10px; border: 1px solid #DFE3E6; font-family: 'Kanit', sans-serif; font-size: 14px; flex: 1; min-width: 200px; outline: none; }
@@ -65,21 +65,23 @@
         </div>
         <div class="admin-tag">ADMIN MANAGEMENT</div>
         
-        <!-- 📢 โซนจัดการแถบประกาศข้อความ + อัปโหลดรูปภาพโดยตรงจากเครื่อง -->
-        <div class="announce-admin-box">
+        <div class="announce-admin-panel">
+            <div style="font-size: 14px; font-weight: 600; color: #FF7E1F;">✨ สร้างประกาศข่าวสารใหม่</div>
             <div class="announce-row">
-                <input type="text" id="announce-text-input" placeholder="พิมพ์ข้อความประกาศข่าวสารของร้านตรงนี้...">
+                <input type="text" id="announce-text-input" placeholder="พิมพ์ข้อความรายละเอียดประกาศตรงนี้..." required>
             </div>
             <div class="announce-row">
                 <div class="file-upload-wrapper">
-                    <label>🖼️ อัปโหลดรูปแบนเนอร์ (สูงสุด 2MB): </label>
-                    <input type="file" id="announce-file-input" accept="image/*" onchange="previewImage(this)">
+                    <label>🖼️ รูปแบนเนอร์ (ไม่เกิน 2MB): </label>
+                    <input type="file" id="announce-file-input" accept="image/*" onchange="previewAnnounceImg(this)">
                 </div>
-                <img id="preview-element" class="img-preview" src="" alt="Preview">
-                <button id="btn-remove-preview" class="btn-remove-img" style="display:none;" onclick="clearUploadedImage()">ลบรูปภาพ 🗑️</button>
-                <button class="btn-save" onclick="updateAnnouncement()">อัปเดตกระดานข่าวสาร ✨</button>
+                <img id="panel-preview" class="img-preview" src="" alt="Preview">
+                <button class="btn-add-announce" onclick="addAnnouncement()">บันทึกและโพสต์ประกาศ 🚀</button>
             </div>
         </div>
+
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color:#666;">📢 รายการประกาศปัจจุบันบนหน้าเว็บ:</div>
+        <div class="active-announcements-list" id="active-announcements-box"></div>
 
         <form class="queue-form" onsubmit="handleFormSubmit(event)">
             <input type="text" id="customer-name" placeholder="ชื่อลูกค้า" required>
@@ -92,56 +94,80 @@
 
     <script>
         let queueData = JSON.parse(localStorage.getItem('pastel_queues')) || [];
-        let base64ImageString = ""; // ตัวแปรสำหรับเก็บข้อมูลรูปภาพชั่วคราว
+        let announceData = JSON.parse(localStorage.getItem('tummy_announcements')) || [];
+        let tempImgBase64 = "";
 
-        // ดึงข้อมูลเดิมมาใส่เมื่อเปิดหน้าเว็บ
-        document.getElementById('announce-text-input').value = localStorage.getItem('tummy_announcement_text') || 'ยินดีต้อนรับสู่ Tummy.mkt! ตรวจสอบคิวได้เลยน้า 🧡';
-        base64ImageString = localStorage.getItem('tummy_announcement_img_file') || '';
-        
-        if (base64ImageString) {
-            const preview = document.getElementById('preview-element');
-            preview.src = base64ImageString;
-            preview.style.display = 'block';
-            document.getElementById('btn-remove-preview').style.display = 'block';
-        }
-
-        // ฟังก์ชันเมื่อมีการเลือกไฟล์ภาพจากเครื่อง
-        function previewImage(input) {
+        // ฟังก์ชันจัดการอัปโหลดภาพพรีวิว
+        function previewAnnounceImg(input) {
             const file = input.files[0];
             if (file) {
-                // ตรวจเช็คขนาดไฟล์ไม่ให้เกิน 2MB (2 * 1024 * 1024 bytes)
                 if (file.size > 2097152) {
-                    alert("⚠️ ไฟล์รูปภาพมีขนาดใหญ่เกินไป! กรุณาเลือกรูปที่มีขนาดไม่เกิน 2MB เพื่อความเสถียรของระบบค่ะ");
+                    alert("⚠️ ขนาดไฟล์รูปใหญ่เกิน 2MB! รบกวนลดขนาดภาพลงหน่อยน้า");
                     input.value = "";
                     return;
                 }
-
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    base64ImageString = e.target.result;
-                    const preview = document.getElementById('preview-element');
-                    preview.src = base64ImageString;
+                    tempImgBase64 = e.target.result;
+                    const preview = document.getElementById('panel-preview');
+                    preview.src = tempImgBase64;
                     preview.style.display = 'block';
-                    document.getElementById('btn-remove-preview').style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        // ฟังก์ชันล้างรูปภาพที่เลือกไว้
-        function clearUploadedImage() {
-            base64ImageString = "";
-            document.getElementById('announce-file-input').value = "";
-            document.getElementById('preview-element').style.display = 'none';
-            document.getElementById('btn-remove-preview').style.display = 'none';
+        // ฟังก์ชันเพิ่มประกาศใหม่ลงอาเรย์
+        function addAnnouncement() {
+            const textInput = document.getElementById('announce-text-input');
+            if (!textInput.value.trim()) { alert("กรุณากรอกข้อความประกาศด้วยจ้า"); return; }
+
+            const newAnnounce = {
+                id: Date.now(),
+                text: textInput.value,
+                img: tempImgBase64
+            };
+
+            announceData.push(newAnnounce);
+            localStorage.setItem('tummy_announcements', JSON.stringify(announceData));
+            
+            // ล้างค่าหลังจากเพิ่มเสร็จ
+            textInput.value = '';
+            tempImgBase64 = '';
+            document.getElementById('announce-file-input').value = '';
+            document.getElementById('panel-preview').style.display = 'none';
+            
+            renderAnnounceManager();
+            alert("โพสต์ประกาศข่าวสารเรียบร้อย! 🎉");
         }
 
-        // บันทึกทั้งข้อความและไฟล์รูปที่แปลงลง LocalStorage
-        function updateAnnouncement() {
-            const txt = document.getElementById('announce-text-input').value;
-            localStorage.setItem('tummy_announcement_text', txt);
-            localStorage.setItem('tummy_announcement_img_file', base64ImageString);
-            alert('อัปเดตข่าวสารและอัปโหลดรูปภาพลงระบบสำเร็จเรียบร้อย! 🎉');
+        // ฟังก์ชันลบประกาศรายอัน
+        function deleteAnnouncement(id) {
+            if(confirm('ต้องการลบประกาศนี้ใช่ไหม?')) {
+                announceData = announceData.filter(item => item.id !== id);
+                localStorage.setItem('tummy_announcements', JSON.stringify(announceData));
+                renderAnnounceManager();
+            }
+        }
+
+        // เรนเดอร์รายการจัดการประกาศของแอดมิน
+        function renderAnnounceManager() {
+            const box = document.getElementById('active-announcements-box');
+            box.innerHTML = '';
+            if(announceData.length === 0) {
+                box.innerHTML = `<div style="font-size:13px; color:#A0A0A0; padding:10px; background:#FAFAFA; border-radius:8px; text-align:center;">ยังไม่มีการตั้งประกาศข่าวสารเพิ่มเติม (หน้าเว็บลูกค้าจะขึ้นเป็นข้อความต้อนรับปกติ)</div>`;
+                return;
+            }
+            announceData.forEach(item => {
+                let imgTag = item.img ? `<img src="${item.img}">` : '<span style="color:#aaa; font-size:12px;">(ไม่มีรูป)</span>';
+                box.innerHTML += `
+                    <div class="active-announce-item">
+                        <div class="text-part">💬 ${item.text}</div>
+                        <div>${imgTag}</div>
+                        <button class="btn-delete-announce" onclick="deleteAnnouncement(${item.id})">ลบประกาศ 🗑️</button>
+                    </div>
+                `;
+            });
         }
 
         function handleFormSubmit(event) {
@@ -214,6 +240,7 @@
                 `;
             });
         }
+        renderAnnounceManager();
         renderAdminTable();
     </script>
 </body>
